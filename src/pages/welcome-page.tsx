@@ -18,7 +18,9 @@ const WelcomePage = () => {
           Sign Up
         </button>
       </nav>
-      <h1 className="text-3xl text-white">effetto</h1>
+      <h1 className="text-3xl text-white bg-gradient-to-r from-sky-500 to-indigo-500 text-transparent bg-clip-text ">
+        effetto
+      </h1>
       <p className="text-lg">Project Management App</p>
       <aside className="bottom-10 absolute mt-32 text-lg justify-center items-center flex flex-col gap-5">
         <p>React2022Q1 | Team75</p>
