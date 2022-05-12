@@ -10,6 +10,14 @@ const WelcomePage = () => {
 
   return (
     <main className="relative bg-slate-800 min-h-screen items-center text-gray-300 justify-center flex flex-col gap-5 ">
+      <nav className=" flex gap-5 absolute top-20 right-20 ">
+        <button className="border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-indigo-500 ">
+          Sign In
+        </button>
+        <button className="border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-indigo-500 ">
+          Sign Up
+        </button>
+      </nav>
       <h1 className="text-3xl text-white">effetto</h1>
       <p className="text-lg">Project Management App</p>
       <aside className="bottom-10 absolute mt-32 text-lg justify-center items-center flex flex-col gap-5">
