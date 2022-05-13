@@ -1,5 +1,9 @@
 import React, { useEffect } from 'react';
-import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Header from './components/Header';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import './styles/App.css';
 
 const App = () => {
   const fetchApiData = async () => {
@@ -24,9 +28,13 @@ const App = () => {
   });
   
   return (
-    <div className="App">
-      <h1>Hello, from Shire!</h1>
-    </div>
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup"element={<SignupPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
