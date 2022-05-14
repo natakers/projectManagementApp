@@ -1,5 +1,11 @@
 import React, { useEffect } from 'react';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Header from './components/Header';
+import SigninPage from './pages/SigninPage';
+import SignupPage from './pages/SignupPage';
+import './styles/App.css';
 
 const App = () => {
   const fetchApiData = async () => {
@@ -24,9 +30,16 @@ const App = () => {
   });
   
   return (
-    <div className="App">
-      <h1>Hello, from Shire!</h1>
-    </div>
+    <>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/signin" element={<SigninPage />} />
+          <Route path="/signup"element={<SignupPage />} />
+        </Routes>
+      </Router>
+      <ToastContainer />
+    </>
   );
 };
 
