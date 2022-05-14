@@ -81,7 +81,7 @@ const SignupPage = (props: Props) => {
         </div>
       </form>
       <div className="have-account w-full flex justify-center items-center">
-        <span>Already have an account?&nbsp;</span><Link to='/login' className='text-indigo-600 hover:text-indigo-700 transition-all duration-200'>Login</Link>
+        <span>Already have an account?&nbsp;</span><Link to='/signin' className='text-indigo-600 hover:text-indigo-700 transition-all duration-200'>Sign In</Link>
       </div>
     </section>
   )
