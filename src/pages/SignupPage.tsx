@@ -62,17 +62,17 @@ const SignupPage = (props: Props) => {
       </div>
       <form onSubmit={onSubmit} className="form w-1/4 flex flex-col justify-center items-center gap-6">
         <div className="form__item w-full">
-          <input type="text" id='name' name='name' value={name} placeholder='Enter your name' onChange={onChange}
+          <input type="text" id='name' name='name' value={name} placeholder='Enter your name' onChange={onChange} required
             className="form__control inline-flex w-full items-center px-4 py-3 border border-solid border-slate-400 rounded-lg" 
           />
         </div>
         <div className="form__item w-full">
-          <input type="text" id='login' name='login' value={login} placeholder='Enter your login' onChange={onChange}
+          <input type="text" id='login' name='login' value={login} placeholder='Enter your login' onChange={onChange} required
             className="form__control inline-flex w-full items-center px-4 py-3 border border-solid border-slate-400 rounded-lg" 
           />
         </div>
         <div className="form__item w-full">
-          <input type="password" id='password' name='password' value={password} placeholder='Enter your password' onChange={onChange} 
+          <input type="password" id='password' name='password' value={password} placeholder='Enter your password' onChange={onChange} required 
             className="form__control inline-flex w-full items-center px-4 py-3 border border-solid border-slate-400 rounded-lg" 
           />
         </div>
