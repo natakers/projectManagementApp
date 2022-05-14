@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
+import { Link } from 'react-router-dom';
+import Logo from '../components/logo';
 
 const DEVS = [
   { link: 'https://github.com/natakers', githubName: '@natakers' },
@@ -51,13 +53,20 @@ const WelcomePage = () => {
         >
           Sign In as user001 ---for test---
         </button>
-        <button className="border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-indigo-500 ">
+        <Link
+          to="/signin"
+          className="border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-indigo-500 "
+        >
+          Sign In
+        </Link>
+        <Link
+          to="/signup"
+          className="border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-indigo-500 "
+        >
           Sign Up
-        </button>
+        </Link>
       </nav>
-      <h1 className="text-3xl text-white bg-gradient-to-r from-sky-500 to-indigo-500 text-transparent bg-clip-text ">
-        effetto
-      </h1>
+      <Logo />
       <p className="text-lg">Project Management App</p>
       <aside className="bottom-10 absolute mt-32 text-lg justify-center items-center flex flex-col gap-5">
         <p>React2022Q1 | Team75</p>
