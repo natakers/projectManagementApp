@@ -1,15 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../store/store'
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { signin, reset } from '../store/auth/authSlice';
+import Spinner from '../components/Spinner';
 
 type Props = {}
 
-const LoginPage = (props: Props) => {
+const SigninPage = (props: Props) => {
   const [formData, setFormData] = useState({
     login: '',
     password: '',
   })
 
   const { login, password } = formData;
+
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+
+  const { user, isLoading, isSuccess, isError, message } = useSelector((state: any) => state.auth)
+
+  useEffect(() => {
+    if(isError) {
+      toast.error(message)
+    }
+    if(isSuccess || user) {
+      navigate('/')
+    }
+    dispatch(reset())
+  }, [user, isLoading, isSuccess, isError, message, navigate, dispatch,])
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevState) => ({
@@ -20,11 +40,19 @@ const LoginPage = (props: Props) => {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('submit');
+    const userData = {
+      login, 
+      password
+    }
+    dispatch(signin(userData))
+  }
+
+  if(isLoading) {
+    return <Spinner />
   }
 
   return (
-    <section className='login-page w-full px-6 py-6 flex flex-col justify-center items-center gap-16'>
+    <section className='signin-page w-full px-6 py-6 flex flex-col justify-center items-center gap-16'>
       <div className="logo__container w-full flex flex-col justify-center items-center gap-3">
         <h1 className="logo">Some Logo</h1>
         <p className="title text-center font-bold text-3xl text-gray-900">Sign in to your account</p>
@@ -51,4 +79,4 @@ const LoginPage = (props: Props) => {
   )
 }
 
-export default LoginPage;
+export default SigninPage;

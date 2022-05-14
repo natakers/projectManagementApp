@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../store/store'
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { signup, reset } from '../store/auth/authSlice';
+import Spinner from '../components/Spinner';
 
 type Props = {}
 
@@ -12,6 +17,22 @@ const SignupPage = (props: Props) => {
 
   const { name, login, password } = formData;
 
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+
+  const { user, isLoading, isSuccess, isError, message } = useSelector((state: any) => state.auth)
+
+  useEffect(() => {
+    if(isError) {
+      toast.error(message)
+    }
+    if(isSuccess || user) {
+      navigate('/')
+    }
+    dispatch(reset())
+  }, [user, isLoading, isSuccess, isError, message, navigate, dispatch,])
+  
+
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevState) => ({
       ...prevState,
@@ -21,7 +42,16 @@ const SignupPage = (props: Props) => {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('submit');
+    const userData = {
+      name, 
+      login, 
+      password
+    }
+    dispatch(signup(userData))
+  }
+
+  if(isLoading) {
+    return <Spinner />
   }
 
   return (
