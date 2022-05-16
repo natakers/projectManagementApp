@@ -1,6 +1,6 @@
 const BoardButton = ( (props: IButton) => {
   return (
-    <button className="border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-indigo-500"  onClick={props.onClick}>{props.text}</button>
+    <button className="border-2 border-sky-400 rounded p-1 bg-sky-500 z-10  hover:bg-slate-600 "  onClick={props.onClick}>{props.text}</button>
   )
 })
 

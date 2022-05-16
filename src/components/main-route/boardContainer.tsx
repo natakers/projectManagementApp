@@ -1,11 +1,16 @@
+import { useAppSelector } from "../../store/store";
 import Board from "./board";
 
-const BoardContainer = () => {
+const BoardContainer: React.FC = () => {
+  const boards = useAppSelector(state => state.boards.boards);
+
   return (
-    <>
-    <div>Boards are lower</div>
-    <Board />
-    </>
+    <div className="flex flex-row justify-around w-full flex-wrap">
+    {(boards.map((board) => (
+        <Board id={board.id} key={board.id} title={board.title} description={board.description}  />
+      ) 
+    ))}
+    </div>
   )
 }
 
