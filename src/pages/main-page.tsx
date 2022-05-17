@@ -1,19 +1,16 @@
 import { useEffect } from 'react';
-// import { Link, useNavigate } from 'react-router-dom';
 import BoardContainer from '../components/main-route/boardContainer';
-// import { logout, reset } from '../store/auth/authSlice';
 import { getBoards } from '../store/boards/boardsSlice';
 import { useAppDispatch } from '../store/store';
 
 const MainPage = () => {
   const dispatch = useAppDispatch();
-  // const navigate = useNavigate();
   useEffect(() => {
     dispatch(getBoards())
   }, [dispatch]);
 
   return (
-    <main className="bg-slate-800 min-h-screen items-center text-gray-300 justify-start flex flex-col gap-5">
+    <main className="bg-slate-800 min-h-screen items-center text-gray-300 justify-start flex flex-col gap-5 relative">
       <h1 className="text-3xl  ">Boards</h1>
       <BoardContainer />
     </main>

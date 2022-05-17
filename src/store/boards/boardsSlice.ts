@@ -24,7 +24,6 @@ export const getBoards = createAsyncThunk<IBoard[], undefined, {rejectValue: str
       return rejectWithValue('Not get');
     }
     const data = await response.json();
-    console.log(data);
     return data
   }
 );
@@ -49,20 +48,35 @@ interface BoardState {
   boards: Array<IBoard>,
   loading: boolean,
   error: null | string,
-  currentId: null | string
+  currentId: string
 }
 
 const initialState: BoardState = {
   boards: [],
   loading: false,
   error: null,
-  currentId: null
+  currentId: ''
 }
 
 const boardSlice = createSlice({
   name: 'boards',
   initialState,
   reducers: {
+    openboard(state, action) {
+      state.currentId = action.payload;
+    },
+    openWindow(state, action) {
+      state.currentId = action.payload;
+      const modal = document.querySelector('.boardsModal')
+      modal?.classList.remove('hidden')
+      modal?.classList.add('flex')
+    },
+    closeWindow(state, action) {
+      state.currentId = ''
+      const modal = document.querySelector('.boardsModal')
+      modal?.classList.add('hidden')
+      modal?.classList.remove('flex')
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -79,5 +93,7 @@ const boardSlice = createSlice({
     })
   }
 });
+
+export const { openboard, openWindow, closeWindow } = boardSlice.actions;
 
 export default boardSlice.reducer;
