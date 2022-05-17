@@ -32,7 +32,7 @@ const Header = (props: Props) => {
             onClick={onLogout}
             className="nav__item border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-indigo-500 "
           >
-            Logout
+            Sign Out
           </button>
           <div className="nav__user w-full flex flex-row justify-center items-center gap-2">
             <img
