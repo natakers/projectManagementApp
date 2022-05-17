@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './components/layout';
 import WelcomePage from './pages/welcome-page';
 import 'react-toastify/dist/ReactToastify.css';
-import Header from './components/Header';
 import SigninPage from './pages/SigninPage';
 import SignupPage from './pages/SignupPage';
 import './styles/App.css';
