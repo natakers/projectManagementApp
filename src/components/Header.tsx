@@ -4,12 +4,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../store/store';
 import { reset, logout } from '../store/auth/authSlice';
 import Logo from './logo';
-import BoardButton from './main-route/boardButton';
+import BoardButton, { themes } from './main-route/boardButton';
 import jwt_decode from "jwt-decode";
 
-type Props = {};
 
-const Header = (props: Props) => {
+const Header = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -21,9 +20,7 @@ const Header = (props: Props) => {
 
   let user = localStorage.getItem('user')
   user ? decoded = jwt_decode(user) : decoded = {}
-  console.log(decoded.userId);
-
-
+  
   const onLogout = () => {
     dispatch(logout());
     dispatch(reset());
@@ -40,12 +37,12 @@ const Header = (props: Props) => {
       <div className="nav__list flex justify-between items-center">
         <>
         <Link to="/createBoard">
-        <BoardButton text='Create new board' />
+        <BoardButton themes={themes.light} text='Create new board' />
         </Link>
         <Link to="/editProfile">
-          <BoardButton text='Edit profile' />
+          <BoardButton themes={themes.light} text='Edit profile' />
         </Link>
-        <BoardButton text='Logout' onClick={onLogout} />
+        <BoardButton themes={themes.light} text='Sign out' onClick={onLogout} />
         <div className="switch">
 	        <input id="language-toggle" className="check-toggle check-toggle-round-flat" type="checkbox" />
 	        <label htmlFor="language-toggle"></label>

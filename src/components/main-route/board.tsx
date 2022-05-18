@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import BoardButton from "./boardButton";
+import BoardButton, { themes } from "./boardButton";
 import { openboard, openWindow } from "../../store/boards/boardsSlice";
 import { useAppDispatch } from "../../store/store";
 
@@ -12,7 +12,7 @@ const Board: React.FC<IBoard> = ({ id, title, description} ) => {
         <div className="text-xl font-bold">{title}</div>
         <div>{description}</div>
       </NavLink>
-      <BoardButton text="Delete board" onClick={() => dispatch(openWindow(id))} />
+      <BoardButton themes={themes.light} text="Delete board" onClick={() => dispatch(openWindow(id))} />
     </div>
   )
 }
@@ -20,7 +20,7 @@ const Board: React.FC<IBoard> = ({ id, title, description} ) => {
 export default Board;
 
 export interface IBoard {
-  id: string,
+  id?: string,
   title: string,
   description: string,
 }

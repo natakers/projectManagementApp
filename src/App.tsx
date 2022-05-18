@@ -8,6 +8,7 @@ import SignupPage from './pages/SignupPage';
 import './styles/App.css';
 import MainPage from './pages/main-page';
 import BoardPage from './pages/board-page';
+import CreateBoard from './pages/createBoard';
 
 const App = () => {
   const fetchApiData = async () => {
@@ -44,6 +45,7 @@ const App = () => {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/main" element={<MainPage />} />
           <Route path="/board" element={<BoardPage />} />
+          <Route path="/createboard" element={<CreateBoard />} />
         </Route>
       </Routes>
     </BrowserRouter>
