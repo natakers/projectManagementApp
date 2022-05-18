@@ -1,11 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { IBoard } from '../../components/main-route/board'
 
+
 export const baseURL = 'https://still-earth-24890.herokuapp.com';
 let token: string | null;
 
 let tokenString = localStorage.getItem('user')
 tokenString ? token = JSON.parse(tokenString).token : token = null
+
 
 const headers = new Headers({
   'Authorization': `Bearer ${token}`, 
@@ -97,3 +99,4 @@ const boardSlice = createSlice({
 export const { openboard, openWindow, closeWindow } = boardSlice.actions;
 
 export default boardSlice.reducer;
+

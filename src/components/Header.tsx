@@ -1,9 +1,11 @@
-import React from 'react';
+// import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../store/store';
 import { reset, logout } from '../store/auth/authSlice';
 import Logo from './logo';
+import BoardButton from './main-route/boardButton';
+import jwt_decode from "jwt-decode";
 
 type Props = {};
 
@@ -11,7 +13,16 @@ const Header = (props: Props) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { user } = useSelector((state: any) => state.auth);
+  let decoded: {
+    iat?: number,
+    login?: string,
+    userId?: string,
+  }
+
+  let user = localStorage.getItem('user')
+  user ? decoded = jwt_decode(user) : decoded = {}
+  console.log(decoded.userId);
+
 
   const onLogout = () => {
     dispatch(logout());
@@ -26,21 +37,23 @@ const Header = (props: Props) => {
           <Logo />
         </Link>
       </div>
-      <div className="nav__list flex justify-between gap-x-6">
+      <div className="nav__list flex justify-between items-center">
         <>
-          <button
-            onClick={onLogout}
-            className="nav__item border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-indigo-500 "
-          >
-            Sign Out
-          </button>
+        <Link to="/createBoard">
+        <BoardButton text='Create new board' />
+        </Link>
+        <Link to="/editProfile">
+          <BoardButton text='Edit profile' />
+        </Link>
+        <BoardButton text='Logout' onClick={onLogout} />
+        <div className="switch">
+	        <input id="language-toggle" className="check-toggle check-toggle-round-flat" type="checkbox" />
+	        <label htmlFor="language-toggle"></label>
+	        <span className="on">RU</span>
+	        <span className="off">EN</span>
+  	    </div>
           <div className="nav__user w-full flex flex-row justify-center items-center gap-2">
-            <img
-              src="../assets/images/sample-avatar.jpg"
-              alt="user avatar"
-              className="w-full h-6"
-            />
-            <span>{user.login}</span>
+            <span>{decoded.login}</span>
           </div>
         </>
       </div>
@@ -49,3 +62,4 @@ const Header = (props: Props) => {
 };
 
 export default Header;
+
