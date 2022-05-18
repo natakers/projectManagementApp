@@ -20,8 +20,9 @@ const SigninPage = (props: Props) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { user, isLoading, isSuccess, isError, message } =
-    useSelector((state: Rootstate) => state.auth);
+  const { isLoading, isSuccess, isError, message } = useSelector(
+    (state: Rootstate) => state.auth
+  );
 
   const [cookie, setCookie] = useCookies(['user']);
 
@@ -62,6 +63,7 @@ const SigninPage = (props: Props) => {
     const { payload } = await dispatch(signin(userData));
     setCookie('user', payload.token, {
       maxAge: 5,
+      sameSite: 'lax',
     });
   };
 

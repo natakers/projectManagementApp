@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
