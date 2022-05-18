@@ -27,7 +27,7 @@ const App = () => {
       options
     );
 
-    console.log('apiData', apiData);
+    // console.log('apiData', apiData);
     const parsedApiData = await apiData.json();
     console.log('API users', parsedApiData);
   };

@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useAppDispatch } from '../store/store';
+import { Rootstate, useAppDispatch } from '../store/store';
 import { reset, logout } from '../store/auth/authSlice';
 import Logo from './logo';
+import { useCookies } from 'react-cookie';
 
 type Props = {};
 
@@ -11,11 +12,13 @@ const Header = (props: Props) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { user } = useSelector((state: any) => state.auth);
+  const { user } = useSelector((state: Rootstate) => state.auth);
+  const [cookie, setCookie, removeCookie] = useCookies(['user']);
 
   const onLogout = () => {
     dispatch(logout());
     dispatch(reset());
+    removeCookie('user');
     navigate('/');
   };
 
@@ -40,7 +43,7 @@ const Header = (props: Props) => {
               alt="user avatar"
               className="w-full h-6"
             />
-            <span>{user.login}</span>
+            {/* <span>{user.login}</span> */}
           </div>
         </>
       </div>

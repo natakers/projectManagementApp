@@ -13,46 +13,50 @@ const DEVS = [
 ];
 
 const WelcomePage = () => {
-  const [cookie, setCookie] = useCookies(['userToken']);
+  const [cookie, setCookie] = useCookies(['userToken', 'user']);
 
   useEffect(() => {
-    console.log('userToken', cookie.userToken);
+    // console.log('userToken', cookie.userToken);
+    console.log('cookie.user', cookie.user);
   });
 
-  const handleSignIn = async () => {
-    const headers = new Headers({
-      'Content-type': 'application/json',
-    });
+  // const handleSignIn = async () => {
+  //   const headers = new Headers({
+  //     'Content-type': 'application/json',
+  //   });
 
-    const options = {
-      method: 'POST',
-      headers: headers,
-      body: JSON.stringify({
-        login: 'user001',
-        password: 'userpass@123',
-      }),
-      // mode: 'no-cors' as RequestMode,
-    };
+  //   const options = {
+  //     method: 'POST',
+  //     headers: headers,
+  //     body: JSON.stringify({
+  //       login: 'user001',
+  //       password: 'userpass@123',
+  //     }),
+  //     // mode: 'no-cors' as RequestMode,
+  //   };
 
-    const apiData = await fetch(
-      'https://still-earth-24890.herokuapp.com/signin',
-      options
-    );
-    const parsedApiData = await apiData.json();
-    console.log('api token', parsedApiData);
+  //   const apiData = await fetch(
+  //     'https://still-earth-24890.herokuapp.com/signin',
+  //     options
+  //   );
+  //   const parsedApiData = await apiData.json();
+  //   console.log('api token', parsedApiData);
 
-    setCookie('userToken', parsedApiData.token, { sameSite: 'lax' });
-  };
+  //   setCookie('userToken', parsedApiData.token, {
+  //     sameSite: 'lax',
+  //     maxAge: 10,
+  //   });
+  // };
 
   return (
     <main className="relative bg-slate-800 min-h-screen items-center text-gray-300 justify-center flex flex-col gap-5 ">
       <nav className=" flex gap-5 absolute top-20 right-20 ">
-        <button
+        {/* <button
           onClick={handleSignIn}
           className="border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-indigo-500 "
         >
           Sign In as user001 ---for test---
-        </button>
+        </button> */}
         <Link
           to="/signin"
           className="border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-indigo-500 "

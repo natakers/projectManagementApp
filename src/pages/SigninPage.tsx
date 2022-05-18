@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useAppDispatch } from '../store/store';
+import { Rootstate, useAppDispatch } from '../store/store';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { signin, reset } from '../store/auth/authSlice';
 import Spinner from '../components/Spinner';
+import { useCookies } from 'react-cookie';
 
 type Props = {};
 
@@ -20,18 +21,21 @@ const SigninPage = (props: Props) => {
   const dispatch = useAppDispatch();
 
   const { user, isLoading, isSuccess, isError, message } =
-    useSelector((state: any) => state.auth);
+    useSelector((state: Rootstate) => state.auth);
+
+  const [cookie, setCookie] = useCookies(['user']);
 
   useEffect(() => {
     if (isError) {
       toast.error(message);
     }
-    if (isSuccess || user) {
+    if (cookie.user) {
+      console.log('sign in cookie', cookie.user);
       navigate('/main');
     }
     dispatch(reset());
   }, [
-    user,
+    cookie.user,
     isLoading,
     isSuccess,
     isError,
@@ -47,13 +51,18 @@ const SigninPage = (props: Props) => {
     }));
   };
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
     const userData = {
       login,
       password,
     };
-    dispatch(signin(userData));
+    const { payload } = await dispatch(signin(userData));
+    setCookie('user', payload.token, {
+      maxAge: 5,
+    });
   };
 
   if (isLoading) {

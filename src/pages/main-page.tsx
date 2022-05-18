@@ -1,10 +1,20 @@
+import { useEffect } from 'react';
+import { useCookies } from 'react-cookie';
+import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { logout, reset } from '../store/auth/authSlice';
-import { useAppDispatch } from '../store/store';
+import { Rootstate, useAppDispatch } from '../store/store';
 
 const MainPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { user } = useSelector((state: Rootstate) => state.auth);
+  const [cookie, setCookie] = useCookies(['user']);
+
+  useEffect(() => {
+    console.log('cookie.user', cookie.user);
+    cookie.user === undefined && navigate('/');
+  }, [cookie.user, navigate]);
 
   return (
     <main className="bg-slate-800 min-h-screen items-center text-gray-300 justify-center flex flex-col gap-5">

@@ -1,14 +1,15 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useCookies } from 'react-cookie';
 import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import Header from './Header';
 
 const Layout = () => {
-  const { user } = useSelector((state: any) => state.auth);
+  const [cookie] = useCookies(['user']);
 
   return (
     <div className="min-h-screen">
-      {user && <Header />}
+      {cookie.user && <Header />}
       <Outlet />
       <ToastContainer />
     </div>
