@@ -1,12 +1,14 @@
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../store/store';
 import { reset, logout } from '../store/auth/authSlice';
 import Logo from './logo';
 import BoardButton, { themes } from './main-route/boardButton';
-import { Link, useNavigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode'
 import CreateBoard from '../pages/createBoard';
-import { useState } from 'react';
+
 type Props = {};
+
 const Header = (props: Props) => {
   const [sticky, setSticky] = useState(false);
   const navigate = useNavigate();
@@ -32,6 +34,7 @@ const Header = (props: Props) => {
       modal?.classList.remove('hidden')
       modal?.classList.add('flex')
   }
+  
   const handleStickyHeader = () => {
     if (window.scrollY >= 85) {
       setSticky(true)
