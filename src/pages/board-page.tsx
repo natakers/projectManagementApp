@@ -1,7 +1,7 @@
-import { useAppSelector } from "../store/store";
+import { AppState, useAppSelector } from "../store/store";
 
 const BoardPage = () => {
-  const id = useAppSelector(state => state.boards.currentId);
+  const id = useAppSelector((state: AppState) => state.boards.currentId);
   console.log(id);
   
   return (

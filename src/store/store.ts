@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import authReducer  from './auth/authSlice';
 import boardReducer from './boards/boardsSlice'
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
 export const store = configureStore({
   reducer: {

@@ -77,14 +77,13 @@ export const deleteBoard = createAsyncThunk<string, string, {rejectValue: string
   }
 )
 
-interface BoardState {
+export interface BoardState {
   boards: Array<IBoard>,
   loading: boolean,
   error: boolean,
   currentId: string,
-  newBoard: IBoard,
+  newBoard: IBoard | null,
   message: string | undefined,
-  isCreated: boolean,
 }
 
 const initialState: BoardState = {
@@ -97,7 +96,6 @@ const initialState: BoardState = {
     description: ''
   },
   message: undefined,
-  isCreated: false,
 }
 
 const boardSlice = createSlice({
@@ -119,10 +117,8 @@ const boardSlice = createSlice({
       modal?.classList.add('hidden')
       modal?.classList.remove('flex')
     },
-    resetNewBoard: (state) => {
-      state.isCreated = false
-      state.error = false
-      state.message = ''
+    resetBoard(state, action) {
+      state.newBoard = null
     }
   },
   extraReducers: (builder) => {
@@ -145,22 +141,20 @@ const boardSlice = createSlice({
     .addCase(createBoard.pending, (state) => {
       state.loading = true;
       state.error = false;
-      state.isCreated = false;
     })
     .addCase(createBoard.fulfilled, (state, action) => {
       state.newBoard = action.payload;
-      state.isCreated = true;
-      state.isCreated = true;
+      state.loading = false;
+      state.boards.push(state.newBoard)
     })
     .addCase(createBoard.rejected, (state, action) => {
       state.error = true
       state.message = action.payload;
-      state.isCreated = false;
     })
   }
 });
 
-export const { openboard, openWindow, closeWindow, resetNewBoard } = boardSlice.actions;
+export const { openboard, openWindow, closeWindow, resetBoard } = boardSlice.actions;
 
 export default boardSlice.reducer;
 

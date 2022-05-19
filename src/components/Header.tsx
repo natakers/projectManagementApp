@@ -1,12 +1,10 @@
-// import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-// import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../store/store';
 import { reset, logout } from '../store/auth/authSlice';
 import Logo from './logo';
 import BoardButton, { themes } from './main-route/boardButton';
-import jwt_decode from "jwt-decode";
-
+import { Link, useNavigate } from 'react-router-dom';
+import jwt_decode from 'jwt-decode'
+import CreateBoard from '../pages/createBoard';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -27,6 +25,12 @@ const Header = () => {
     navigate('/');
   };
 
+  const open = () => {
+    const modal = document.querySelector('.createModal')
+      modal?.classList.remove('hidden')
+      modal?.classList.add('flex')
+  }
+
   return (
     <header className="bg-slate-800 w-full flex justify-between items-center px-6 py-6 border-b border-b-slate-600 text-gray-300">
       <div className="logo">
@@ -36,9 +40,7 @@ const Header = () => {
       </div>
       <div className="nav__list flex justify-between items-center">
         <>
-        <Link to="/createBoard">
-        <BoardButton themes={themes.light} text='Create new board' />
-        </Link>
+        <BoardButton themes={themes.light} text='Create new board' onClick={open} />
         <Link to="/editProfile">
           <BoardButton themes={themes.light} text='Edit profile' />
         </Link>
@@ -54,9 +56,11 @@ const Header = () => {
           </div>
         </>
       </div>
+      <CreateBoard />
     </header>
   );
 };
 
 export default Header;
+
 

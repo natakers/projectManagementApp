@@ -1,13 +1,10 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useState } from "react"
 import Input from "../components/input";
 import BoardButton, { themes } from "../components/main-route/boardButton";
-import { createBoard, resetNewBoard } from "../store/boards/boardsSlice";
-import { useAppDispatch, useAppSelector } from "../store/store";
+import { createBoard, resetBoard } from "../store/boards/boardsSlice";
+import { useAppDispatch } from "../store/store";
 
 const CreateBoard = () => {
-  const {  error, message, isCreated } = useAppSelector(state => state.boards);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -15,20 +12,8 @@ const CreateBoard = () => {
 
   const { title, description } = formData;
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const href = window.location.href;
   console.log(href);
-  
-
-  useEffect(() => {
-    if (error) {
-      toast.error(message);
-    }
-    if (isCreated) {
-      navigate('/main');
-    }
-    dispatch(resetNewBoard());
-  });
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevState) => ({
@@ -37,38 +22,44 @@ const CreateBoard = () => {
     }))
     
   };
-
+  const boardData = {
+    title,
+    description,
+  };
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const boardData = {
-      title,
-      description,
-    };
     dispatch(createBoard(boardData));
+    close();
+    dispatch(resetBoard(boardData))
+    
   };
+  const close = () => {
+    const modal = document.querySelector('.createModal')
+      modal?.classList.add('hidden')
+      modal?.classList.remove('flex')
+      setFormData({
+        title: '',
+        description: '',
+      })
+  }
 
   return (
-    <section className="min-h-screen signin-page w-full px-6 py-6 flex flex-col justify-center items-center gap-16">
+    <section className="createModal max-w-sm flex-col hidden absolute rounded z-20 bg-slate-50 p-4 inset-y-80 inset-x-0 m-auto items-center ">
        <div className="logo__container w-full flex flex-col justify-center items-center gap-3">
-        <p className="title text-center font-bold text-3xl text-gray-900">
+        <p className="title text-center font-bold text-3xl text-gray-900 mb-6">
           Create new board
         </p>
       </div>
       <form
         onSubmit={onSubmit}
-        className="form w-1/4 flex flex-col justify-center items-center gap-6"
+        className="form w-2/4 flex flex-col justify-center items-center gap-6"
       >
         <Input value={title} name='title' type='text' placeholder='Name of board' id='title' onChange={onChange} />
         <Input value={description} name='description' type='text' placeholder='Description of board' id='description' onChange={onChange} />
         <div className="flex w-full justify-around ">
-      <BoardButton themes={themes.dark} type="submit" text="Create" />
-      <Link
-          to="/main"
-          // className="border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-indigo-500 "
-        >
-          <BoardButton themes={themes.dark} text='Back' onClick={() => navigate(`${href}`)} />
-        </Link>
-      </div>
+          <BoardButton themes={themes.dark} type="submit" text="Create" />
+          <BoardButton themes={themes.dark} text='Back' onClick={close} />
+        </div>
       </form>
     </section>
   );
