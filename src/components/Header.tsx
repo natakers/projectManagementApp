@@ -5,8 +5,10 @@ import BoardButton, { themes } from './main-route/boardButton';
 import { Link, useNavigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode'
 import CreateBoard from '../pages/createBoard';
-
-const Header = () => {
+import { useState } from 'react';
+type Props = {};
+const Header = (props: Props) => {
+  const [sticky, setSticky] = useState(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -30,9 +32,17 @@ const Header = () => {
       modal?.classList.remove('hidden')
       modal?.classList.add('flex')
   }
+  const handleStickyHeader = () => {
+    if (window.scrollY >= 85) {
+      setSticky(true)
+    } else {
+      setSticky(false)
+    }
+  }
+  window.addEventListener('scroll', handleStickyHeader)
 
   return (
-    <header className="bg-slate-800 w-full flex justify-between items-center px-6 py-6 border-b border-b-slate-600 text-gray-300">
+    <header className={`${sticky ? 'header--sticky' : ''} bg-slate-800 w-full flex justify-between items-center px-6 py-6 border-b border-b-slate-600 text-gray-300`}>
       <div className="logo">
         <Link to="/main">
           <Logo />
@@ -44,7 +54,7 @@ const Header = () => {
         <Link to="/editProfile">
           <BoardButton themes={themes.light} text='Edit profile' />
         </Link>
-        <BoardButton themes={themes.light} text='Sign out' onClick={onLogout} />
+        <BoardButton themes={themes.light} text='Sign&nbsp;out' onClick={onLogout} />
         <div className="switch">
 	        <input id="language-toggle" className="check-toggle check-toggle-round-flat" type="checkbox" />
 	        <label htmlFor="language-toggle"></label>

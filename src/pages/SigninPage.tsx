@@ -5,6 +5,7 @@ import Spinner from '../components/Spinner';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import Logo from '../components/logo';
 
 type Props = {};
 
@@ -63,7 +64,7 @@ const SigninPage = (props: Props) => {
   return (
     <section className="signin-page min-h-screen w-full px-6 py-6 flex flex-col justify-center items-center gap-16">
       <div className="logo__container w-full flex flex-col justify-center items-center gap-3">
-        <h1 className="logo">Some Logo</h1>
+        <Logo />
         <p className="title text-center font-bold text-3xl text-gray-900">
           Sign in to your account
         </p>

@@ -5,6 +5,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { signup, reset } from '../store/auth/authSlice';
 import Spinner from '../components/Spinner';
+import Logo from '../components/logo';
+
+
+
 
 type Props = {};
 
@@ -65,7 +69,7 @@ const SignupPage = (props: Props) => {
   return (
     <section className="signup-page w-full min-h-screen px-6 py-6 flex flex-col justify-center items-center gap-16">
       <div className="logo__container w-full flex flex-col justify-center items-center gap-3">
-        <h1 className="logo">Some Logo</h1>
+        <Logo />
         <p className="title text-center font-bold text-3xl text-gray-900">
           Join our community
         </p>
