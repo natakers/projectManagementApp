@@ -1,26 +1,39 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../store/store';
 import { reset, logout } from '../store/auth/authSlice';
 import Logo from './logo';
+import BoardButton, { themes } from './main-route/boardButton';
+import jwt_decode from 'jwt-decode'
+import CreateBoard from '../pages/createBoard';
 
 type Props = {};
 
 const Header = (props: Props) => {
   const [sticky, setSticky] = useState(false);
-  
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { user } = useSelector((state: any) => state.auth);
-  console.log(user);
+  let decoded: {
+    iat?: number,
+    login?: string,
+    userId?: string,
+  }
 
+  let user = localStorage.getItem('user')
+  user ? decoded = jwt_decode(user) : decoded = {}
+  
   const onLogout = () => {
     dispatch(logout());
     dispatch(reset());
     navigate('/');
   };
+
+  const open = () => {
+    const modal = document.querySelector('.createModal')
+      modal?.classList.remove('hidden')
+      modal?.classList.add('flex')
+  }
   
   const handleStickyHeader = () => {
     if (window.scrollY >= 85) {
@@ -38,26 +51,29 @@ const Header = (props: Props) => {
           <Logo />
         </Link>
       </div>
-      <div className="nav__list flex justify-between gap-x-6">
+      <div className="nav__list flex justify-between items-center">
         <>
-          <button
-            onClick={onLogout}
-            className="nav__item border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-indigo-500 "
-          >
-            Sign&nbsp;Out
-          </button>
+        <BoardButton themes={themes.light} text='Create new board' onClick={open} />
+        <Link to="/editProfile">
+          <BoardButton themes={themes.light} text='Edit profile' />
+        </Link>
+        <BoardButton themes={themes.light} text='Sign&nbsp;out' onClick={onLogout} />
+        <div className="switch">
+	        <input id="language-toggle" className="check-toggle check-toggle-round-flat" type="checkbox" />
+	        <label htmlFor="language-toggle"></label>
+	        <span className="on">RU</span>
+	        <span className="off">EN</span>
+  	    </div>
           <div className="nav__user w-full flex flex-row justify-center items-center gap-2">
-            <img
-              src="../assets/images/sample-avatar.jpg"
-              alt="user avatar"
-              className="w-full h-6"
-            />
-            <span>{user.login}</span>
+            <span>{decoded.login}</span>
           </div>
         </>
       </div>
+      <CreateBoard />
     </header>
   );
 };
 
 export default Header;
+
+

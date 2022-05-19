@@ -1,6 +1,6 @@
 import { closeWindow, deleteBoard } from "../../store/boards/boardsSlice";
 import { useAppDispatch } from "../../store/store";
-import BoardButton from "./boardButton";
+import BoardButton, { themes } from "./boardButton";
 
 const ModalWindow = (props: IModal) => {
   const dispatch = useAppDispatch();
@@ -10,11 +10,11 @@ const ModalWindow = (props: IModal) => {
   }
   
   return (
-    <div className="boardsModal hidden absolute rounded z-20 bg-sky-900 inset-100px m-4 p-4 items-center  ">
+    <div className="boardsModal max-w-md max-h-20 hidden absolute rounded z-30 bg-sky-900 inset-x-auto inset-y-80 m-4 p-4 items-center  ">
       <div className="mr-4 ">Do you ready want to delete this board?</div>
-      <div>
-      <BoardButton text="Yes" onClick={close} />
-      <BoardButton text="No" onClick={() => dispatch(closeWindow(props.boardId))} />
+      <div className="flex">
+      <BoardButton themes={themes.light} text="Yes" onClick={close} />
+      <BoardButton themes={themes.light} text="No" onClick={() => dispatch(closeWindow(props.boardId))} />
       </div>
     </div>
   )

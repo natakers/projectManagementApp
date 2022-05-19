@@ -1,17 +1,23 @@
-import { useAppSelector } from "../../store/store";
-import Board from "./board";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+import { AppState, useAppSelector } from "../../store/store";
+import Board, { IBoard } from "./board";
 import ModalWindow from "./modalWindow";
 
 const BoardContainer: React.FC = () => {
-  const boards = useAppSelector(state => state.boards.boards);
-  const id = useAppSelector(state => state.boards.currentId);
+  const { boards, currentId, error, message } = useAppSelector((state: AppState) => state.boards);
+  
+  useEffect(() => {
+    if (error) toast.error(message)
+  })
+  
   return (
     <div className="flex flex-row justify-around w-full flex-wrap">
-      {(boards.map((board) => (
+      { (!error)? (boards.map((board: IBoard) => (
         <Board id={board.id} key={board.id} title={board.title} description={board.description}  />
       ) 
-      ))}
-      <ModalWindow boardId={id} />
+      )) : (<><div className=" text-red-300 ">Oops! Something does wrong!</div></>)}
+      <ModalWindow boardId={currentId} />
     </div>
   )
 }
