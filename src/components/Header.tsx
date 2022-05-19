@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../store/store';
@@ -8,19 +8,31 @@ import Logo from './logo';
 type Props = {};
 
 const Header = (props: Props) => {
+  const [sticky, setSticky] = useState(false);
+  
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const { user } = useSelector((state: any) => state.auth);
+  console.log(user);
 
   const onLogout = () => {
     dispatch(logout());
     dispatch(reset());
     navigate('/');
   };
+  
+  const handleStickyHeader = () => {
+    if (window.scrollY >= 85) {
+      setSticky(true)
+    } else {
+      setSticky(false)
+    }
+  }
+  window.addEventListener('scroll', handleStickyHeader)
 
   return (
-    <header className="bg-slate-800 w-full flex justify-between items-center px-6 py-6 border-b border-b-slate-600 text-gray-300">
+    <header className={`${sticky ? 'header--sticky' : ''} bg-slate-800 w-full flex justify-between items-center px-6 py-6 border-b border-b-slate-600 text-gray-300`}>
       <div className="logo">
         <Link to="/main">
           <Logo />
@@ -32,7 +44,7 @@ const Header = (props: Props) => {
             onClick={onLogout}
             className="nav__item border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-indigo-500 "
           >
-            Sign Out
+            Sign&nbsp;Out
           </button>
           <div className="nav__user w-full flex flex-row justify-center items-center gap-2">
             <img

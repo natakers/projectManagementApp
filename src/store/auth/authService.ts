@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 const API_URL = 'https://still-earth-24890.herokuapp.com';
-// const API_URL = 'https://localhost:4000';
 
 // Register user
 const signup = async (userData: { name: string, login: string, password: string }) => {
