@@ -1,19 +1,31 @@
-import React from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Rootstate, useAppDispatch } from '../store/store';
+import { AppState, useAppDispatch } from '../store/store';
 import { reset, logout } from '../store/auth/authSlice';
-import Logo from './logo';
 import { useCookies } from 'react-cookie';
+import Logo from './logo';
+import BoardButton, { themes } from './main-route/boardButton';
+import jwt_decode from 'jwt-decode';
+import CreateBoard from '../pages/createBoard';
 
 type Props = {};
 
 const Header = (props: Props) => {
+  const [sticky, setSticky] = useState(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { user } = useSelector((state: Rootstate) => state.auth);
+  // const { user } = useSelector((state: AppState) => state.auth);
   const [cookie, setCookie, removeCookie] = useCookies(['user']);
+  // let decoded: {
+  //   iat?: number,
+  //   login?: string,
+  //   userId?: string,
+  // }
+
+  // let user = localStorage.getItem('user')
+  // user ? decoded = jwt_decode(user) : decoded = {}
 
   const onLogout = () => {
     dispatch(logout());
@@ -22,21 +34,57 @@ const Header = (props: Props) => {
     navigate('/');
   };
 
+  const open = () => {
+    const modal = document.querySelector('.createModal');
+    modal?.classList.remove('hidden');
+    modal?.classList.add('flex');
+  };
+
+  const handleStickyHeader = () => {
+    if (window.scrollY >= 85) {
+      setSticky(true);
+    } else {
+      setSticky(false);
+    }
+  };
+  window.addEventListener('scroll', handleStickyHeader);
+
   return (
-    <header className="bg-slate-800 w-full flex justify-between items-center px-6 py-6 border-b border-b-slate-600 text-gray-300">
+    <header
+      className={`${
+        sticky ? 'header--sticky' : ''
+      } bg-slate-800 w-full flex justify-between items-center px-6 py-6 border-b border-b-slate-600 text-gray-300`}
+    >
       <div className="logo">
         <Link to="/main">
           <Logo />
         </Link>
       </div>
-      <div className="nav__list flex justify-between gap-x-6">
+      <div className="nav__list flex justify-between items-center">
         <>
-          <button
+          <BoardButton
+            themes={themes.light}
+            text="Create new board"
+            onClick={open}
+          />
+          <Link to="/editProfile">
+            <BoardButton themes={themes.light} text="Edit profile" />
+          </Link>
+          <BoardButton
+            themes={themes.light}
+            text="Sign&nbsp;out"
             onClick={onLogout}
-            className="nav__item border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-indigo-500 "
-          >
-            Logout
-          </button>
+          />
+          <div className="switch">
+            <input
+              id="language-toggle"
+              className="check-toggle check-toggle-round-flat"
+              type="checkbox"
+            />
+            <label htmlFor="language-toggle"></label>
+            <span className="on">RU</span>
+            <span className="off">EN</span>
+          </div>
           <div className="nav__user w-full flex flex-row justify-center items-center gap-2">
             <img
               src="../assets/images/sample-avatar.jpg"
@@ -44,9 +92,11 @@ const Header = (props: Props) => {
               className="w-full h-6"
             />
             {/* <span>{user.login}</span> */}
+            {/* <span>{decoded.login}</span> */}
           </div>
         </>
       </div>
+      <CreateBoard />
     </header>
   );
 };

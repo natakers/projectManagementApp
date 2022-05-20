@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
 import Layout from './components/layout';
 import WelcomePage from './pages/welcome-page';
 import 'react-toastify/dist/ReactToastify.css';
-import Header from './components/Header';
 import SigninPage from './pages/SigninPage';
 import SignupPage from './pages/SignupPage';
 import './styles/App.css';
 import MainPage from './pages/main-page';
 import BoardPage from './pages/board-page';
+import EditProfile from './pages/editProfile';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 const App = () => {
   const fetchApiData = async () => {
@@ -45,6 +45,7 @@ const App = () => {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/main" element={<MainPage />} />
           <Route path="/board" element={<BoardPage />} />
+          <Route path="/editprofile" element={<EditProfile />} />
         </Route>
       </Routes>
     </BrowserRouter>

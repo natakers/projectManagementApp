@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { Rootstate, useAppDispatch } from '../store/store';
 import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { AppState, useAppDispatch } from '../store/store';
 import { toast } from 'react-toastify';
 import { signin, reset } from '../store/auth/authSlice';
 import Spinner from '../components/Spinner';
 import { useCookies } from 'react-cookie';
+import Logo from '../components/logo';
+import { getCookie } from '../helpers/cookie';
 
 type Props = {};
 
@@ -21,7 +23,7 @@ const SigninPage = (props: Props) => {
   const dispatch = useAppDispatch();
 
   const { isLoading, isSuccess, isError, message } = useSelector(
-    (state: Rootstate) => state.auth
+    (state: AppState) => state.auth
   );
 
   const [cookie, setCookie] = useCookies(['user']);
@@ -31,7 +33,7 @@ const SigninPage = (props: Props) => {
       toast.error(message);
     }
     if (cookie.user) {
-      console.log('sign in cookie', cookie.user);
+      // console.log('sign in cookie', cookie.user);
       navigate('/main');
     }
     dispatch(reset());
@@ -62,9 +64,10 @@ const SigninPage = (props: Props) => {
     };
     const { payload } = await dispatch(signin(userData));
     setCookie('user', payload.token, {
-      maxAge: 5,
+      maxAge: 200,
       sameSite: 'lax',
     });
+    console.log('sign in cookie', getCookie('user'));
   };
 
   if (isLoading) {
@@ -72,9 +75,9 @@ const SigninPage = (props: Props) => {
   }
 
   return (
-    <section className="signin-page w-full px-6 py-6 flex flex-col justify-center items-center gap-16">
+    <section className="signin-page min-h-screen w-full px-6 py-6 flex flex-col justify-center items-center gap-16">
       <div className="logo__container w-full flex flex-col justify-center items-center gap-3">
-        <h1 className="logo">Some Logo</h1>
+        <Logo />
         <p className="title text-center font-bold text-3xl text-gray-900">
           Sign in to your account
         </p>
