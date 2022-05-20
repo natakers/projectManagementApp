@@ -6,10 +6,6 @@ import Logo from '../components/logo';
 const WelcomePage = () => {
   const [cookie, setCookie] = useCookies(['userToken']);
 
-  useEffect(() => {
-    console.log('userToken', cookie.userToken);
-  });
-
   const handleSignIn = async () => {
     const headers = new Headers({
       'Content-type': 'application/json',
@@ -30,7 +26,6 @@ const WelcomePage = () => {
       options
     );
     const parsedApiData = await apiData.json();
-    console.log('api token', parsedApiData);
 
     setCookie('userToken', parsedApiData.token, { sameSite: 'lax' });
   };

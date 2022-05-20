@@ -18,7 +18,7 @@ const BoardContainer: React.FC = () => {
           ? (boards.map((board: IBoard) => (
             <Board id={board.id} key={board.id} title={board.title} description={board.description} />
           ))) 
-          : (<><div className="text-red-300">Oops! Something does wrong!</div></>)
+          : (<div className="text-red-300">Oops! Something does wrong!</div>)
       }
       <ModalWindow boardId={currentId} />
     </div>

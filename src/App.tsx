@@ -26,10 +26,8 @@ const App = () => {
       'https://still-earth-24890.herokuapp.com/users',
       options
     );
-
-    console.log('apiData', apiData);
     const parsedApiData = await apiData.json();
-    console.log('API users', parsedApiData);
+    console.log(parsedApiData);
   };
 
   useEffect(() => {

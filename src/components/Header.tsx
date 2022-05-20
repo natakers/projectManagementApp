@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../store/store';
 import { reset, logout } from '../store/auth/authSlice';
@@ -35,14 +35,20 @@ const Header = (props: Props) => {
       modal?.classList.add('flex')
   }
   
-  const handleStickyHeader = () => {
-    if (window.scrollY >= 85) {
-      setSticky(true)
-    } else {
-      setSticky(false)
+  useEffect(() => {
+    const handleStickyHeader = () => {
+      if (window.scrollY >= 85) {
+        setSticky(true)
+      } else {
+        setSticky(false)
+      }
     }
-  }
-  window.addEventListener('scroll', handleStickyHeader)
+    window.addEventListener('scroll', handleStickyHeader)
+    return () => {
+      window.removeEventListener("scroll", handleStickyHeader);
+    };
+  }, [])
+  
 
   return (
     <header className={`${sticky ? 'header--sticky' : ''} bg-slate-800 w-full flex justify-between items-center px-6 py-6 border-b border-b-slate-600 text-gray-300`}>

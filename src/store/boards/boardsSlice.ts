@@ -31,7 +31,6 @@ export const getBoards = createAsyncThunk<IBoard[], undefined, {rejectValue: str
 
     } catch(error) {
       const errorMassage = ((error as IError).message)
-      console.log(errorMassage);
       return rejectWithValue(errorMassage);
     }
   }

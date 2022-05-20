@@ -13,14 +13,12 @@ const CreateBoard = () => {
   const { title, description } = formData;
   const dispatch = useAppDispatch();
   const href = window.location.href;
-  console.log(href);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevState) => ({
       ...prevState,
       [event.target.name]: event.target.value,
     }))
-    
   };
   const boardData = {
     title,
