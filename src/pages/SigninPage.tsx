@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { useAppDispatch } from '../store/store';
+import { useAppDispatch, AppState, useAppSelector } from '../store/store';
 import { signin, reset } from '../store/auth/authSlice';
 import { toast } from 'react-toastify';
 import Spinner from '../components/Spinner';
@@ -21,7 +20,7 @@ const SigninPage = (props: Props) => {
   const dispatch = useAppDispatch();
 
   const { user, isLoading, isSuccess, isError, message } =
-    useSelector((state: any) => state.auth);
+    useAppSelector((state: AppState) => state.auth);
 
   useEffect(() => {
     if (isError) {

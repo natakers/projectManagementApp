@@ -1,6 +1,15 @@
 import { createSlice, createAsyncThunk, AnyAction } from '@reduxjs/toolkit';
 import authService from './authService';
 
+interface IError {
+  message?: string;
+  response: {
+    data: {
+      message?: string
+    }
+  };
+}
+
 // Get user from localstorage
 const userFromStorage = localStorage.getItem('user');
 let user;
@@ -20,8 +29,8 @@ const initialState = {
 export const signup = createAsyncThunk('auth/signup', async (user: { name: string, login: string, password: string }, thunkAPI) => {
   try {
     return await authService.signup(user)
-  } catch (error: any) {
-    const message = (error.response && error.response.data && error.response.data.message) || error.message || error || error.toString()
+  } catch (error) {
+    const message = ((error as IError).response && (error as IError).response.data && (error as IError).response.data.message) || (error as IError).message || (error as IError) || (error as IError).toString()
     return thunkAPI.rejectWithValue(message)
   }
 })
@@ -30,8 +39,8 @@ export const signup = createAsyncThunk('auth/signup', async (user: { name: strin
 export const signin = createAsyncThunk('auth/signin', async (user: { login: string, password: string }, thunkAPI) => {
   try {
     return await authService.signin(user)
-  } catch (error: any) {
-    const message = (error.response && error.response.data && error.response.data.message) || error.message || error || error.toString()
+  } catch (error) {
+    const message = ((error as IError).response && (error as IError).response.data && (error as IError).response.data.message) || (error as IError).message || (error as IError) || (error as IError).toString()
     return thunkAPI.rejectWithValue(message)
   }
 })

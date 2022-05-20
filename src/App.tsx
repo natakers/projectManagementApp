@@ -27,7 +27,6 @@ const App = () => {
       options
     );
     const parsedApiData = await apiData.json();
-    console.log(parsedApiData);
   };
 
   useEffect(() => {
