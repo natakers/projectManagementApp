@@ -11,10 +11,10 @@ const ModalWindow = (props: IModal) => {
   
   return (
     <div className="boardsModal max-w-md max-h-20 hidden absolute rounded z-30 bg-sky-900 inset-x-auto inset-y-80 m-4 p-4 items-center  ">
-      <div className="mr-4 ">Do you ready want to delete this board?</div>
+      <div className="mr-4 ">Do you really want to delete this board?</div>
       <div className="flex">
-      <BoardButton themes={themes.light} text="Yes" onClick={close} />
-      <BoardButton themes={themes.light} text="No" onClick={() => dispatch(closeWindow(props.boardId))} />
+        <BoardButton themes={themes.light} text="Yes" onClick={close} />
+        <BoardButton themes={themes.light} text="No" onClick={() => dispatch(closeWindow(props.boardId))} />
       </div>
     </div>
   )

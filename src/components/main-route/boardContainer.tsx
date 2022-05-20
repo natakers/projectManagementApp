@@ -13,10 +13,13 @@ const BoardContainer: React.FC = () => {
   
   return (
     <div className="flex flex-row justify-around w-full flex-wrap">
-      { (!error)? (boards.map((board: IBoard) => (
-        <Board id={board.id} key={board.id} title={board.title} description={board.description}  />
-      ) 
-      )) : (<><div className=" text-red-300 ">Oops! Something does wrong!</div></>)}
+      { 
+        (!error) 
+          ? (boards.map((board: IBoard) => (
+            <Board id={board.id} key={board.id} title={board.title} description={board.description} />
+          ))) 
+          : (<><div className="text-red-300">Oops! Something does wrong!</div></>)
+      }
       <ModalWindow boardId={currentId} />
     </div>
   )

@@ -35,17 +35,17 @@ const CreateBoard = () => {
   };
   const close = () => {
     const modal = document.querySelector('.createModal')
-      modal?.classList.add('hidden')
-      modal?.classList.remove('flex')
-      setFormData({
-        title: '',
-        description: '',
-      })
+    modal?.classList.add('hidden')
+    modal?.classList.remove('flex')
+    setFormData({
+      title: '',
+      description: '',
+    })
   }
 
   return (
-    <section className="createModal max-w-sm flex-col hidden absolute rounded z-20 bg-slate-50 p-4 inset-y-80 inset-x-0 m-auto items-center ">
-       <div className="logo__container w-full flex flex-col justify-center items-center gap-3">
+    <section className="createModal max-w-sm flex-col hidden absolute rounded z-20 bg-slate-50 p-4 inset-y-80 inset-x-0 m-auto items-center">
+      <div className="logo__container w-full flex flex-col justify-center items-center gap-3">
         <p className="title text-center font-bold text-3xl text-gray-900 mb-6">
           Create new board
         </p>

@@ -32,6 +32,7 @@ export const signin = createAsyncThunk('auth/signin', async (user: { login: stri
   }
 })
 
+// Logout user
 export const logout = createAsyncThunk('auth/logout', async () => {
   await authService.logout()
 })

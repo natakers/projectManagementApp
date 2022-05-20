@@ -53,17 +53,17 @@ const Header = (props: Props) => {
       </div>
       <div className="nav__list flex justify-between items-center">
         <>
-        <BoardButton themes={themes.light} text='Create new board' onClick={open} />
-        <Link to="/editProfile">
-          <BoardButton themes={themes.light} text='Edit profile' />
-        </Link>
-        <BoardButton themes={themes.light} text='Sign&nbsp;out' onClick={onLogout} />
-        <div className="switch">
-	        <input id="language-toggle" className="check-toggle check-toggle-round-flat" type="checkbox" />
-	        <label htmlFor="language-toggle"></label>
-	        <span className="on">RU</span>
-	        <span className="off">EN</span>
-  	    </div>
+          <BoardButton themes={themes.light} text='Create new board' onClick={open} />
+          <Link to="/edit-profile">
+            <BoardButton themes={themes.light} text='Edit profile' />
+          </Link>
+          <BoardButton themes={themes.light} text='Sign&nbsp;out' onClick={onLogout} />
+          <div className="switch">
+            <input id="language-toggle" className="check-toggle check-toggle-round-flat" type="checkbox" />
+            <label htmlFor="language-toggle"></label>
+            <span className="on">RU</span>
+            <span className="off">EN</span>
+  	      </div>
           <div className="nav__user w-full flex flex-row justify-center items-center gap-2">
             <span>{decoded.login}</span>
           </div>
@@ -75,5 +75,3 @@ const Header = (props: Props) => {
 };
 
 export default Header;
-
-
