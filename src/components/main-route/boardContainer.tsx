@@ -32,7 +32,7 @@ const BoardContainer: React.FC = () => {
             </div>
           </>
         )}
-        ;
+
         <ModalWindow boardId={currentId} />
       </>
     </div>

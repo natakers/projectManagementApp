@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../store/store';
 import { signup, reset } from '../store/auth/authSlice';
 import { toast } from 'react-toastify';
@@ -8,6 +7,7 @@ import Spinner from '../components/Spinner';
 import Logo from '../components/logo';
 import { useCookies } from 'react-cookie';
 import { getCookie } from '../helpers/cookie';
+import { useSelector } from 'react-redux';
 
 type Props = {};
 

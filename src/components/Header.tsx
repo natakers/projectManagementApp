@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { AppState, useAppDispatch } from '../store/store';
@@ -6,7 +6,6 @@ import { reset, logout } from '../store/auth/authSlice';
 import { useCookies } from 'react-cookie';
 import Logo from './logo';
 import BoardButton, { themes } from './main-route/boardButton';
-import jwt_decode from 'jwt-decode';
 import CreateBoard from '../pages/createBoard';
 
 type Props = {};
@@ -16,16 +15,7 @@ const Header = (props: Props) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  // const { user } = useSelector((state: AppState) => state.auth);
   const [cookie, setCookie, removeCookie] = useCookies(['user']);
-  // let decoded: {
-  //   iat?: number,
-  //   login?: string,
-  //   userId?: string,
-  // }
-
-  // let user = localStorage.getItem('user')
-  // user ? decoded = jwt_decode(user) : decoded = {}
 
   const onLogout = () => {
     dispatch(logout());
@@ -40,19 +30,24 @@ const Header = (props: Props) => {
     modal?.classList.add('flex');
   };
 
-  const handleStickyHeader = () => {
-    if (window.scrollY >= 85) {
-      setSticky(true);
-    } else {
-      setSticky(false);
-    }
-  };
-  window.addEventListener('scroll', handleStickyHeader);
+  useEffect(() => {
+    const handleStickyHeader = () => {
+      if (window.scrollY >= 85) {
+        setSticky(true);
+      } else {
+        setSticky(false);
+      }
+    };
+    window.addEventListener('scroll', handleStickyHeader);
+    return () => {
+      window.removeEventListener('scroll', handleStickyHeader);
+    };
+  }, []);
 
   return (
     <header
       className={`${
-        sticky ? 'header--sticky' : ''
+        sticky ? 'header--sticky' : 'h-24'
       } bg-slate-800 w-full flex justify-between items-center px-6 py-6 border-b border-b-slate-600 text-gray-300`}
     >
       <div className="logo">
@@ -67,7 +62,7 @@ const Header = (props: Props) => {
             text="Create new board"
             onClick={open}
           />
-          <Link to="/editProfile">
+          <Link to="/edit-profile">
             <BoardButton themes={themes.light} text="Edit profile" />
           </Link>
           <BoardButton

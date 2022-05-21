@@ -26,10 +26,7 @@ const App = () => {
       'https://still-earth-24890.herokuapp.com/users',
       options
     );
-
-    // console.log('apiData', apiData);
     const parsedApiData = await apiData.json();
-    console.log('API users', parsedApiData);
   };
 
   useEffect(() => {
@@ -45,7 +42,7 @@ const App = () => {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/main" element={<MainPage />} />
           <Route path="/board" element={<BoardPage />} />
-          <Route path="/editprofile" element={<EditProfile />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
         </Route>
       </Routes>
     </BrowserRouter>

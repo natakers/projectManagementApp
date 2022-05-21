@@ -1,14 +1,12 @@
-import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Logo from '../components/logo';
 
 const WelcomePage = () => {
-  const navigate = useNavigate();
   const [cookie] = useCookies(['user']);
 
   return (
-    <main className="relative bg-slate-800 min-h-screen items-center text-gray-300 justify-center flex flex-col gap-5 ">
+    <main className="relative bg-slate-800 h-5/6 items-center text-gray-300 justify-center flex flex-col gap-5 ">
       <nav className=" flex gap-5 absolute top-20 right-20 ">
         {cookie.user === undefined && (
           <>

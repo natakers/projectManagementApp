@@ -5,6 +5,15 @@ import {
 } from '@reduxjs/toolkit';
 import authService from './authService';
 
+interface IError {
+  message?: string;
+  response: {
+    data: {
+      message?: string;
+    };
+  };
+}
+
 // Get user from localstorage
 // const user = JSON.parse(localStorage.getItem('user') || "");
 
@@ -25,14 +34,14 @@ export const signup = createAsyncThunk(
   ) => {
     try {
       return await authService.signup(user);
-    } catch (error: any) {
+    } catch (error) {
       const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error ||
-        error.toString();
+        ((error as IError).response &&
+          (error as IError).response.data &&
+          (error as IError).response.data.message) ||
+        (error as IError).message ||
+        (error as IError) ||
+        (error as IError).toString();
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -44,19 +53,20 @@ export const signin = createAsyncThunk(
   async (user: { login: string; password: string }, thunkAPI) => {
     try {
       return await authService.signin(user);
-    } catch (error: any) {
+    } catch (error) {
       const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error ||
-        error.toString();
+        ((error as IError).response &&
+          (error as IError).response.data &&
+          (error as IError).response.data.message) ||
+        (error as IError).message ||
+        (error as IError) ||
+        (error as IError).toString();
       return thunkAPI.rejectWithValue(message);
     }
   }
 );
 
+// Logout user
 export const logout = createAsyncThunk('auth/logout', async () => {
   await authService.logout();
 });

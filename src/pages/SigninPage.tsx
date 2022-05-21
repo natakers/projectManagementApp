@@ -75,7 +75,7 @@ const SigninPage = (props: Props) => {
   }
 
   return (
-    <section className="signin-page min-h-screen w-full px-6 py-6 flex flex-col justify-center items-center gap-16">
+    <section className="signin-page min-h-screen w-full px-6 py-6 flex flex-col justify-center items-center gap-16 bg-white">
       <div className="logo__container w-full flex flex-col justify-center items-center gap-3">
         <Logo />
         <p className="title text-center font-bold text-3xl text-gray-900">
