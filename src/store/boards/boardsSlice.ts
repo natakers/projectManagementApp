@@ -1,10 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { BoardProps } from "../../components/interfaces";
 import { getCookie } from '../../helpers/cookie';
-
-interface IError {
-  message: string;
-}
+import { IError } from "../config";
 
 export const baseURL = 'https://still-earth-24890.herokuapp.com';
 
