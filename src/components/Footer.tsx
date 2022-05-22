@@ -1,6 +1,6 @@
 import React from 'react';
 
-type Props = {}
+type Props = {};
 
 const DEVS = [
   { link: 'https://github.com/natakers', githubName: '@natakers' },
@@ -13,7 +13,7 @@ const DEVS = [
 
 const Footer = (props: Props) => {
   return (
-    <footer className="bg-slate-800 w-full flex justify-center items-center flex-col gap-5 px-6 py-6 text-lg text-gray-300">
+    <footer className="bg-slate-800 w-full h-1/6 flex justify-center items-center flex-col gap-5 px-6 py-6 text-lg text-gray-300">
       <p>React2022Q1 | Team75</p>
       <ul className="flex gap-5">
         {DEVS.map((dev) => (
@@ -28,7 +28,7 @@ const Footer = (props: Props) => {
         ))}
       </ul>
     </footer>
-  )
-}
+  );
+};
 
 export default Footer;

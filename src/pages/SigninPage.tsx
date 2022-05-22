@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAppDispatch, AppState, useAppSelector } from '../store/store';
-import { signin, reset } from '../store/auth/authSlice';
+import { useSelector } from 'react-redux';
+import { AppState, useAppDispatch } from '../store/store';
 import { toast } from 'react-toastify';
+import { signin, reset } from '../store/auth/authSlice';
 import Spinner from '../components/Spinner';
+import { useCookies } from 'react-cookie';
 import Logo from '../components/logo';
+import { getCookie } from '../helpers/cookie';
 
 type Props = {};
 
@@ -19,19 +22,23 @@ const SigninPage = (props: Props) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { user, isLoading, isSuccess, isError, message } =
-    useAppSelector((state: AppState) => state.auth);
+  const { isLoading, isSuccess, isError, message } = useSelector(
+    (state: AppState) => state.auth
+  );
+
+  const [cookie, setCookie] = useCookies(['user']);
 
   useEffect(() => {
     if (isError) {
       toast.error(message);
     }
-    if (isSuccess || user) {
+    if (cookie.user) {
+      // console.log('sign in cookie', cookie.user);
       navigate('/main');
     }
     dispatch(reset());
   }, [
-    user,
+    cookie.user,
     isLoading,
     isSuccess,
     isError,
@@ -47,13 +54,20 @@ const SigninPage = (props: Props) => {
     }));
   };
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
     const userData = {
       login,
       password,
     };
-    dispatch(signin(userData));
+    const { payload } = await dispatch(signin(userData));
+    setCookie('user', payload.token, {
+      maxAge: 200,
+      sameSite: 'lax',
+    });
+    console.log('sign in cookie', getCookie('user'));
   };
 
   if (isLoading) {
@@ -61,7 +75,7 @@ const SigninPage = (props: Props) => {
   }
 
   return (
-    <section className="signin-page min-h-screen w-full px-6 py-6 flex flex-col justify-center items-center gap-16">
+    <section className="signin-page min-h-screen w-full px-6 py-6 flex flex-col justify-center items-center gap-16 bg-white">
       <div className="logo__container w-full flex flex-col justify-center items-center gap-3">
         <Logo />
         <p className="title text-center font-bold text-3xl text-gray-900">

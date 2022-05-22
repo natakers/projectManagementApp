@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAppDispatch, AppState, useAppSelector } from '../store/store';
+import { useAppDispatch } from '../store/store';
 import { signup, reset } from '../store/auth/authSlice';
 import { toast } from 'react-toastify';
 import Spinner from '../components/Spinner';
 import Logo from '../components/logo';
+import { useCookies } from 'react-cookie';
+import { getCookie } from '../helpers/cookie';
+import { useSelector } from 'react-redux';
 
 type Props = {};
 
@@ -20,19 +23,22 @@ const SignupPage = (props: Props) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { user, isLoading, isSuccess, isError, message } =
-    useAppSelector((state: AppState) => state.auth);
+  const { isLoading, isSuccess, isError, message } = useSelector(
+    (state: any) => state.auth
+  );
+
+  const [cookie, setCookie] = useCookies(['user']);
 
   useEffect(() => {
     if (isError) {
       toast.error(message);
     }
-    if (isSuccess || user) {
+    if (cookie.user) {
       navigate('/main');
     }
     dispatch(reset());
   }, [
-    user,
+    cookie.user,
     isLoading,
     isSuccess,
     isError,
@@ -48,14 +54,22 @@ const SignupPage = (props: Props) => {
     }));
   };
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
     const userData = {
       name,
       login,
       password,
     };
-    dispatch(signup(userData));
+    const { payload } = await dispatch(signup(userData));
+    console.log('signUp payload', payload);
+    setCookie('user', payload.token, {
+      maxAge: 200,
+      sameSite: 'lax',
+    });
+    console.log('sign up cookie', getCookie('user'));
   };
 
   if (isLoading) {
