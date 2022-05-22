@@ -1,10 +1,11 @@
 import { useState } from "react"
 import Input from "../components/input";
 import BoardButton, { themes } from "../components/main-route/boardButton";
-import { createBoard, resetBoard } from "../store/boards/boardsSlice";
-import { useAppDispatch } from "../store/store";
+import { closeCreationWindow, createBoard, resetBoard } from "../store/boards/boardsSlice";
+import { AppState, useAppDispatch, useAppSelector } from "../store/store";
 
-const CreateBoard = () => {
+const BoardCreation = () => {
+  
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -12,7 +13,7 @@ const CreateBoard = () => {
 
   const { title, description } = formData;
   const dispatch = useAppDispatch();
-  const href = window.location.href;
+  // const href = window.location.href;
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevState) => ({
@@ -27,22 +28,13 @@ const CreateBoard = () => {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch(createBoard(boardData));
-    close();
+    dispatch(closeCreationWindow(false));
     dispatch(resetBoard(boardData))
     
   };
-  const close = () => {
-    const modal = document.querySelector('.createModal')
-    modal?.classList.add('hidden')
-    modal?.classList.remove('flex')
-    setFormData({
-      title: '',
-      description: '',
-    })
-  }
 
   return (
-    <section className="createModal max-w-sm flex-col hidden absolute rounded z-20 bg-slate-50 p-4 inset-y-80 inset-x-0 m-auto items-center">
+    <section className={`flex createModal max-w-sm flex-col absolute rounded z-20 bg-slate-50 p-4 inset-y-80 inset-x-0 m-auto items-center`}>
       <div className="logo__container w-full flex flex-col justify-center items-center gap-3">
         <p className="title text-center font-bold text-3xl text-gray-900 mb-6">
           Create new board
@@ -56,11 +48,11 @@ const CreateBoard = () => {
         <Input value={description} name='description' type='text' placeholder='Description of board' id='description' onChange={onChange} />
         <div className="flex w-full justify-around ">
           <BoardButton themes={themes.dark} type="submit" text="Create" />
-          <BoardButton themes={themes.dark} text='Back' onClick={close} />
+          <BoardButton themes={themes.dark} text='Back' onClick={() => dispatch(closeCreationWindow(false))} />
         </div>
       </form>
     </section>
   );
 };
 
-export default CreateBoard;
+export default BoardCreation;

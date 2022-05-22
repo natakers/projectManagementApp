@@ -2,8 +2,9 @@ import { NavLink } from "react-router-dom";
 import BoardButton, { themes } from "./boardButton";
 import { openboard, openWindow } from "../../store/boards/boardsSlice";
 import { useAppDispatch } from "../../store/store";
+import { BoardProps } from "../interfaces";
 
-const Board: React.FC<IBoard> = ({ id, title, description} ) => {
+const Board: React.FC<BoardProps> = ({ id, title, description} ) => {
   const dispatch = useAppDispatch();
   
   return (
@@ -19,8 +20,4 @@ const Board: React.FC<IBoard> = ({ id, title, description} ) => {
 
 export default Board;
 
-export interface IBoard {
-  id?: string,
-  title: string,
-  description: string,
-}
+

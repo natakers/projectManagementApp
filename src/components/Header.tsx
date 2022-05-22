@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { AppState, useAppDispatch } from '../store/store';
+import { AppState, useAppDispatch, useAppSelector } from '../store/store';
+
 import { reset, logout } from '../store/auth/authSlice';
 import { useCookies } from 'react-cookie';
 import Logo from './logo';
 import BoardButton, { themes } from './main-route/boardButton';
-import CreateBoard from '../pages/createBoard';
+import jwt_decode from 'jwt-decode'
+import BoardCreation from '../pages/createBoard';
+import { openCreationWindow } from '../store/boards/boardsSlice';
 
 type Props = {};
 
 const Header = (props: Props) => {
+  const { isCteationWindowOpen } = useAppSelector((state: AppState) => state.boards);
   const [sticky, setSticky] = useState(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -57,11 +60,7 @@ const Header = (props: Props) => {
       </div>
       <div className="nav__list flex justify-between items-center">
         <>
-          <BoardButton
-            themes={themes.light}
-            text="Create new board"
-            onClick={open}
-          />
+          <BoardButton themes={themes.light} text='Create new board' onClick={() => dispatch(openCreationWindow(true))} />
           <Link to="/edit-profile">
             <BoardButton themes={themes.light} text="Edit profile" />
           </Link>
@@ -91,7 +90,7 @@ const Header = (props: Props) => {
           </div>
         </>
       </div>
-      <CreateBoard />
+      { isCteationWindowOpen && <BoardCreation />}
     </header>
   );
 };

@@ -1,4 +1,6 @@
-const Input = (props: IInput) => {
+import { InputProps } from "./interfaces";
+
+const Input = (props: InputProps) => {
 
   return (
     <div className="form__item w-full">
@@ -18,11 +20,3 @@ const Input = (props: IInput) => {
 
 export default Input;
 
-interface IInput {
-  value: string, 
-  name: string,
-  type: string,
-  placeholder: string,
-  id: string,
-  onChange?: React.ChangeEventHandler<HTMLInputElement> |  undefined
-}
