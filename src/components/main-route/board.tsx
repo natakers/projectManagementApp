@@ -25,7 +25,7 @@ const Board: React.FC<BoardProps> = ({ id, title, description, toggleWindow} ) =
         <div className="text-xl font-bold">{title}</div>
         <div>{description}</div>
       </NavLink>
-      <BoardButton themes={themes.light} text="Delete board" onClick={onOpen} />
+      <BoardButton themes={themes.light} text="delete" onClick={onOpen} />
     </div>
   )
 }

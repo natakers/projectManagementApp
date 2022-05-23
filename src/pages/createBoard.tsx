@@ -6,6 +6,7 @@ import BoardButton, {
 } from '../components/main-route/boardButton';
 import { createBoard, resetBoard } from '../store/boards/boardsSlice';
 import { useAppDispatch } from '../store/store';
+import { useIntl } from 'react-intl'
 
 const BoardCreation = ({ toggleWindow }: BoardCreationProps) => {
   const [formData, setFormData] = useState({
@@ -15,6 +16,10 @@ const BoardCreation = ({ toggleWindow }: BoardCreationProps) => {
 
   const { title, description } = formData;
   const dispatch = useAppDispatch();
+
+  const intl = useIntl();
+  const placeholderTitle = intl.formatMessage({id: 'placeholderTitleBoard'});
+  const placeholderDecsription = intl.formatMessage({id: 'placeholderDecsriptionBoard'});
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevState) => ({
@@ -46,7 +51,7 @@ const BoardCreation = ({ toggleWindow }: BoardCreationProps) => {
       <div className="flex flex-col p-4 items-center">
         <div className="logo__container w-full flex flex-col justify-center items-center gap-3">
           <p className="title text-center font-bold text-3xl text-gray-300 mb-6">
-            Create new board
+          <FormattedMessage id='titleBoardCreation' />
           </p>
         </div>
         <form

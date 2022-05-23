@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Layout from './components/layout';
 import WelcomePage from './pages/welcome-page';
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,6 +9,9 @@ import MainPage from './pages/main-page';
 import BoardPage from './pages/board-page';
 import EditProfile from './pages/editProfile';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { IntlProvider } from 'react-intl';
+import { LOCALES } from './i18n/locales';
+import { messages } from './i18n/messages';
 
 const App = () => {
   // const fetchApiData = async () => {
@@ -30,14 +33,25 @@ const App = () => {
   //   console.log('users from API', parsedApiData);
   // };
 
-  // useEffect(() => {
-  //   fetchApiData();
-  // });
+
+  useEffect(() => {
+    fetchApiData();
+  });
+  const locale = LOCALES.ENGLISH
+  const [currentLocale, setCurrentLocale] = useState(locale)
+  const handleChange = (e: { target: { value: string; }}) => {
+    console.log(e.target.value);
+    console.log([LOCALES.ENGLISH]);
+    
+    
+  setCurrentLocale(e.target.value)
+}
 
   return (
+    <IntlProvider messages={messages[currentLocale]} locale={currentLocale} defaultLocale={LOCALES.ENGLISH}>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Layout handleChange={handleChange}  currentLocale={currentLocale} />}>
           <Route index element={<WelcomePage />} />
           <Route path="/signin" element={<SigninPage />} />
           <Route path="/signup" element={<SignupPage />} />
@@ -47,6 +61,8 @@ const App = () => {
         </Route>
       </Routes>
     </BrowserRouter>
+    </IntlProvider>
+    
   );
 };
 

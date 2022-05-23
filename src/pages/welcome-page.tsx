@@ -1,4 +1,5 @@
 import { useCookies } from 'react-cookie';
+import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import Logo from '../components/logo';
 
@@ -14,13 +15,13 @@ const WelcomePage = () => {
               to="/signin"
               className="border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-indigo-500 "
             >
-              Sign In
+              <FormattedMessage id='signIn' />
             </Link>
             <Link
               to="/signup"
               className="border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-indigo-500 "
             >
-              Sign Up
+              <FormattedMessage id='signUp' />
             </Link>
           </>
         )}
@@ -34,7 +35,7 @@ const WelcomePage = () => {
         )}
       </nav>
       <Logo />
-      <p className="text-lg">Project Management App</p>
+      <p className="text-lg"><FormattedMessage id='nameProject' /></p>
     </main>
   );
 };
