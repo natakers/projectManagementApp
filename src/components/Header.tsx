@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AppState, useAppDispatch, useAppSelector } from '../store/store';
-
+import { useAppDispatch } from '../store/store';
 import { reset, logout } from '../store/auth/authSlice';
 import { useCookies } from 'react-cookie';
 import Logo from './logo';
 import BoardButton, { themes } from './main-route/boardButton';
-import jwt_decode from 'jwt-decode'
 import BoardCreation from '../pages/createBoard';
-import { openCreationWindow } from '../store/boards/boardsSlice';
+import jwt_decode from "jwt-decode"
+import { TokenProps } from './interfaces';
+import userImg from '../assets/images/sample-avatar.jpg';
 
 type Props = {};
 
 const Header = (props: Props) => {
-  const { isCteationWindowOpen } = useAppSelector((state: AppState) => state.boards);
   const [sticky, setSticky] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
   const [cookie, setCookie, removeCookie] = useCookies(['user']);
+  const decodedUser: TokenProps = jwt_decode(cookie.user)
 
   const onLogout = () => {
     dispatch(logout());
@@ -27,10 +27,8 @@ const Header = (props: Props) => {
     navigate('/');
   };
 
-  const open = () => {
-    const modal = document.querySelector('.createModal');
-    modal?.classList.remove('hidden');
-    modal?.classList.add('flex');
+  const toggleWindow = () => {
+    setIsOpen(!isOpen)
   };
 
   useEffect(() => {
@@ -48,11 +46,7 @@ const Header = (props: Props) => {
   }, []);
 
   return (
-    <header
-      className={`${
-        sticky ? 'header--sticky' : 'h-24'
-      } bg-slate-800 w-full flex justify-between items-center px-6 py-6 border-b border-b-slate-600 text-gray-300`}
-    >
+    <header className={`${sticky ? 'header--sticky' : 'h-24'} bg-slate-800 w-full flex justify-between items-center px-6 py-6 border-b border-b-slate-600 text-gray-300`}>
       <div className="logo">
         <Link to="/main">
           <Logo />
@@ -60,7 +54,7 @@ const Header = (props: Props) => {
       </div>
       <div className="nav__list flex justify-between items-center">
         <>
-          <BoardButton themes={themes.light} text='Create new board' onClick={() => dispatch(openCreationWindow(true))} />
+          <BoardButton themes={themes.light} text='Create new board' onClick={toggleWindow} />
           <Link to="/edit-profile">
             <BoardButton themes={themes.light} text="Edit profile" />
           </Link>
@@ -81,16 +75,16 @@ const Header = (props: Props) => {
           </div>
           <div className="nav__user w-full flex flex-row justify-center items-center gap-2">
             <img
-              src="../assets/images/sample-avatar.jpg"
+              src={userImg}
               alt="user avatar"
               className="w-full h-6"
             />
-            {/* <span>{user.login}</span> */}
+            <span>{decodedUser.login}</span>
             {/* <span>{decoded.login}</span> */}
           </div>
         </>
       </div>
-      { isCteationWindowOpen && <BoardCreation />}
+      { isOpen && <BoardCreation toggleWindow={toggleWindow} />}
     </header>
   );
 };

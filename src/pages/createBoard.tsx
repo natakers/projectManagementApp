@@ -1,10 +1,11 @@
 import { useState } from "react"
 import Input from "../components/input";
+import { BoardCreationProps } from "../components/interfaces";
 import BoardButton, { themes } from "../components/main-route/boardButton";
-import { closeCreationWindow, createBoard, resetBoard } from "../store/boards/boardsSlice";
-import { AppState, useAppDispatch, useAppSelector } from "../store/store";
+import { createBoard, resetBoard } from "../store/boards/boardsSlice";
+import { useAppDispatch } from "../store/store";
 
-const BoardCreation = () => {
+const BoardCreation = ({toggleWindow}: BoardCreationProps) => {
   
   const [formData, setFormData] = useState({
     title: '',
@@ -13,7 +14,6 @@ const BoardCreation = () => {
 
   const { title, description } = formData;
   const dispatch = useAppDispatch();
-  // const href = window.location.href;
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevState) => ({
@@ -28,9 +28,8 @@ const BoardCreation = () => {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch(createBoard(boardData));
-    dispatch(closeCreationWindow(false));
     dispatch(resetBoard(boardData))
-    
+    toggleWindow();
   };
 
   return (
@@ -48,7 +47,7 @@ const BoardCreation = () => {
         <Input value={description} name='description' type='text' placeholder='Description of board' id='description' onChange={onChange} />
         <div className="flex w-full justify-around ">
           <BoardButton themes={themes.dark} type="submit" text="Create" />
-          <BoardButton themes={themes.dark} text='Back' onClick={() => dispatch(closeCreationWindow(false))} />
+          <BoardButton themes={themes.dark} text='Back' onClick={toggleWindow} />
         </div>
       </form>
     </section>

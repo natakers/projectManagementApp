@@ -107,19 +107,13 @@ const boardSlice = createSlice({
     openboard(state, action) {
       state.currentId = action.payload;
     },
-    openWindow(state, action) {
+    chooseBoardId(state, action) {
       state.currentId = action.payload;
       state.isOpen = true;
     },
-    closeWindow(state, action) {
+    resetBoardId(state, action) {
       state.currentId = ''
       state.isOpen = false;
-    },
-    openCreationWindow(state, action) {
-      state.isCteationWindowOpen = action.payload;
-    },
-    closeCreationWindow(state, action) {
-      state.isCteationWindowOpen = action.payload;
     },
     resetBoard(state, action) {
       state.newBoard = null;
@@ -160,6 +154,6 @@ const boardSlice = createSlice({
   },
 });
 
-export const { openboard, openWindow, closeWindow, resetBoard, openCreationWindow, closeCreationWindow } = boardSlice.actions;
+export const { openboard, chooseBoardId, resetBoardId, resetBoard } = boardSlice.actions;
 
 export default boardSlice.reducer;

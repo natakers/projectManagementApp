@@ -12,7 +12,7 @@ const Input = (props: InputProps) => {
         placeholder={props.placeholder}
         onChange={props.onChange}
         required
-        className="form__control inline-flex w-full items-center px-4 py-3 border border-solid border-slate-400 rounded-lg"
+        className="form__control text-black inline-flex w-full items-center px-4 py-3 border border-solid border-slate-400 rounded-lg"
       />
     </div>
   )

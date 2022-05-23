@@ -1,15 +1,19 @@
-import { closeWindow, deleteBoard } from "../../store/boards/boardsSlice";
-import { AppState, useAppDispatch, useAppSelector } from "../../store/store";
+import { resetBoardId, deleteBoard } from "../../store/boards/boardsSlice";
+import { useAppDispatch } from "../../store/store";
 import { ModalProps } from "../interfaces";
 import BoardButton, { themes } from "./boardButton";
 
 const ModalWindow = (props: ModalProps) => {
-  
-  // const [isOpen, setIsOpen] = useState(false)
+
   const dispatch = useAppDispatch();
   const onCloseHandler = () => {
     dispatch(deleteBoard(props.boardId))
-    dispatch(closeWindow(props.boardId))
+    dispatch(resetBoardId(props.boardId))
+    props.toggleWindow()
+  }
+  const onCancelHandler = () => {
+    dispatch(resetBoardId(props.boardId))
+    props.toggleWindow()
   }
   
   return (
@@ -17,7 +21,7 @@ const ModalWindow = (props: ModalProps) => {
       <div className="mr-4 ">Do you really want to delete this board?</div>
       <div className="flex">
         <BoardButton themes={themes.light} text="Yes" onClick={onCloseHandler} />
-        <BoardButton themes={themes.light} text="No" onClick={() => dispatch(closeWindow(props.boardId))} />
+        <BoardButton themes={themes.light} text="No" onClick={onCancelHandler} />
       </div>
     </div>
   )

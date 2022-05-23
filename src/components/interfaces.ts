@@ -2,6 +2,7 @@ export interface BoardProps {
   id?: string,
   title: string,
   description: string,
+  toggleWindow?: () => void
 }
 
 export interface ButtonProps {
@@ -13,7 +14,8 @@ export interface ButtonProps {
 
 export interface ModalProps {
   boardId: string, 
-  onClick?: React.MouseEventHandler<HTMLButtonElement> |  undefined
+  onClick?: React.MouseEventHandler<HTMLButtonElement> |  undefined,
+  toggleWindow: () => void
 }
 
 export interface InputProps {
@@ -23,4 +25,14 @@ export interface InputProps {
   placeholder: string,
   id: string,
   onChange?: React.ChangeEventHandler<HTMLInputElement> |  undefined
+}
+
+export interface BoardCreationProps {
+  toggleWindow: () => void
+}
+
+export interface TokenProps {
+  iat: string,
+  login: string,
+  userId: string,
 }
