@@ -3,7 +3,6 @@ import {
   createAsyncThunk,
   AnyAction,
 } from '@reduxjs/toolkit';
-import { IBoard } from '../../components/main-route/board';
 import { getCookie } from '../../helpers/cookie';
 import { baseURL } from '../boards/boardsSlice';
 import authService from './colService';
