@@ -61,8 +61,8 @@ const Header = ({currentLocale, handleChange }: HeaderProps) => {
   }, [userDetails.name, userDetails.login, dispatch, decodedUser.userId]);
 
   const languages = [
-    { name: 'English', code: LOCALES.ENGLISH },
-    { name: 'Русский', code: LOCALES.RUSSIAN },
+    { name: 'EN', code: LOCALES.ENGLISH },
+    { name: 'RU', code: LOCALES.RUSSIAN },
   ]
 
   return (
@@ -84,21 +84,13 @@ const Header = ({currentLocale, handleChange }: HeaderProps) => {
             onClick={onLogout}
           />
           <div className="switch">
-          <select onChange={handleChange}  value={currentLocale}>
+          <select className='text-white bg-sky-600 mr-4' onChange={handleChange}  value={currentLocale}>
             {languages.map(({ name, code }) => (
-              <option key={code}  value={code}>
+              <option className='text-white bg-slate-800' key={code}  value={code}>
                 {name}
               </option>
             ))}
           </select>
-            {/* <input
-              id="language-toggle"
-              className="check-toggle check-toggle-round-flat"
-              type="checkbox"
-            />
-            <label htmlFor="language-toggle"></label>
-            <span className="on">{languages.na}</span>
-            <span className="off">EN</span> */}
           </div>
           <div className="nav__user w-full flex flex-row justify-center items-center gap-2">
             <img

@@ -12,6 +12,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
 import { LOCALES } from './i18n/locales';
 import { messages } from './i18n/messages';
+import { getCookie } from './helpers/cookie';
+import { useCookies } from 'react-cookie';
 
 const App = () => {
   // const fetchApiData = async () => {
@@ -37,21 +39,17 @@ const App = () => {
   useEffect(() => {
     fetchApiData();
   });
-  const locale = LOCALES.ENGLISH
-  const [currentLocale, setCurrentLocale] = useState(locale)
-  const handleChange = (e: { target: { value: string; }}) => {
-    console.log(e.target.value);
-    console.log([LOCALES.ENGLISH]);
-    
-    
-  setCurrentLocale(e.target.value)
+  const locale = getCookie('lang') || LOCALES.ENGLISH
+  const [cookie, setCookie] = useCookies(['lang']);
+  const handleChange = (e: { target: { value: string; }}) => {    
+  setCookie('lang', e.target.value)
 }
 
   return (
-    <IntlProvider messages={messages[currentLocale]} locale={currentLocale} defaultLocale={LOCALES.ENGLISH}>
+    <IntlProvider messages={messages[cookie.lang]} locale={locale} defaultLocale={LOCALES.ENGLISH}>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout handleChange={handleChange}  currentLocale={currentLocale} />}>
+        <Route path="/" element={<Layout handleChange={handleChange}  currentLocale={cookie.lang} />}>
           <Route index element={<WelcomePage />} />
           <Route path="/signin" element={<SigninPage />} />
           <Route path="/signup" element={<SignupPage />} />

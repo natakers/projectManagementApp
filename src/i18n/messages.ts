@@ -25,6 +25,7 @@ export const messages = {
     deleteBoard: 'Do you really want to delete this board?',
     yes: 'Yes',
     no: 'No',
+    addColumn: '+ Add Column',
     
   },
   [LOCALES.RUSSIAN]: {
@@ -51,5 +52,6 @@ export const messages = {
     deleteBoard: 'Вы правда хотите удалить доску?',
     yes: 'Да',
     no: 'Нет',
+    addColumn: '+ Добавить колонку',
   }
 }
