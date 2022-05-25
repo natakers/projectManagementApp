@@ -7,12 +7,14 @@ import {
 import authReducer from './auth/authSlice';
 import boardReducer from './boards/boardsSlice';
 import userReducer from './user/userSlice';
+import colReducer from './columns/colSlice';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     boards: boardReducer,
     user: userReducer,
+    columns: colReducer,
   },
 });
 
