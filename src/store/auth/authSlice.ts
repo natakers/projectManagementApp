@@ -14,9 +14,6 @@ interface IError {
   };
 }
 
-// Get user from localstorage
-// const user = JSON.parse(localStorage.getItem('user') || "");
-
 const initialState = {
   // user: user ? user : null,
   isLoading: false,
@@ -28,10 +25,7 @@ const initialState = {
 //Register user
 export const signup = createAsyncThunk(
   'auth/signup',
-  async (
-    user: { name: string; login: string; password: string },
-    thunkAPI
-  ) => {
+  async (user: { name: string; login: string; password: string }, thunkAPI) => {
     try {
       return await authService.signup(user);
     } catch (error) {
