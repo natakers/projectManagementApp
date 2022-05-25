@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../store/store';
-import { reset, logout } from '../store/auth/authSlice';
+import { useSelector } from 'react-redux';
+import { AppState, useAppDispatch } from '../store/store';
+import { reset } from '../store/auth/authSlice';
+import { getUserById, resetUser } from '../store/user/userSlice';
 import { useCookies } from 'react-cookie';
 import Logo from './logo';
 import BoardButton, { themes } from './main-route/boardButton';
@@ -20,9 +22,13 @@ const Header = (props: Props) => {
   const [cookie, setCookie, removeCookie] = useCookies(['user']);
   const decodedUser: TokenProps = jwt_decode(cookie.user)
 
+  const { userDetails } = useSelector(
+    (state: AppState) => state.user
+  );
+
   const onLogout = () => {
-    dispatch(logout());
     dispatch(reset());
+    dispatch(resetUser());
     removeCookie('user');
     navigate('/');
   };
@@ -32,6 +38,9 @@ const Header = (props: Props) => {
   };
 
   useEffect(() => {
+    if (!userDetails.name || !userDetails.login) {
+      dispatch(getUserById(decodedUser.userId));
+    }
     const handleStickyHeader = () => {
       if (window.scrollY >= 85) {
         setSticky(true);
@@ -43,7 +52,7 @@ const Header = (props: Props) => {
     return () => {
       window.removeEventListener('scroll', handleStickyHeader);
     };
-  }, []);
+  }, [userDetails.name, userDetails.login, dispatch, decodedUser.userId]);
 
   return (
     <header className={`${sticky ? 'header--sticky' : 'h-24'} bg-slate-800 w-full flex justify-between items-center px-6 py-6 border-b border-b-slate-600 text-gray-300`}>
@@ -52,7 +61,7 @@ const Header = (props: Props) => {
           <Logo />
         </Link>
       </div>
-      <div className="nav__list flex justify-between items-center">
+      <div className="nav__list flex justify-between items-center gap-4">
         <>
           <BoardButton themes={themes.light} text='Create new board' onClick={toggleWindow} />
           <Link to="/edit-profile">
@@ -77,10 +86,9 @@ const Header = (props: Props) => {
             <img
               src={userImg}
               alt="user avatar"
-              className="w-full h-6"
+              className="w-full h-6 rounded-full"
             />
-            <span>{decodedUser.login}</span>
-            {/* <span>{decoded.login}</span> */}
+            <span>{userDetails.login}</span>
           </div>
         </>
       </div>

@@ -6,11 +6,13 @@ import {
 } from 'react-redux';
 import authReducer from './auth/authSlice';
 import boardReducer from './boards/boardsSlice';
+import userReducer from './user/userSlice';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     boards: boardReducer,
+    user: userReducer,
   },
 });
 

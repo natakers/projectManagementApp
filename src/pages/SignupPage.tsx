@@ -65,6 +65,7 @@ const SignupPage = (props: Props) => {
     };
     const { payload } = await dispatch(signup(userData));
     console.log('signUp payload', payload);
+    payload.token &&
     setCookie('user', payload.token, {
       maxAge: 200,
       sameSite: 'lax',
