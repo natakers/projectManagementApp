@@ -2,8 +2,13 @@ import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import BoardIcon from '../assets/icons/board.icon';
+import TrashIcon from '../assets/icons/trash.icon';
 import AddColumnForm from '../components/board-route/add-column-form';
-import { addColumn, getColumns } from '../store/columns/colSlice';
+import {
+  addColumn,
+  deleteColumn,
+  getColumns,
+} from '../store/columns/colSlice';
 import {
   AppState,
   useAppDispatch,
@@ -31,15 +36,8 @@ const BoardPage = () => {
     }
   }, [cookie.user, navigate, dispatch, currentId]);
 
-  const handleAddColumnClick = () => {
-    // setIsPopupDisplay(true);
-    dispatch(
-      addColumn({
-        title: `Lineage ${Math.random()}`,
-        order: columns.length,
-        boardId: currentId,
-      })
-    );
+  const handleColumnDelete = (id: string) => {
+    dispatch(deleteColumn({ boardId: currentId, id: id }));
   };
 
   return (
@@ -58,6 +56,9 @@ const BoardPage = () => {
                 className="overflow-auto w-[10%] h-full bg-slate-700"
               >
                 {col.title}
+                <button onClick={() => handleColumnDelete(col.id)}>
+                  <TrashIcon />
+                </button>
               </article>
             ))}
           <div className="relative">
@@ -67,12 +68,6 @@ const BoardPage = () => {
                 className="text-gray-400 relative"
               >
                 + Add Column
-              </button>
-              <button
-                onClick={handleAddColumnClick}
-                className="text-gray-400 relative"
-              >
-                + Add Column Test
               </button>
               {isPopupDisplay && (
                 <AddColumnForm

@@ -28,6 +28,11 @@ interface IColumnToAdd {
   boardId: string;
 }
 
+interface IColumnToDel {
+  id: string;
+  boardId: string;
+}
+
 export interface IColumnState {
   columns: IColumn[];
   isLoading: boolean;
@@ -81,8 +86,39 @@ export const getColumns = createAsyncThunk(
   }
 );
 
+export const deleteColumn = createAsyncThunk(
+  'columns/deleteColumnStatus',
+  async (column: IColumnToDel, { rejectWithValue }) => {
+    try {
+      const token = getCookie('user') || null;
+
+      const headers = new Headers({
+        Authorization: `Bearer ${token}`,
+        // Accept: 'application/json',
+        // 'Content-Type': 'application/json',
+      });
+
+      const options = {
+        method: 'DELETE',
+        headers,
+      };
+      const response = await fetch(
+        `${baseURL}/boards/${column.boardId}/columns/${column.id}`,
+        options
+      );
+      const data = await response.json();
+      console.log('response data ', data);
+      return data;
+    } catch (error) {
+      const errorMessage = (error as IError).message;
+      console.log(errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
+
 export const addColumn = createAsyncThunk(
-  'columns/createColumnStatus',
+  'columns/addColumnStatus',
   async (column: IColumnToAdd, { rejectWithValue }) => {
     try {
       const token = getCookie('user') || null;
@@ -115,11 +151,6 @@ export const addColumn = createAsyncThunk(
     }
   }
 );
-
-// Logout user
-export const logout = createAsyncThunk('auth/logout', async () => {
-  await authService.logout();
-});
 
 export const colSlice = createSlice({
   name: 'columns',
@@ -163,8 +194,13 @@ export const colSlice = createSlice({
         state.message = action.payload;
         // state.user = null;
       })
-      .addCase(logout.fulfilled, (state) => {
-        // state.user = null;
+      .addCase(deleteColumn.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteColumn.fulfilled, (state, action) => {
+        state.columns = state.columns.filter(
+          (column) => column.id !== action.payload.id
+        );
       });
   },
 });
