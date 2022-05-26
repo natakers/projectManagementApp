@@ -79,14 +79,12 @@ export const deleteBoard = createAsyncThunk<
 );
 
 export interface BoardState {
-  boards: Array<BoardProps>;
-  loading: boolean;
-  error: boolean;
-  currentId: string;
-  newBoard: BoardProps | null;
-  message: string | undefined;
-  isOpen: boolean;
-  isCteationWindowOpen: boolean;
+  boards: Array<BoardProps>,
+  loading: boolean,
+  error: boolean,
+  currentId: string,
+  newBoard: BoardProps | null,
+  message: string | undefined,
 }
 
 const initialState: BoardState = {
@@ -99,8 +97,6 @@ const initialState: BoardState = {
     description: '',
   },
   message: undefined,
-  isOpen: false,
-  isCteationWindowOpen: false,
 };
 
 const boardSlice = createSlice({
@@ -112,11 +108,11 @@ const boardSlice = createSlice({
     },
     chooseBoardId(state, action) {
       state.currentId = action.payload;
-      state.isOpen = true;
+      // state.isOpen = true;
     },
     resetBoardId(state, action) {
-      state.currentId = '';
-      state.isOpen = false;
+      // state.currentId = ''
+      // state.isOpen = false;
     },
     resetBoard(state, action) {
       state.newBoard = null;

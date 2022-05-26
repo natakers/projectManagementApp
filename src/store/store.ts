@@ -8,6 +8,7 @@ import authReducer from './auth/authSlice';
 import boardReducer from './boards/boardsSlice';
 import userReducer from './user/userSlice';
 import colReducer from './columns/colSlice';
+import taskReducer from './task/taskSlice';
 
 export const store = configureStore({
   reducer: {
@@ -15,11 +16,11 @@ export const store = configureStore({
     boards: boardReducer,
     user: userReducer,
     columns: colReducer,
+    tasks: taskReducer,
   },
 });
 
 export type AppState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch = () => useDispatch<AppDispatch>();
-export const useAppSelector: TypedUseSelectorHook<AppState> =
-  useSelector;
+export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector;
