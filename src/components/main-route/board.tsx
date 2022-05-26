@@ -16,7 +16,6 @@ const Board: React.FC<BoardProps> = ({ id, title, description, toggleWindow} ) =
     if (id) {
       localStorage.setItem('boardId', id)
     }
-    console.log( localStorage.getItem('boardId') );
     dispatch(openboard(id))
   }
   

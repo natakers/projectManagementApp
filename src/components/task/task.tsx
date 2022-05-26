@@ -6,7 +6,6 @@ const Task = ({title, description, order, done}: TaskShowProps) => {
       <h2>Title: {title}</h2>
       <div>Description: {description}</div>
     </div>
-    
   )
 }
 

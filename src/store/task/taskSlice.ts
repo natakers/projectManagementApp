@@ -25,7 +25,6 @@ export const getAllAboutBoard = createAsyncThunk<BoardColTask, string, {rejectVa
   }
 );
 
-
 export const createTask = createAsyncThunk<TaskShowProps, TaskAddProps, {rejectValue: string}>(
   'tasks/createtask',
   async function (task, { rejectWithValue, dispatch }) {
@@ -98,7 +97,6 @@ export interface ColumnTaskProps {
   order: number,
   tasks: Array<TaskShowProps>,
 }
-
 
 const initialState: TaskState = {
   tasks: [],
