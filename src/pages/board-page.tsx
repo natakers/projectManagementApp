@@ -35,15 +35,10 @@ const BoardPage = () => {
   );
 
   const boardId = localStorage.getItem('boardId')
-  console.log(boardId);
-  
-  
   const board = boards.find((el) => el.id === currentId);
-
 
   useEffect(() => {
     cookie.user === undefined && navigate('/');
-    
     if (cookie.user && boardId) {
       dispatch(getAllAboutBoard(boardId));
     }
@@ -65,7 +60,6 @@ const BoardPage = () => {
       <><section className="flex gap-3 justify-center items-center">
           <BoardIcon />
           <h1 className="text-3xl">{board?.title}</h1>
-
         </section><section className="flex gap-5 w-full h-full flex-wrap items-start">
             {colTasks.columns.length > 0 &&
               colTasks.columns.map((col) => (

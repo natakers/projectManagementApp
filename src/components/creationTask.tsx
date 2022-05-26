@@ -27,6 +27,7 @@ const TaskCreation = ({toggleWindow, colId, order}: TaskCreationProps) => {
       [event.target.name]: event.target.value,
     }))
   };
+  
   const taskData = {
     task: {title,
     description,
@@ -36,9 +37,7 @@ const TaskCreation = ({toggleWindow, colId, order}: TaskCreationProps) => {
     colId,
     boardId,
   };
-  console.log(taskData);
-  
-  
+
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (boardId) {
