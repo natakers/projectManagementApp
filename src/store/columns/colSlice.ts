@@ -22,6 +22,7 @@ export interface IColumn {
   order: number;
 }
 
+
 interface IColumnToAdd {
   title: string;
   order: number;

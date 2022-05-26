@@ -12,7 +12,7 @@ const ModalWindow = (props: ModalProps) => {
     props.toggleWindow()
   }
   const onCancelHandler = () => {
-    dispatch(resetBoardId(props.boardId))
+    // dispatch(resetBoardId(props.boardId))
     props.toggleWindow()
   }
   
