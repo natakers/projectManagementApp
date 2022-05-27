@@ -4,7 +4,7 @@ import {
   AnyAction,
 } from '@reduxjs/toolkit';
 import { getCookie } from '../../helpers/cookie';
-import { baseURL } from '../boards/boardsSlice';
+import { API_URL } from '../auth/authService';
 
 interface IError {
   message?: string;
@@ -71,7 +71,7 @@ export const getColumns = createAsyncThunk(
         headers,
       };
       const response = await fetch(
-        `${baseURL}/boards/${boardId}/columns`,
+        `${API_URL}/boards/${boardId}/columns`,
         options
       );
       const data = await response.json();
@@ -102,7 +102,7 @@ export const deleteColumn = createAsyncThunk(
         headers,
       };
       const response = await fetch(
-        `${baseURL}/boards/${column.boardId}/columns/${column.id}`,
+        `${API_URL}/boards/${column.boardId}/columns/${column.id}`,
         options
       );
       const data = await response.json();
@@ -136,7 +136,7 @@ export const addColumn = createAsyncThunk(
         }),
       };
       const response = await fetch(
-        `${baseURL}/boards/${column.boardId}/columns`,
+        `${API_URL}/boards/${column.boardId}/columns`,
         options
       );
       const data = await response.json();

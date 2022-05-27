@@ -50,8 +50,6 @@ export interface TaskAddProps {
     userId?: string,
     title: string,
     description: string,
-    done: boolean,
-    order: number,
   }
   boardId?: string | null,
   colId?: string,

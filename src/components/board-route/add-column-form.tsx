@@ -10,7 +10,7 @@ import {
 interface IFormValues {
   columnTitle: string;
 }
-
+const boardId = localStorage.getItem('boardId')
 const AddColumnForm: React.FC<{ setIsPopupDisplay: Function }> = ({
   setIsPopupDisplay,
 }) => {
@@ -28,14 +28,17 @@ const AddColumnForm: React.FC<{ setIsPopupDisplay: Function }> = ({
     (state: AppState) => state.boards
   );
 
-  const onSubmit: SubmitHandler<IFormValues> = (data) => {
+  const onSubmit: SubmitHandler<IFormValues> = (data: { columnTitle: any; }) => {
     console.log('data', data);
-    dispatch(
-      addColumn({
-        title: data.columnTitle,
-        boardId: currentId,
-      })
-    );
+    if (boardId) {
+      dispatch(
+        addColumn({
+          title: data.columnTitle,
+          boardId: boardId,
+        })
+      );
+    }
+    
   };
 
   return (

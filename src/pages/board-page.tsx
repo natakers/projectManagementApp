@@ -35,7 +35,7 @@ const BoardPage = () => {
   );
 
   const boardId = localStorage.getItem('boardId')
-  const board = boards.find((el) => el.id === currentId);
+  const board = boards.find((el) => el.id === boardId);
 
   useEffect(() => {
     cookie.user === undefined && navigate('/');
@@ -44,10 +44,10 @@ const BoardPage = () => {
     }
   }, [cookie.user, navigate, dispatch, boardId]);
 
-  const handleColumnDelete = (id: string) => {
-    dispatch(deleteColumn({ boardId: currentId, id: id })); 
+  // const handleColumnDelete = (id: string) => {
+  //   dispatch(deleteColumn({ boardId: currentId, id: id })); 
 
-  };
+  // };
   
   return (
     <main className=" bg-slate-800 h-full text-gray-300 items-start px-5 flex flex-col gap-5">

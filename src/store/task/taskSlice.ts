@@ -1,16 +1,17 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import {  TaskAddProps, TaskShowProps } from "../../components/interfaces";
 import { getCookie } from '../../helpers/cookie';
+import { API_URL } from '../auth/authService';
 import { IError } from "../config";
 
-export const baseURL = 'https://still-earth-24890.herokuapp.com';
+// export const baseURL = 'https://still-earth-24890.herokuapp.com';
 
 export const getAllAboutBoard = createAsyncThunk<BoardColTask, string, {rejectValue: string}>(
   'tasks/gettasks',
   async function(id, {rejectWithValue}) {
     try {
       const token = getCookie('user') || null;
-      const response = await fetch(`${baseURL}/boards/${id}`, {
+      const response = await fetch(`${API_URL}/boards/${id}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -31,7 +32,7 @@ export const createTask = createAsyncThunk<TaskShowProps, TaskAddProps, {rejectV
     try {
       const token = getCookie('user') || null;
 
-      const response = await fetch(`${baseURL}/boards/${task.boardId}/columns/${task.colId}/tasks`, {
+      const response = await fetch(`${API_URL}/boards/${task.boardId}/columns/${task.colId}/tasks`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -59,7 +60,7 @@ export const deleteTask = createAsyncThunk<
     try {
       const token = getCookie('user') || null;
 
-      await fetch(`${baseURL}/boards/${id}`, {
+      await fetch(`${API_URL}/boards/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,

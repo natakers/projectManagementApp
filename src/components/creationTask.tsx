@@ -31,8 +31,6 @@ const TaskCreation = ({toggleWindow, colId, order}: TaskCreationProps) => {
   const taskData = {
     task: {title,
     description,
-    order,
-    done,
     userId},
     colId,
     boardId,
