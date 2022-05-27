@@ -25,6 +25,7 @@ const MainPage = () => {
     }
   }, [cookie.user, navigate, dispatch]);
 
+
   return (
     <main className="min-h-full items-center text-gray-300 justify-start flex flex-col gap-5 relative">
       <h1 className="text-3xl  ">Boards</h1>

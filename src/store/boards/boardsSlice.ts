@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { BoardProps } from '../../components/interfaces';
 import { getCookie } from '../../helpers/cookie';
+import { API_URL } from '../auth/authService';
 import { IError } from '../config';
 
-export const baseURL = 'https://frozen-depths-66382.herokuapp.com';
+// export const baseURL = 'https://frozen-depths-66382.herokuapp.com';
 
 export const getBoards = createAsyncThunk<
   BoardProps[],
@@ -12,7 +13,7 @@ export const getBoards = createAsyncThunk<
 >('boards/getBoards', async function (_, { rejectWithValue }) {
   try {
     const token = getCookie('user') || null;
-    const response = await fetch(`${baseURL}/boards`, {
+    const response = await fetch(`${API_URL}/boards`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -36,7 +37,7 @@ export const createBoard = createAsyncThunk<
     try {
       const token = getCookie('user') || null;
 
-      const response = await fetch(`${baseURL}/boards`, {
+      const response = await fetch(`${API_URL}/boards`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -64,7 +65,7 @@ export const deleteBoard = createAsyncThunk<
     try {
       const token = getCookie('user') || null;
 
-      await fetch(`${baseURL}/boards/${id}`, {
+      await fetch(`${API_URL}/boards/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -79,14 +80,12 @@ export const deleteBoard = createAsyncThunk<
 );
 
 export interface BoardState {
-  boards: Array<BoardProps>;
-  loading: boolean;
-  error: boolean;
-  currentId: string;
-  newBoard: BoardProps | null;
-  message: string | undefined;
-  isOpen: boolean;
-  isCteationWindowOpen: boolean;
+  boards: Array<BoardProps>,
+  loading: boolean,
+  error: boolean,
+  currentId: string,
+  newBoard: BoardProps | null,
+  message: string | undefined,
 }
 
 const initialState: BoardState = {
@@ -99,8 +98,6 @@ const initialState: BoardState = {
     description: '',
   },
   message: undefined,
-  isOpen: false,
-  isCteationWindowOpen: false,
 };
 
 const boardSlice = createSlice({
@@ -112,11 +109,11 @@ const boardSlice = createSlice({
     },
     chooseBoardId(state, action) {
       state.currentId = action.payload;
-      state.isOpen = true;
+      // state.isOpen = true;
     },
     resetBoardId(state, action) {
-      state.currentId = '';
-      state.isOpen = false;
+      // state.currentId = ''
+      // state.isOpen = false;
     },
     resetBoard(state, action) {
       state.newBoard = null;

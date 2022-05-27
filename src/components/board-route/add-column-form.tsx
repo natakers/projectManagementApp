@@ -2,15 +2,13 @@ import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { addColumn } from '../../store/columns/colSlice';
 import {
-  AppState,
   useAppDispatch,
-  useAppSelector,
 } from '../../store/store';
 
 interface IFormValues {
   columnTitle: string;
 }
-
+const boardId = localStorage.getItem('boardId')
 const AddColumnForm: React.FC<{ setIsPopupDisplay: Function }> = ({
   setIsPopupDisplay,
 }) => {
@@ -21,21 +19,18 @@ const AddColumnForm: React.FC<{ setIsPopupDisplay: Function }> = ({
   } = useForm<IFormValues>();
 
   const dispatch = useAppDispatch();
-  const { columns } = useAppSelector(
-    (state: AppState) => state.columns
-  );
-  const { currentId } = useAppSelector(
-    (state: AppState) => state.boards
-  );
 
-  const onSubmit: SubmitHandler<IFormValues> = (data) => {
+  const onSubmit: SubmitHandler<IFormValues> = (data: { columnTitle: any; }) => {
     console.log('data', data);
-    dispatch(
-      addColumn({
-        title: data.columnTitle,
-        boardId: currentId,
-      })
-    );
+    if (boardId) {
+      dispatch(
+        addColumn({
+          title: data.columnTitle,
+          boardId: boardId,
+        })
+      );
+    }
+    
   };
 
   return (
