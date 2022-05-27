@@ -2,7 +2,8 @@ import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { addColumn } from '../../store/columns/colSlice';
 import {
-  useAppDispatch,
+  AppState,
+  useAppDispatch, useAppSelector,
 } from '../../store/store';
 
 interface IFormValues {
@@ -12,6 +13,8 @@ const boardId = localStorage.getItem('boardId')
 const AddColumnForm: React.FC<{ setIsPopupDisplay: Function }> = ({
   setIsPopupDisplay,
 }) => {
+  const { columns, newColumn }  = useAppSelector((state: AppState) => state.columns);
+  const { colTasks }  = useAppSelector((state: AppState) => state.tasks);
   const {
     register,
     handleSubmit,
@@ -30,6 +33,10 @@ const AddColumnForm: React.FC<{ setIsPopupDisplay: Function }> = ({
         })
       );
     }
+    console.log(columns);
+    console.log(colTasks.columns);
+    console.log(newColumn);
+    
     
   };
 

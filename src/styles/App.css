@@ -38,3 +38,15 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.taskWindow {
+  visibility: hidden;
+  right: -100%;
+  /* right: 0; */
+  transition: all 1s;
+}
+.activeTaskWidow {
+  visibility: visible;
+  right: 0;
+  transition: all 0.3s;
+}

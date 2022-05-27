@@ -38,6 +38,7 @@ const TaskCreation = ({toggleWindow, colId, order}: TaskCreationProps) => {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (boardId) {
+      console.log(taskData);
       dispatch(createTask(taskData));
     }
 
