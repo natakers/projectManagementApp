@@ -39,16 +39,16 @@ const Column = ({title, id, order, tasks}: ColumnTaskProps) => {
         <h4 className='m-3'>{title}</h4>
         <div className=" relative flex m-3 items-center cursor-pointer hover:bg-slate-500 " onClick={toggleAddTask}>
           { visibleAddTask &&
-          <>
-            <BoardButton onClick={toggeTaskWindow} text='+ Add task' themes={themes.absolute} />
-              <button onClick={() => handleColumnDelete(id)}>
+          <div className='flex flex-col absolute top-full right-0 bg-sky-800'>
+            <BoardButton onClick={toggeTaskWindow} text='+ Add task' themes={themes.grey} />
+              <button className={themes.grey} onClick={() => handleColumnDelete(id)}>
                 <TrashIcon />
               </button>
-          </>}
+          </div>}
         <DotsIcon />
         </div>
       </div>
-    <div className='flex flex-col'>
+    <div className='flex flex-col '>
     {tasks.length > 0 &&
             tasks.map((task) => (
              <Task key={task.id} order={task.order} title={task.title} description={task.description} done={false}  />

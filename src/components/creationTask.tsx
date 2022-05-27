@@ -20,7 +20,6 @@ const TaskCreation = ({toggleWindow, colId, order}: TaskCreationProps) => {
 
   const { title, description } = formData;
   const dispatch = useAppDispatch();
-  const done = false;
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevState) => ({
       ...prevState,

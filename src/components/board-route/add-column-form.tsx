@@ -2,9 +2,7 @@ import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { addColumn } from '../../store/columns/colSlice';
 import {
-  AppState,
   useAppDispatch,
-  useAppSelector,
 } from '../../store/store';
 
 interface IFormValues {
@@ -21,12 +19,6 @@ const AddColumnForm: React.FC<{ setIsPopupDisplay: Function }> = ({
   } = useForm<IFormValues>();
 
   const dispatch = useAppDispatch();
-  const { columns } = useAppSelector(
-    (state: AppState) => state.columns
-  );
-  const { currentId } = useAppSelector(
-    (state: AppState) => state.boards
-  );
 
   const onSubmit: SubmitHandler<IFormValues> = (data: { columnTitle: any; }) => {
     console.log('data', data);

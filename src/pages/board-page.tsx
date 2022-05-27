@@ -2,13 +2,7 @@ import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { Link, useNavigate } from 'react-router-dom';
 import BoardIcon from '../assets/icons/board.icon';
-import TrashIcon from '../assets/icons/trash.icon';
 import AddColumnForm from '../components/board-route/add-column-form';
-import {
-  addColumn,
-  deleteColumn,
-  getColumns,
-} from '../store/columns/colSlice';
 import Column from '../components/column';
 import {
   AppState,
@@ -24,15 +18,15 @@ const BoardPage = () => {
   const navigate = useNavigate();
   const [isPopupDisplay, setIsPopupDisplay] = useState(false);
 
-  const { boards, currentId } = useAppSelector(
+  const { boards } = useAppSelector(
     (state: AppState) => state.boards
   );
   const { colTasks } = useAppSelector(
     (state: AppState) => state.tasks
   );
-  const { columns } = useAppSelector(
-    (state: AppState) => state.columns
-  );
+  // const { columns } = useAppSelector(
+  //   (state: AppState) => state.columns
+  // );
 
   const boardId = localStorage.getItem('boardId')
   const board = boards.find((el) => el.id === boardId);
@@ -43,12 +37,7 @@ const BoardPage = () => {
       dispatch(getAllAboutBoard(boardId));
     }
   }, [cookie.user, navigate, dispatch, boardId]);
-
-  // const handleColumnDelete = (id: string) => {
-  //   dispatch(deleteColumn({ boardId: currentId, id: id })); 
-
-  // };
-  
+ 
   return (
     <main className=" bg-slate-800 h-full text-gray-300 items-start px-5 flex flex-col gap-5">
       {!boardId?  <Link
