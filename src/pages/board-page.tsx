@@ -46,6 +46,7 @@ const BoardPage = () => {
 
   const handleColumnDelete = (id: string) => {
     dispatch(deleteColumn({ boardId: currentId, id: id })); 
+
   };
   
   return (

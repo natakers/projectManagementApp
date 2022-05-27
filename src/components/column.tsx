@@ -41,7 +41,7 @@ const Column = ({title, id, order, tasks}: ColumnTaskProps) => {
           { visibleAddTask &&
           <>
             <BoardButton onClick={toggeTaskWindow} text='+ Add task' themes={themes.absolute} />
-              <button onClick={() => handleColumnDelete(col.id)}>
+              <button onClick={() => handleColumnDelete(id)}>
                 <TrashIcon />
               </button>
           </>}
