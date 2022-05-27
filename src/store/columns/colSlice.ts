@@ -5,7 +5,6 @@ import {
 } from '@reduxjs/toolkit';
 import { getCookie } from '../../helpers/cookie';
 import { baseURL } from '../boards/boardsSlice';
-import authService from './colService';
 
 interface IError {
   message?: string;
@@ -24,7 +23,6 @@ export interface IColumn {
 
 interface IColumnToAdd {
   title: string;
-  order: number;
   boardId: string;
 }
 
@@ -134,7 +132,6 @@ export const addColumn = createAsyncThunk(
         headers,
         body: JSON.stringify({
           title: column.title,
-          order: column.order,
         }),
       };
       const response = await fetch(

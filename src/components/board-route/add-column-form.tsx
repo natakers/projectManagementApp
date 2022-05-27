@@ -33,7 +33,6 @@ const AddColumnForm: React.FC<{ setIsPopupDisplay: Function }> = ({
     dispatch(
       addColumn({
         title: data.columnTitle,
-        order: columns.length,
         boardId: currentId,
       })
     );

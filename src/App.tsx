@@ -11,27 +11,28 @@ import EditProfile from './pages/editProfile';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 const App = () => {
-  const fetchApiData = async () => {
-    const headers = new Headers({
-      Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0NGNmOTZkMi01OGZjLTRlMGMtOTZkOS05YWM0MjhkNGQ0OTUiLCJsb2dpbiI6InVzZXIwMDEiLCJpYXQiOjE2NTIwMDMyMTF9.EUlvrrs0Hl7wq1o-vkW5eh710CeNmhTfivk8aYkO43I',
-    });
-    const options = {
-      method: 'GET',
-      headers,
-      // mode: 'no-cors' as RequestMode,
-    };
+  // const fetchApiData = async () => {
+  //   const headers = new Headers({
+  //     Authorization:
+  //       'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0NGNmOTZkMi01OGZjLTRlMGMtOTZkOS05YWM0MjhkNGQ0OTUiLCJsb2dpbiI6InVzZXIwMDEiLCJpYXQiOjE2NTIwMDMyMTF9.EUlvrrs0Hl7wq1o-vkW5eh710CeNmhTfivk8aYkO43I',
+  //   });
+  //   const options = {
+  //     method: 'GET',
+  //     headers,
+  //     // mode: 'no-cors' as RequestMode,
+  //   };
 
-    const apiData = await fetch(
-      'https://still-earth-24890.herokuapp.com/users',
-      options
-    );
-    const parsedApiData = await apiData.json();
-  };
+  //   const apiData = await fetch(
+  //     'https://frozen-depths-66382.herokuapp.com/users',
+  //     options
+  //   );
+  //   const parsedApiData = await apiData.json();
+  //   console.log('users from API', parsedApiData);
+  // };
 
-  useEffect(() => {
-    fetchApiData();
-  });
+  // useEffect(() => {
+  //   fetchApiData();
+  // });
 
   return (
     <BrowserRouter>

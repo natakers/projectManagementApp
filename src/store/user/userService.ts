@@ -1,31 +1,40 @@
 import axios from 'axios';
 import { getCookie } from '../../helpers/cookie';
 
-const API_URL = 'https://still-earth-24890.herokuapp.com';
+const API_URL = 'https://frozen-depths-66382.herokuapp.com';
 
 // Get user by id
 const getUserById = async (id: string) => {
   const token = getCookie('user') || null;
   const response = await axios.get(`${API_URL}/users/${id}`, {
     headers: {
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     },
   });
   return response.data;
 };
 
 // Update user profile by id
-const updateUserProfile = async (userData: { id: string, name: string, login: string, password: string }) => {
+const updateUserProfile = async (userData: {
+  id: string;
+  name: string;
+  login: string;
+  password: string;
+}) => {
   const token = getCookie('user') || null;
-  const response = await axios.put(`${API_URL}/users/${userData.id}`, {
-    name: userData.name,
-    login: userData.login,
-    password: userData.password
-  }, {
-    headers: {
-      'Authorization': `Bearer ${token}`
+  const response = await axios.put(
+    `${API_URL}/users/${userData.id}`,
+    {
+      name: userData.name,
+      login: userData.login,
+      password: userData.password,
     },
-  });
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   return response.data;
 };
 
@@ -34,7 +43,7 @@ const deleteUser = async (id: string) => {
   const token = getCookie('user') || null;
   const response = await axios.delete(`${API_URL}/users/${id}`, {
     headers: {
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     },
   });
   return response.status;
@@ -43,7 +52,7 @@ const deleteUser = async (id: string) => {
 const userService = {
   getUserById,
   updateUserProfile,
-  deleteUser
+  deleteUser,
 };
 
 export default userService;

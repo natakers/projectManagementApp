@@ -1,33 +1,36 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { BoardProps } from "../../components/interfaces";
+import { BoardProps } from '../../components/interfaces';
 import { getCookie } from '../../helpers/cookie';
-import { IError } from "../config";
+import { IError } from '../config';
 
-export const baseURL = 'https://still-earth-24890.herokuapp.com';
+export const baseURL = 'https://frozen-depths-66382.herokuapp.com';
 
-
-export const getBoards = createAsyncThunk<BoardProps[], undefined, {rejectValue: string}>(
-  'boards/getBoards',
-  async function(_, {rejectWithValue}) {
-    try {
-      const token = getCookie('user') || null;
-      const response = await fetch(`${baseURL}/boards`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      return data
-    } catch(error) {
-      const errorMassage = ((error as IError).message)
-      return rejectWithValue(errorMassage);
-    }
+export const getBoards = createAsyncThunk<
+  BoardProps[],
+  undefined,
+  { rejectValue: string }
+>('boards/getBoards', async function (_, { rejectWithValue }) {
+  try {
+    const token = getCookie('user') || null;
+    const response = await fetch(`${baseURL}/boards`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    const errorMassage = (error as IError).message;
+    return rejectWithValue(errorMassage);
   }
-);
+});
 
-
-export const createBoard = createAsyncThunk<BoardProps, BoardProps, {rejectValue: string}>(
+export const createBoard = createAsyncThunk<
+  BoardProps,
+  BoardProps,
+  { rejectValue: string }
+>(
   'boards/createBoard',
   async function (board, { rejectWithValue, dispatch }) {
     try {
@@ -76,14 +79,14 @@ export const deleteBoard = createAsyncThunk<
 );
 
 export interface BoardState {
-  boards: Array<BoardProps>,
-  loading: boolean,
-  error: boolean,
-  currentId: string,
-  newBoard: BoardProps | null,
-  message: string | undefined,
-  isOpen: boolean,
-  isCteationWindowOpen: boolean,
+  boards: Array<BoardProps>;
+  loading: boolean;
+  error: boolean;
+  currentId: string;
+  newBoard: BoardProps | null;
+  message: string | undefined;
+  isOpen: boolean;
+  isCteationWindowOpen: boolean;
 }
 
 const initialState: BoardState = {
@@ -98,7 +101,7 @@ const initialState: BoardState = {
   message: undefined,
   isOpen: false,
   isCteationWindowOpen: false,
-}
+};
 
 const boardSlice = createSlice({
   name: 'boards',
@@ -112,7 +115,7 @@ const boardSlice = createSlice({
       state.isOpen = true;
     },
     resetBoardId(state, action) {
-      state.currentId = ''
+      state.currentId = '';
       state.isOpen = false;
     },
     resetBoard(state, action) {
@@ -154,6 +157,7 @@ const boardSlice = createSlice({
   },
 });
 
-export const { openboard, chooseBoardId, resetBoardId, resetBoard } = boardSlice.actions;
+export const { openboard, chooseBoardId, resetBoardId, resetBoard } =
+  boardSlice.actions;
 
 export default boardSlice.reducer;
