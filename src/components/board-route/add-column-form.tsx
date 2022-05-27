@@ -21,9 +21,6 @@ const AddColumnForm: React.FC<{ setIsPopupDisplay: Function }> = ({
   } = useForm<IFormValues>();
 
   const dispatch = useAppDispatch();
-  const { columns } = useAppSelector(
-    (state: AppState) => state.columns
-  );
   const { currentId } = useAppSelector(
     (state: AppState) => state.boards
   );

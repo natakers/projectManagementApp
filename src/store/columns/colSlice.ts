@@ -74,7 +74,6 @@ export const getColumns = createAsyncThunk(
         options
       );
       const data = await response.json();
-      console.log('columns----->', data);
       return data;
     } catch (error) {
       const errorMessage = (error as IError).message;
@@ -100,13 +99,13 @@ export const deleteColumn = createAsyncThunk(
         method: 'DELETE',
         headers,
       };
-      const response = await fetch(
+      await fetch(
         `${baseURL}/boards/${column.boardId}/columns/${column.id}`,
         options
       );
-      const data = await response.json();
-      console.log('response data ', data);
-      return data;
+      // const data = await response.json();
+      // console.log('response data ', data);
+      return column;
     } catch (error) {
       const errorMessage = (error as IError).message;
       console.log(errorMessage);
@@ -195,9 +194,12 @@ export const colSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(deleteColumn.fulfilled, (state, action) => {
+        console.log('state.columns before', state.columns);
+        const { id } = action.payload;
         state.columns = state.columns.filter(
-          (column) => column.id !== action.payload.id
+          (column) => column.id !== id
         );
+        console.log('state.columns after', state.columns);
       });
   },
 });

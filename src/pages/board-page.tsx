@@ -4,11 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import BoardIcon from '../assets/icons/board.icon';
 import TrashIcon from '../assets/icons/trash.icon';
 import AddColumnForm from '../components/board-route/add-column-form';
-import {
-  addColumn,
-  deleteColumn,
-  getColumns,
-} from '../store/columns/colSlice';
+import { deleteColumn, getColumns } from '../store/columns/colSlice';
 import {
   AppState,
   useAppDispatch,
@@ -43,7 +39,6 @@ const BoardPage = () => {
   return (
     <main className=" bg-slate-800 h-full text-gray-300 items-start px-5 flex flex-col gap-5">
       <>
-        {console.log('columns', columns)}
         <section className="flex gap-3 justify-center items-center">
           <BoardIcon />
           <h1 className="text-3xl">{board?.title}</h1>
