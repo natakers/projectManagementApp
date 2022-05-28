@@ -34,6 +34,8 @@ export const getAllAboutBoard = createAsyncThunk<
   }
 });
 
+
+
 export const createTask = createAsyncThunk<
   TaskShowProps,
   TaskAddProps,
@@ -43,7 +45,6 @@ export const createTask = createAsyncThunk<
   async function (task, { rejectWithValue, dispatch }) {
     try {
       const token = getCookie('user') || null;
-
       const response = await fetch(
         `${API_URL}/boards/${task.boardId}/columns/${task.colId}/tasks`,
         {
@@ -67,12 +68,11 @@ export const createTask = createAsyncThunk<
 
 export const deleteTask = createAsyncThunk(
   'tasks/deleteTasks',
-  async function (id: TaskDelProps, { rejectWithValue, dispatch }) {
+  async function (task: TaskDelProps, { rejectWithValue, dispatch }) {
     try {
       const token = getCookie('user') || null;
-
       await fetch(
-        `${API_URL}/boards/${id.boardId}/columns/${id.colId}/tasks/${id.taskId}`,
+        `${API_URL}/boards/${task.boardId}/columns/${task.colId}/tasks/${task.taskId}`,
         {
           method: 'DELETE',
           headers: {
@@ -80,7 +80,7 @@ export const deleteTask = createAsyncThunk(
           },
         }
       );
-      return id;
+      return task;
     } catch (error) {
       const errorMassage = (error as IError).message;
       return rejectWithValue(errorMassage);
@@ -165,7 +165,6 @@ const taskSlice = createSlice({
   reducers: {
     chooseTaskId(state, action) {
       state.currentTask = action.payload;
-      // state.isOpen = true;
     },
   },
   extraReducers: (builder) => {
@@ -182,11 +181,6 @@ const taskSlice = createSlice({
       .addCase(getAllAboutBoard.rejected, (state, action) => {
         state.error = true;
         state.message = action.payload;
-      })
-      .addCase(deleteTask.fulfilled, (state, action) => {
-        // state.tasks = state.tasks.filter(
-        //   (task) => task.id !== action.payload
-        // );
       })
       .addCase(createTask.pending, (state) => {
         state.loading = true;
@@ -217,22 +211,23 @@ const taskSlice = createSlice({
       .addCase(addColumn.fulfilled, (state, action: AnyAction) => {
         state.newColumn = action.payload;
         state.loading = false;
-        // state.isSuccess = true;
         state.colTasks.columns.push(state.newColumn);
       })
       .addCase(addColumn.rejected, (state, action: AnyAction) => {
         state.loading = false;
         state.error = true;
         state.message = action.payload;
-        // state.user = null;
       })
       .addCase(deleteColumn.pending, (state) => {
         state.loading = true;
       })
-      .addCase(deleteColumn.fulfilled, (state, action) => {
-        const { id } = action.payload;
+      .addCase(deleteTask.fulfilled, (state, action) => {
+        const { taskId, colId } = action.payload;
         state.colTasks.columns = state.colTasks.columns.filter(
-          (column) => column.id !== id
+          (column) => {
+            if (column.id === colId) {
+              return column.tasks=column.tasks.filter((task) => task.id !== taskId)
+            } else return column }
         );
       })
       .addCase(updateColumn.pending, (state) => {

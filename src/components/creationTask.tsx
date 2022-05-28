@@ -62,7 +62,15 @@ const TaskCreation = ({
   };
 
   return (
+
     <section className="flex w-52 flex-col absolute rounded z-20 bg-sky-900 border border-sky-500 h-20 p-2 top-0 items-center">
+
+    {/* <section className={`flex createModal max-w-sm flex-col absolute rounded z-20 bg-slate-50 p-4 inset-x-0 m-auto items-center`}>
+      <div className="logo__container w-full flex flex-col justify-center items-center gap-3">
+        <p className="title text-center font-bold text-3xl text-gray-900 mb-6">
+          Create new task
+        </p>
+      </div> */}
       <form
         onSubmit={onSubmit}
         className="form w-full flex flex-col justify-start items-start gap-1 relative"

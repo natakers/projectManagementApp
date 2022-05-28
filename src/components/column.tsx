@@ -77,7 +77,7 @@ const Column = ({
       <div className="flex flex-col relative ">
         {tasks &&
           tasks.map((task) => (
-            <Task taskClick={taskClick} key={task.id} task={task} />
+            <Task taskClick={taskClick} key={task.id} task={task} columnId={id} />
           ))}
         <aside className="relative flex flex-col items-center">
           <button
