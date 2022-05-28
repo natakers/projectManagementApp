@@ -1,12 +1,14 @@
-import { useState } from "react"
-import Input from "../components/input";
-import { BoardCreationProps } from "../components/interfaces";
-import BoardButton, { themes } from "../components/main-route/boardButton";
-import { createBoard, resetBoard } from "../store/boards/boardsSlice";
-import { useAppDispatch } from "../store/store";
+import { useState } from 'react';
+import BoardArrowBack from '../assets/icons/arrowBack';
+import Input from '../components/input';
+import { BoardCreationProps } from '../components/interfaces';
+import BoardButton, {
+  themes,
+} from '../components/main-route/boardButton';
+import { createBoard, resetBoard } from '../store/boards/boardsSlice';
+import { useAppDispatch } from '../store/store';
 
-const BoardCreation = ({toggleWindow}: BoardCreationProps) => {
-  
+const BoardCreation = ({ toggleWindow }: BoardCreationProps) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -19,7 +21,7 @@ const BoardCreation = ({toggleWindow}: BoardCreationProps) => {
     setFormData((prevState) => ({
       ...prevState,
       [event.target.name]: event.target.value,
-    }))
+    }));
   };
   const boardData = {
     title,
@@ -28,28 +30,61 @@ const BoardCreation = ({toggleWindow}: BoardCreationProps) => {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch(createBoard(boardData));
-    dispatch(resetBoard(boardData))
+    dispatch(resetBoard(boardData));
     toggleWindow();
   };
 
   return (
-    <section className={`flex createModal max-w-sm flex-col absolute rounded z-20 bg-slate-50 p-4 inset-y-80 inset-x-0 m-auto items-center`}>
-      <div className="logo__container w-full flex flex-col justify-center items-center gap-3">
-        <p className="title text-center font-bold text-3xl text-gray-900 mb-6">
-          Create new board
-        </p>
-      </div>
-      <form
-        onSubmit={onSubmit}
-        className="form w-2/4 flex flex-col justify-center items-center gap-6"
+    <section className="flex max-w-sm absolute rounded z-20 bg-gray-900 border-r border-b border-slate-600  top-0 left-0 ">
+      <div
+        onClick={toggleWindow}
+        className=" hover:bg-gray-600 flex items-center justify-center w-20"
       >
-        <Input value={title} name='title' type='text' placeholder='Name of board' id='title' onChange={onChange} />
-        <Input value={description} name='description' type='text' placeholder='Description of board' id='description' onChange={onChange} />
-        <div className="flex w-full justify-around ">
-          <BoardButton themes={themes.dark} type="submit" text="Create" />
-          <BoardButton themes={themes.dark} text='Back' onClick={toggleWindow} />
+        <button>
+          <BoardArrowBack />
+        </button>
+      </div>
+      <div className="flex flex-col p-4 items-center">
+        <div className="logo__container w-full flex flex-col justify-center items-center gap-3">
+          <p className="title text-center font-bold text-3xl text-gray-300 mb-6">
+            Create new board
+          </p>
         </div>
-      </form>
+        <form
+          onSubmit={onSubmit}
+          className="form w-2/4 flex flex-col justify-center items-center gap-6"
+        >
+          <label className="text-sm" htmlFor="title">
+            Board name
+            <input
+              value={title}
+              name="title"
+              onChange={onChange}
+              className="bg-gray-600 border-b border-b-slate-300 h-8"
+              type="text"
+              required
+            />
+          </label>
+          <label className="text-sm" htmlFor="description">
+            Description
+            <input
+              value={description}
+              name="description"
+              onChange={onChange}
+              className="bg-gray-600 border-b border-b-slate-300 h-8"
+              type="text"
+              required
+            />
+          </label>
+          <div className="flex w-full justify-around ">
+            <BoardButton
+              themes={themes.light}
+              type="submit"
+              text="Create"
+            />
+          </div>
+        </form>
+      </div>
     </section>
   );
 };
