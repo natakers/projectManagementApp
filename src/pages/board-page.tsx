@@ -30,15 +30,12 @@ const BoardPage = () => {
   const { columns } = useAppSelector(
     (state: AppState) => state.columns
   );
-  console.log(columns);
   
 
   const boardId = localStorage.getItem('boardId')
   const board = boards.find((el) => el.id === boardId);
-  console.log(board);
 
   const handlerClick = () => {
-    console.log('taskClick');
     setIsOpenTask(!isOpenTask);
   }
   

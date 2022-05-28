@@ -41,8 +41,6 @@ export const createTask = createAsyncThunk<TaskShowProps, TaskAddProps, {rejectV
         body: JSON.stringify(task.task),
       });
       const data = await response.json();
-      console.log(data);
-      
       return data;
     } catch (error) {
       const errorMassage = (error as IError).message;
@@ -176,8 +174,6 @@ const taskSlice = createSlice({
       })
       .addCase(createTask.fulfilled, (state, action) => {
         state.newTask = action.payload;
-        console.log(action.payload);
-        
         state.loading = false;
         state.colTasks.columns.forEach(col => {
           if (state.newTask != null && col.id === state.newTask.columnId) {
@@ -212,13 +208,9 @@ const taskSlice = createSlice({
         state.loading = true;
       })
       .addCase(deleteColumn.fulfilled, (state, action) => {
-        console.log(action.payload);
-        
         state.colTasks.columns = state.colTasks.columns.filter(
           (column) => column.id !== action.payload
-        );
-        console.log(state.colTasks.columns);
-        
+        );    
       });
   },
 });

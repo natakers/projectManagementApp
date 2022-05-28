@@ -21,7 +21,6 @@ const MainPage = () => {
   useEffect(() => {
     cookie.user === undefined && navigate('/');
     if (cookie.user) {
-      console.log('getboard');
       dispatch(getBoards());
     }
   }, [cookie.user, navigate, dispatch]);
