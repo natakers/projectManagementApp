@@ -19,7 +19,6 @@ const BoardPage = () => {
   const navigate = useNavigate();
   const [isPopupDisplay, setIsPopupDisplay] = useState(false);
   const [isOpenTask, setIsOpenTask] = useState(false);
-  
 
   const { boards } = useAppSelector(
     (state: AppState) => state.boards
@@ -30,15 +29,13 @@ const BoardPage = () => {
   const { columns } = useAppSelector(
     (state: AppState) => state.columns
   );
-  
 
-  const boardId = localStorage.getItem('boardId')
+  const boardId = localStorage.getItem('boardId');
   const board = boards.find((el) => el.id === boardId);
 
   const handlerClick = () => {
     setIsOpenTask(!isOpenTask);
-  }
-  
+  };
 
   useEffect(() => {
     cookie.user === undefined && navigate('/');
@@ -46,26 +43,35 @@ const BoardPage = () => {
       dispatch(getAllAboutBoard(boardId));
     }
   }, [cookie.user, navigate, dispatch, boardId]);
- 
+
   return (
     <main className=" overflow-hidden bg-slate-800 h-full text-gray-300 items-start px-5 flex flex-col gap-5 relative">
-      {!boardId?  <Link
-            to="/main"
-            className="border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-indigo-500 "
-          >
-            Go to Main Page
-          </Link>
-      :
-      <><section className="flex gap-3 justify-center items-center">
-          <BoardIcon />
-          <h1 className="text-3xl">{board?.title}</h1>
-        </section>
-        <section className="flex gap-5 w-full h-full flex-wrap items-start">
+      {!boardId ? (
+        <Link
+          to="/main"
+          className="border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-indigo-500 "
+        >
+          Go to Main Page
+        </Link>
+      ) : (
+        <>
+          <section className="flex gap-3 justify-center items-center">
+            <BoardIcon />
+            <h1 className="text-3xl">{board?.title}</h1>
+          </section>
+          <section className="flex gap-5 w-full h-full flex-wrap items-start">
             {colTasks.columns.length > 0 &&
               colTasks.columns.map((col) => (
-                <Column key={col.id} id={col.id} order={col.order} title={col.title} tasks={col.tasks} taskClick={handlerClick} />
+                <Column
+                  key={col.id}
+                  id={col.id}
+                  order={col.order}
+                  title={col.title}
+                  tasks={col.tasks}
+                  taskClick={handlerClick}
+                />
               ))}
-              <div className="relative">
+            <div className="relative">
               <>
                 <button
                   onClick={() => setIsPopupDisplay(true)}
@@ -81,9 +87,12 @@ const BoardPage = () => {
               </>
             </div>
           </section>
-          <TaskWindow isOpenTask={isOpenTask} taskClick={handlerClick} />
-          </>
-      }
+          <TaskWindow
+            isOpenTask={isOpenTask}
+            taskClick={handlerClick}
+          />
+        </>
+      )}
     </main>
   );
 };

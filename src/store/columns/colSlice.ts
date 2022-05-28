@@ -21,7 +21,6 @@ export interface IColumn {
   order: number;
 }
 
-
 interface IColumnToAdd {
   title: string;
   boardId: string;
@@ -75,7 +74,6 @@ export const getColumns = createAsyncThunk(
         options
       );
       const data = await response.json();
-      console.log('columns----->', data);
       return data;
     } catch (error) {
       const errorMessage = (error as IError).message;
@@ -103,15 +101,13 @@ export const deleteColumn = createAsyncThunk(
         method: 'DELETE',
         headers,
       };
-      const response = await fetch(
+      await fetch(
         `${API_URL}/boards/${column.boardId}/columns/${column.id}`,
         options
       );
-      const data = await response.json();
-      console.log('response data ', data);
-      console.log('response data ', column.id);
-
-      return column.id;
+      // const data = await response.json();
+      // console.log('response data ', data);
+      return column;
     } catch (error) {
       const errorMessage = (error as IError).message;
       console.log(errorMessage);
@@ -189,20 +185,19 @@ export const colSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.columns.push(state.newColumn);
-        
       })
       .addCase(addColumn.rejected, (state, action: AnyAction) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        // state.user = null;
       })
       .addCase(deleteColumn.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(deleteColumn.fulfilled, (state, action) => {
+        const { id } = action.payload;
         state.columns = state.columns.filter(
-          (column) => column.id !== action.payload
+          (column) => column.id !== id
         );
       });
   },

@@ -1,45 +1,61 @@
-import { createSlice, createAsyncThunk, AnyAction } from '@reduxjs/toolkit';
-import {  TaskAddProps, TaskDelProps, TaskShowProps } from "../../components/interfaces";
+import {
+  createSlice,
+  createAsyncThunk,
+  AnyAction,
+} from '@reduxjs/toolkit';
+import {
+  TaskAddProps,
+  TaskDelProps,
+  TaskShowProps,
+} from '../../components/interfaces';
 import { getCookie } from '../../helpers/cookie';
 import { API_URL } from '../auth/authService';
 import { addColumn, deleteColumn } from '../columns/colSlice';
-import { IError } from "../config";
+import { IError } from '../config';
 
-export const getAllAboutBoard = createAsyncThunk<BoardColTask, string, {rejectValue: string}>(
-  'tasks/gettasks',
-  async function(id, {rejectWithValue}) {
-    try {
-      const token = getCookie('user') || null;
-      const response = await fetch(`${API_URL}/boards/${id}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      return data
-    } catch(error) {
-      const errorMassage = ((error as IError).message)
-      return rejectWithValue(errorMassage);
-    }
+export const getAllAboutBoard = createAsyncThunk<
+  BoardColTask,
+  string,
+  { rejectValue: string }
+>('tasks/gettasks', async function (id, { rejectWithValue }) {
+  try {
+    const token = getCookie('user') || null;
+    const response = await fetch(`${API_URL}/boards/${id}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    const errorMassage = (error as IError).message;
+    return rejectWithValue(errorMassage);
   }
-);
+});
 
-export const createTask = createAsyncThunk<TaskShowProps, TaskAddProps, {rejectValue: string}>(
+export const createTask = createAsyncThunk<
+  TaskShowProps,
+  TaskAddProps,
+  { rejectValue: string }
+>(
   'tasks/createtask',
   async function (task, { rejectWithValue, dispatch }) {
     try {
       const token = getCookie('user') || null;
 
-      const response = await fetch(`${API_URL}/boards/${task.boardId}/columns/${task.colId}/tasks`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(task.task),
-      });
+      const response = await fetch(
+        `${API_URL}/boards/${task.boardId}/columns/${task.colId}/tasks`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(task.task),
+        }
+      );
       const data = await response.json();
       return data;
     } catch (error) {
@@ -55,12 +71,15 @@ export const deleteTask = createAsyncThunk(
     try {
       const token = getCookie('user') || null;
 
-      await fetch(`${API_URL}/boards/${id.boardId}/columns/${id.colId}/tasks/${id.taskId}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await fetch(
+        `${API_URL}/boards/${id.boardId}/columns/${id.colId}/tasks/${id.taskId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       return id;
     } catch (error) {
       const errorMassage = (error as IError).message;
@@ -70,31 +89,31 @@ export const deleteTask = createAsyncThunk(
 );
 
 export interface TaskState {
-  tasks: Array<TaskShowProps>,
-  loading: boolean,
-  error: boolean,
-  boardId: string,
-  colId: string,
-  newTask: TaskShowProps | null,
-  newColumn: ColumnTaskProps,
-  message: string | undefined,
-  colTasks: BoardColTask,
-  currentTask: TaskShowProps,
+  tasks: Array<TaskShowProps>;
+  loading: boolean;
+  error: boolean;
+  boardId: string;
+  colId: string;
+  newTask: TaskShowProps | null;
+  newColumn: ColumnTaskProps;
+  message: string | undefined;
+  colTasks: BoardColTask;
+  currentTask: TaskShowProps;
 }
 
 interface BoardColTask {
-  id: string,
-  title: string,
-  description: string,
-  columns: Array<ColumnTaskProps>
+  id: string;
+  title: string;
+  description: string;
+  columns: Array<ColumnTaskProps>;
 }
 
 export interface ColumnTaskProps {
-  id: string,
-  title: string,
-  order: number,
-  tasks: Array<TaskShowProps>,
-  taskClick?: () => void,
+  id: string;
+  title: string;
+  order: number;
+  tasks: Array<TaskShowProps>;
+  taskClick?: () => void;
 }
 
 const initialState: TaskState = {
@@ -112,14 +131,14 @@ const initialState: TaskState = {
     boardId: '',
     columnId: '',
     files: [],
-    id:''
+    id: '',
   },
   message: undefined,
   colTasks: {
     id: '',
     title: '',
     description: '',
-    columns: []
+    columns: [],
   },
   currentTask: {
     title: '',
@@ -130,15 +149,15 @@ const initialState: TaskState = {
     boardId: '',
     columnId: '',
     files: [],
-    id:''
+    id: '',
   },
   newColumn: {
     id: '',
     title: '',
     order: 1,
-    tasks: []
+    tasks: [],
   },
-}
+};
 
 const taskSlice = createSlice({
   name: 'tasks',
@@ -157,7 +176,7 @@ const taskSlice = createSlice({
       })
       .addCase(getAllAboutBoard.fulfilled, (state, action) => {
         state.colTasks = action.payload;
-        state.loading = false
+        state.loading = false;
       })
       .addCase(getAllAboutBoard.rejected, (state, action) => {
         state.error = true;
@@ -175,14 +194,17 @@ const taskSlice = createSlice({
       .addCase(createTask.fulfilled, (state, action) => {
         state.newTask = action.payload;
         state.loading = false;
-        state.colTasks.columns.forEach(col => {
-          if (state.newTask != null && col.id === state.newTask.columnId) {
+        state.colTasks.columns.forEach((col) => {
+          if (
+            state.newTask != null &&
+            col.id === state.newTask.columnId
+          ) {
             if (!col.tasks) {
-              col.tasks = []
+              col.tasks = [];
             }
             col.tasks.push(state.newTask);
           }
-        })
+        });
       })
       .addCase(createTask.rejected, (state, action) => {
         state.error = true;
@@ -196,7 +218,6 @@ const taskSlice = createSlice({
         state.loading = false;
         // state.isSuccess = true;
         state.colTasks.columns.push(state.newColumn);
-        
       })
       .addCase(addColumn.rejected, (state, action: AnyAction) => {
         state.loading = false;
@@ -208,13 +229,13 @@ const taskSlice = createSlice({
         state.loading = true;
       })
       .addCase(deleteColumn.fulfilled, (state, action) => {
+        const { id } = action.payload;
         state.colTasks.columns = state.colTasks.columns.filter(
-          (column) => column.id !== action.payload
-        );    
+          (column) => column.id !== id
+        );
       });
   },
 });
 
-export const { chooseTaskId } =
-  taskSlice.actions;
+export const { chooseTaskId } = taskSlice.actions;
 export default taskSlice.reducer;
