@@ -40,7 +40,6 @@ const TaskCreation = ({toggleWindow, colId, order}: TaskCreationProps) => {
     if (boardId) {
       dispatch(createTask(taskData));
     }
-
     toggleWindow();
   };
 

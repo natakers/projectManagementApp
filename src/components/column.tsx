@@ -6,13 +6,13 @@ import DotsIcon from '../assets/icons/dotsIcon';
 import TaskCreation from './creationTask';
 import TrashIcon from '../assets/icons/trash.icon';
 import { deleteColumn } from '../store/columns/colSlice';
-import { useAppDispatch } from '../store/store';
+import { AppState, useAppDispatch, useAppSelector } from '../store/store';
 export interface ColumnProps {
   colId: string,
   boardId: string,
 }
 
-const Column = ({title, id, order, tasks}: ColumnTaskProps) => {
+const Column = ({title, id, order, tasks, taskClick}: ColumnTaskProps) => {
   const dispatch = useAppDispatch();
   const [isOpenTaskWin, setIsOpenTaskWin] = useState(false);
   const [visibleAddTask, setVisibleAddTask] = useState(false);
@@ -22,14 +22,23 @@ const Column = ({title, id, order, tasks}: ColumnTaskProps) => {
   const toggleAddTask = () => {
     setVisibleAddTask(!visibleAddTask)
   };
+  const { colTasks } = useAppSelector(
+    (state: AppState) => state.tasks
+  );
   const boardId = localStorage.getItem('boardId')
   const handleColumnDelete = (id: string) => {
     if (boardId) {
       dispatch(deleteColumn({ boardId: boardId, id: id }));
+      console.log(colTasks.columns);
     }
   }
+  
     
 
+
+  
+  // const col = colTasks.columns.find((el) => el.id === d);
+  
   return (
   <article
     key={id}
@@ -49,9 +58,9 @@ const Column = ({title, id, order, tasks}: ColumnTaskProps) => {
         </div>
       </div>
     <div className='flex flex-col '>
-    {tasks.length > 0 &&
+    {tasks && 
             tasks.map((task) => (
-             <Task key={task.id} order={task.order} title={task.title} description={task.description} done={false}  />
+             <Task taskClick={taskClick} key={task.id} task={task} />
           ))}
     </div>
     <div>

@@ -64,7 +64,27 @@ export interface TaskShowProps {
   id?: string,
   boardId?: string;
   columnId?: string,
-  files?: Array<FileProps> | [] | undefined
+  files?: Array<FileProps> | [] | undefined,
+  taskClick?: () => void;
+  // choosenTask?: TaskShowProps,
+}
+
+export interface TaskShowProps {
+  userId?: string,
+  title: string,
+  description: string,
+  done: boolean,
+  order: number | null,
+  id?: string,
+  boardId?: string;
+  columnId?: string,
+  files?: Array<FileProps> | [] | undefined,
+  // taskClick?: () => void;
+  // choosenTask?: TaskShowProps,
+}
+export interface TaskProps {
+  task: TaskShowProps,
+  taskClick?: () => void;
 }
 
 export interface FileProps {
@@ -73,4 +93,10 @@ export interface FileProps {
 }
 export interface ColumnProps {
   col: IColumn,
+}
+
+export interface TaskDelProps {
+  boardId: string,
+  colId: string,
+  taskId: string
 }

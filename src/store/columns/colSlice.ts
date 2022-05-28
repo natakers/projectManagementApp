@@ -88,6 +88,8 @@ export const getColumns = createAsyncThunk(
 export const deleteColumn = createAsyncThunk(
   'columns/deleteColumnStatus',
   async (column: IColumnToDel, { rejectWithValue }) => {
+    console.log('response data ', column.id);
+    console.log('response data ', column.boardId);
     try {
       const token = getCookie('user') || null;
 
@@ -107,7 +109,9 @@ export const deleteColumn = createAsyncThunk(
       );
       const data = await response.json();
       console.log('response data ', data);
-      return data;
+      console.log('response data ', column.id);
+
+      return column.id;
     } catch (error) {
       const errorMessage = (error as IError).message;
       console.log(errorMessage);
@@ -185,6 +189,7 @@ export const colSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.columns.push(state.newColumn);
+        
       })
       .addCase(addColumn.rejected, (state, action: AnyAction) => {
         state.isLoading = false;
@@ -197,7 +202,7 @@ export const colSlice = createSlice({
       })
       .addCase(deleteColumn.fulfilled, (state, action) => {
         state.columns = state.columns.filter(
-          (column) => column.id !== action.payload.id
+          (column) => column.id !== action.payload
         );
       });
   },

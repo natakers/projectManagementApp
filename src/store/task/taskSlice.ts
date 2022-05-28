@@ -1,10 +1,9 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import {  TaskAddProps, TaskShowProps } from "../../components/interfaces";
+import { createSlice, createAsyncThunk, AnyAction } from '@reduxjs/toolkit';
+import {  TaskAddProps, TaskDelProps, TaskShowProps } from "../../components/interfaces";
 import { getCookie } from '../../helpers/cookie';
 import { API_URL } from '../auth/authService';
+import { addColumn, deleteColumn } from '../columns/colSlice';
 import { IError } from "../config";
-
-// export const baseURL = 'https://still-earth-24890.herokuapp.com';
 
 export const getAllAboutBoard = createAsyncThunk<BoardColTask, string, {rejectValue: string}>(
   'tasks/gettasks',
@@ -50,17 +49,13 @@ export const createTask = createAsyncThunk<TaskShowProps, TaskAddProps, {rejectV
   }
 );
 
-export const deleteTask = createAsyncThunk<
-  string,
-  string,
-  { rejectValue: string }
->(
-  'boards/deleteBoard',
-  async function (id, { rejectWithValue, dispatch }) {
+export const deleteTask = createAsyncThunk(
+  'tasks/deleteTasks',
+  async function (id: TaskDelProps, { rejectWithValue, dispatch }) {
     try {
       const token = getCookie('user') || null;
 
-      await fetch(`${API_URL}/boards/${id}`, {
+      await fetch(`${API_URL}/boards/${id.boardId}/columns/${id.colId}/tasks/${id.taskId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -81,8 +76,10 @@ export interface TaskState {
   boardId: string,
   colId: string,
   newTask: TaskShowProps | null,
+  newColumn: ColumnTaskProps,
   message: string | undefined,
-  colTasks: BoardColTask
+  colTasks: BoardColTask,
+  currentTask: TaskShowProps,
 }
 
 interface BoardColTask {
@@ -97,6 +94,7 @@ export interface ColumnTaskProps {
   title: string,
   order: number,
   tasks: Array<TaskShowProps>,
+  taskClick?: () => void,
 }
 
 const initialState: TaskState = {
@@ -122,13 +120,34 @@ const initialState: TaskState = {
     title: '',
     description: '',
     columns: []
-  }
+  },
+  currentTask: {
+    title: '',
+    description: '',
+    done: false,
+    order: 0,
+    userId: '',
+    boardId: '',
+    columnId: '',
+    files: [],
+    id:''
+  },
+  newColumn: {
+    id: '',
+    title: '',
+    order: 1,
+    tasks: []
+  },
 }
 
 const taskSlice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
+    chooseTaskId(state, action) {
+      state.currentTask = action.payload;
+      // state.isOpen = true;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -145,9 +164,9 @@ const taskSlice = createSlice({
         state.message = action.payload;
       })
       .addCase(deleteTask.fulfilled, (state, action) => {
-        state.tasks = state.tasks.filter(
-          (task) => task.id !== action.payload
-        );
+        // state.tasks = state.tasks.filter(
+        //   (task) => task.id !== action.payload
+        // );
       })
       .addCase(createTask.pending, (state) => {
         state.loading = true;
@@ -158,6 +177,9 @@ const taskSlice = createSlice({
         state.loading = false;
         state.colTasks.columns.forEach(col => {
           if (state.newTask != null && col.id === state.newTask.columnId) {
+            if (!col.tasks) {
+              col.tasks = []
+            }
             col.tasks.push(state.newTask);
           }
         })
@@ -165,8 +187,34 @@ const taskSlice = createSlice({
       .addCase(createTask.rejected, (state, action) => {
         state.error = true;
         state.message = action.payload;
+      })
+      .addCase(addColumn.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addColumn.fulfilled, (state, action: AnyAction) => {
+        state.newColumn = action.payload;
+        state.loading = false;
+        // state.isSuccess = true;
+        state.colTasks.columns.push(state.newColumn);
+        
+      })
+      .addCase(addColumn.rejected, (state, action: AnyAction) => {
+        state.loading = false;
+        state.error = true;
+        state.message = action.payload;
+        // state.user = null;
+      })
+      .addCase(deleteColumn.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteColumn.fulfilled, (state, action) => {
+        state.colTasks.columns = state.colTasks.columns.filter(
+          (column) => column.id !== action.payload
+        );    
       });
   },
 });
 
+export const { chooseTaskId } =
+  taskSlice.actions;
 export default taskSlice.reducer;
