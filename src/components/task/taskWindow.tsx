@@ -3,11 +3,12 @@ import { useState } from "react";
 import ArrowBack from "../../assets/icons/arrowBack";
 import DotsIcon from "../../assets/icons/dotsIcon";
 import { AppState, useAppDispatch, useAppSelector } from "../../store/store";
+import { updateTask } from "../../store/task/taskSlice";
 import BoardButton, { themes } from "../main-route/boardButton";
 
-const TaskWindow = ({taskClick, isOpenTask}: TaskWindowProps) => {
+const TaskWindow = ({taskClick, isOpenTask }: TaskWindowProps) => {
   const dispatch = useAppDispatch();
-  const { currentTask }  = useAppSelector((state: AppState) => state.tasks);
+  const { currentTask, colId, colTasks }  = useAppSelector((state: AppState) => state.tasks);
   const [taskTitleValue, setTaskTitleValue ] = useState(currentTask.title)
   const [visibleEditTask, setVisibleEditTask] = useState(false);
   const toggeEditTask = () => {
@@ -16,11 +17,28 @@ const TaskWindow = ({taskClick, isOpenTask}: TaskWindowProps) => {
   // if (isOpenTask) {
   // setTaskTitleValue(currentTask.title)
   // }
-
+  console.log(currentTask);
+  
+  const boardId = localStorage.getItem('boardId');
   const handlerChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     // setTaskTitleValue(currentTask.title)
+    const taskData = {
+      body: {
+        title: currentTask.title,
+        order: currentTask.order,
+        description: currentTask.description,
+        userId: currentTask.userId,
+        boardId: boardId,
+        columnId: colId
+      },
+      id: currentTask.id
+    };
+    taskData.body.title = event.target.value
     setTaskTitleValue(event.target.value);
-    // dispatch(updateTask(taskData));
+    dispatch(updateTask(taskData));
+    console.log(currentTask);   
+     console.log(colTasks.columns);
+    
     // (document.querySelector('textarea') as HTMLElement).style.opacity ='0'
   }
   const onClickArea = () => {
@@ -42,7 +60,7 @@ const TaskWindow = ({taskClick, isOpenTask}: TaskWindowProps) => {
       <div className="flex items-center ">
         {/* <h3 className="pr-3">Title</h3> */}
         <div className="relative"> {currentTask.title}
-        <textarea onBlur={() => (document.querySelector('textarea') as HTMLElement).style.opacity ='0'} className=" z-20 absolute opacity-0 top-0 left-0 bg-slate-500 font-bold  border-none focus: outline-slate-400 " name="title" id="" onClick={onClickArea} onChange={handlerChange} value={taskTitleValue} ></textarea>
+        <textarea onBlur={() => (document.querySelector('textarea') as HTMLElement).style.opacity ='0'} className=" z-20 absolute opacity-0 top-0 left-0 bg-slate-500 font-bold  border-none focus: outline-slate-400 " name="title" id="" onClick={onClickArea} onInput={handlerChange} value={currentTask.title} ></textarea>
         </div>
         
         {/* <h3>{currentTask.title}</h3> */}

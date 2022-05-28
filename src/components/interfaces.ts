@@ -101,3 +101,15 @@ export interface TaskDelProps {
   colId: string,
   taskId: string
 }
+
+export interface TaskUpdateProps {
+  body: {
+    title: string,
+    order: number | null,
+    description: string,
+    userId: string | undefined,
+    boardId: string | null,
+    columnId: string | undefined
+  },
+  id: string
+}

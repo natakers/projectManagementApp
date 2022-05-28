@@ -3,10 +3,12 @@ import {
   createAsyncThunk,
   AnyAction,
 } from '@reduxjs/toolkit';
+import { WritableDraft } from 'immer/dist/internal';
 import {
   TaskAddProps,
   TaskDelProps,
   TaskShowProps,
+  TaskUpdateProps,
 } from '../../components/interfaces';
 import { getCookie } from '../../helpers/cookie';
 import { API_URL } from '../auth/authService';
@@ -55,6 +57,36 @@ export const createTask = createAsyncThunk<
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(task.task),
+        }
+      );
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      const errorMassage = (error as IError).message;
+      return rejectWithValue(errorMassage);
+    }
+  }
+);
+
+export const updateTask = createAsyncThunk<
+  TaskShowProps,
+  TaskUpdateProps,
+  { rejectValue: string }
+>(
+  'tasks/updatetask',
+  async function (task, { rejectWithValue, dispatch }) {
+    try {
+      const token = getCookie('user') || null;
+      const response = await fetch(
+        `${API_URL}/boards/${task.body.boardId}/columns/${task.body.columnId}/tasks/${task.id}`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(task.body),
         }
       );
       const data = await response.json();
@@ -166,6 +198,9 @@ const taskSlice = createSlice({
     chooseTaskId(state, action) {
       state.currentTask = action.payload;
     },
+    chooseColId(state, action) {
+      state.colId = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -230,19 +265,31 @@ const taskSlice = createSlice({
             } else return column }
         );
       })
-      .addCase(updateColumn.pending, (state) => {
+      .addCase(updateTask.pending, (state) => {
         state.loading = true;
+        state.error = false;
       })
-      .addCase(updateColumn.fulfilled, (state, action: AnyAction) => {
+      .addCase(updateTask.fulfilled, (state, action) => {
+        state.currentTask = action.payload;
+        const { columnId, id } = action.payload;
         state.loading = false;
+        state.colTasks.columns = state.colTasks.columns.filter(
+          (column) => {
+            if (column.id === columnId) {
+              // let arr: WritableDraft<ColumnTaskProps>
+              let arr = column.tasks.map((task) => {if (task.id === id) { return task = action.payload} else return task })
+              console.log(arr);
+              column.tasks=arr
+              return column.tasks
+            } else return column }
+        );
       })
-      .addCase(updateColumn.rejected, (state, action: AnyAction) => {
-        state.loading = false;
+      .addCase(updateTask.rejected, (state, action) => {
         state.error = true;
         state.message = action.payload;
       })
   },
 });
 
-export const { chooseTaskId } = taskSlice.actions;
+export const { chooseTaskId, chooseColId } = taskSlice.actions;
 export default taskSlice.reducer;

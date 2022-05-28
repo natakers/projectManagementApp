@@ -2,7 +2,7 @@ import { useState } from "react";
 import DotsIcon from "../../assets/icons/dotsIcon";
 import TrashIcon from "../../assets/icons/trash.icon";
 import { AppState, useAppDispatch, useAppSelector } from "../../store/store";
-import { chooseTaskId, deleteTask } from "../../store/task/taskSlice";
+import { chooseColId, chooseTaskId, deleteTask } from "../../store/task/taskSlice";
 import { TaskDelProps, TaskProps } from "../interfaces"
 import  { themes } from "../main-route/boardButton";
 
@@ -35,6 +35,7 @@ const Task = ({task, taskClick, columnId }: TaskProps) => {
     if (taskClick) {
       taskClick();
       dispatch(chooseTaskId(task));
+      dispatch(chooseColId(columnId));
     }
   }
   return (
