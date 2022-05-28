@@ -4,7 +4,7 @@ import {
   AnyAction,
 } from '@reduxjs/toolkit';
 import { getCookie } from '../../helpers/cookie';
-import { baseURL } from '../boards/boardsSlice';
+import { API_URL } from '../auth/authService';
 
 interface IError {
   message?: string;
@@ -70,7 +70,7 @@ export const getColumns = createAsyncThunk(
         headers,
       };
       const response = await fetch(
-        `${baseURL}/boards/${boardId}/columns`,
+        `${API_URL}/boards/${boardId}/columns`,
         options
       );
       const data = await response.json();
@@ -86,6 +86,8 @@ export const getColumns = createAsyncThunk(
 export const deleteColumn = createAsyncThunk(
   'columns/deleteColumnStatus',
   async (column: IColumnToDel, { rejectWithValue }) => {
+    console.log('response data ', column.id);
+    console.log('response data ', column.boardId);
     try {
       const token = getCookie('user') || null;
 
@@ -100,7 +102,7 @@ export const deleteColumn = createAsyncThunk(
         headers,
       };
       await fetch(
-        `${baseURL}/boards/${column.boardId}/columns/${column.id}`,
+        `${API_URL}/boards/${column.boardId}/columns/${column.id}`,
         options
       );
       // const data = await response.json();
@@ -134,7 +136,7 @@ export const addColumn = createAsyncThunk(
         }),
       };
       const response = await fetch(
-        `${baseURL}/boards/${column.boardId}/columns`,
+        `${API_URL}/boards/${column.boardId}/columns`,
         options
       );
       const data = await response.json();
@@ -188,18 +190,15 @@ export const colSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        // state.user = null;
       })
       .addCase(deleteColumn.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(deleteColumn.fulfilled, (state, action) => {
-        console.log('state.columns before', state.columns);
         const { id } = action.payload;
         state.columns = state.columns.filter(
           (column) => column.id !== id
         );
-        console.log('state.columns after', state.columns);
       });
   },
 });

@@ -1,3 +1,5 @@
+import { IColumn } from "../store/columns/colSlice"
+
 export interface BoardProps {
   id?: string,
   title: string,
@@ -31,8 +33,70 @@ export interface BoardCreationProps {
   toggleWindow: () => void
 }
 
+export interface TaskCreationProps {
+  colId: string,
+  order: number,
+  toggleWindow: () => void
+}
+
 export interface TokenProps {
   iat: string,
   login: string,
   userId: string,
+}
+
+export interface TaskAddProps {
+  task: {
+    userId?: string,
+    title: string,
+    description: string,
+  }
+  boardId?: string | null,
+  colId?: string,
+}
+
+export interface TaskShowProps {
+  userId?: string,
+  title: string,
+  description: string,
+  done: boolean,
+  order: number | null,
+  id?: string,
+  boardId?: string;
+  columnId?: string,
+  files?: Array<FileProps> | [] | undefined,
+  taskClick?: () => void;
+  // choosenTask?: TaskShowProps,
+}
+
+export interface TaskShowProps {
+  userId?: string,
+  title: string,
+  description: string,
+  done: boolean,
+  order: number | null,
+  id?: string,
+  boardId?: string;
+  columnId?: string,
+  files?: Array<FileProps> | [] | undefined,
+  // taskClick?: () => void;
+  // choosenTask?: TaskShowProps,
+}
+export interface TaskProps {
+  task: TaskShowProps,
+  taskClick?: () => void;
+}
+
+export interface FileProps {
+  filename: string,
+  fileSize: number,
+}
+export interface ColumnProps {
+  col: IColumn,
+}
+
+export interface TaskDelProps {
+  boardId: string,
+  colId: string,
+  taskId: string
 }

@@ -63,13 +63,11 @@ const SigninPage = (props: Props) => {
       password,
     };
     const { payload } = await dispatch(signin(userData));
-    console.log('payload', payload);
     payload.token &&
       setCookie('user', payload.token, {
-        maxAge: 200,
+        maxAge: 36000,
         sameSite: 'lax',
       });
-    console.log('sign in cookie', getCookie('user'));
   };
 
   if (isLoading) {
