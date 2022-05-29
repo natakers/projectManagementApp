@@ -113,3 +113,9 @@ export interface TaskUpdateProps {
   },
   id: string
 }
+
+export interface UserProps {
+  id: string,
+  login: string,
+  name: string,
+}

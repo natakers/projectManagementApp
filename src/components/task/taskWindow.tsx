@@ -1,79 +1,80 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ArrowBack from "../../assets/icons/arrowBack";
-import DotsIcon from "../../assets/icons/dotsIcon";
 import { AppState, useAppDispatch, useAppSelector } from "../../store/store";
-import { updateTask } from "../../store/task/taskSlice";
-import BoardButton, { themes } from "../main-route/boardButton";
+import { getUsers, updateTask } from "../../store/task/taskSlice";
+import Textarea, { textareaThemes } from "./textarea";
 
 const TaskWindow = ({taskClick, isOpenTask }: TaskWindowProps) => {
   const dispatch = useAppDispatch();
-  const { currentTask, colId, colTasks }  = useAppSelector((state: AppState) => state.tasks);
-  const [taskTitleValue, setTaskTitleValue ] = useState(currentTask.title)
-  const [visibleEditTask, setVisibleEditTask] = useState(false);
-  const toggeEditTask = () => {
-    setVisibleEditTask(!visibleEditTask)
-  };
+  const { currentTask, colId, colTasks, users }  = useAppSelector((state: AppState) => state.tasks);
+  // const [taskTitleValue, setTaskTitleValue ] = useState(currentTask.title)
+  // const [taskDesValue, setDesValue ] = useState(currentTask.description)
+  // const [visibleEditTask, setVisibleEditTask] = useState(false);
+  // const toggeEditTask = () => {
+  //   setVisibleEditTask(!visibleEditTask)
+  // };
   // if (isOpenTask) {
   // setTaskTitleValue(currentTask.title)
   // }
   console.log(currentTask);
   
   const boardId = localStorage.getItem('boardId');
+  const taskData = {
+    body: {
+      title: currentTask.title,
+      order: currentTask.order,
+      description: currentTask.description,
+      userId: currentTask.userId,
+      boardId: boardId,
+      columnId: colId
+    },
+    id: currentTask.id
+  };
   const handlerChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    // setTaskTitleValue(currentTask.title)
-    const taskData = {
-      body: {
-        title: currentTask.title,
-        order: currentTask.order,
-        description: currentTask.description,
-        userId: currentTask.userId,
-        boardId: boardId,
-        columnId: colId
-      },
-      id: currentTask.id
-    };
-    taskData.body.title = event.target.value
-    setTaskTitleValue(event.target.value);
-    dispatch(updateTask(taskData));
-    console.log(currentTask);   
-     console.log(colTasks.columns);
+    if ((event.target.name === 'title' || event.target.name === 'description') ) {
+      taskData.body[event.target.name] = event.target.value;
+    }
     
-    // (document.querySelector('textarea') as HTMLElement).style.opacity ='0'
   }
-  const onClickArea = () => {
-    (document.querySelector('textarea') as HTMLElement).style.opacity ='1'
+  const h = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    handlerChange(event);
+    dispatch(updateTask(taskData));
   }
+  useEffect(() => {
+      dispatch(getUsers());
+    }, [dispatch]);
+
   
    
   return (
-    <div className={`flex flex-col w-2/5 p-3 taskWindow absolute top-0 h-full bg-slate-500 z-50 ${isOpenTask? 'activeTaskWidow' : ''}`}  >
-      <div className=" absolute top-2 right-5 bg-slate-500 flex items-center cursor-pointer hover:bg-slate-700 " onClick={toggeEditTask}>
-          { visibleEditTask &&
-          <div className='flex flex-col absolute top-full right-0 bg-sky-800'>
-              <BoardButton text='Edit title' themes={themes.grey} />
-              <BoardButton text='Edit description' themes={themes.grey} />
-              <BoardButton text='Delete task' themes={themes.grey} />
-          </div>}
-        <DotsIcon />
-        </div>
+    <div className={`flex flex-col w-full  p-3 taskWindow absolute top-0 h-full bg-slate-500 z-50 ${isOpenTask? 'activeTaskWidow' : ''} sm:w-2/5`}  >
       <div className="flex items-center ">
-        {/* <h3 className="pr-3">Title</h3> */}
-        <div className="relative"> {currentTask.title}
-        <textarea onBlur={() => (document.querySelector('textarea') as HTMLElement).style.opacity ='0'} className=" z-20 absolute opacity-0 top-0 left-0 bg-slate-500 font-bold  border-none focus: outline-slate-400 " name="title" id="" onClick={onClickArea} onInput={handlerChange} value={currentTask.title} ></textarea>
-        </div>
-        
-        {/* <h3>{currentTask.title}</h3> */}
+        <Textarea onChange={h} className={textareaThemes.notFull} name="title" id='title' value={currentTask.title} />
       </div>
-      <div className="flex items-center">
-        <h3 className="pr-3">Description</h3>
-        <p>{currentTask.description}</p>
+      <div className="flex items-center ">
+        <h3 className="pr-3 ">User</h3>
+        <select className="selectUser outline-none border-none rounded bg-slate-500 hover:bg-slate-700 " name="user" id="user">
+          { users &&
+            users.map((user) => 
+              <option key={user.id} value={user.name}>{user.name}</option>
+            )
+          }
+        </select>
+      </div>
+      <div className="flex items-start">
+        <h3 className="pr-3 ">Date</h3>
+        <input className="date bg-slate-500 text-white" type="date" name="date" id="date" />
+      </div>
+      <h3 className="pr-3 ">Description:</h3>
+      <div className="flex grow items-start">
+      <Textarea onChange={h} className={textareaThemes.full} name="description" id='description' value={currentTask.description} />
       </div>
       <div className="flex items-center">
         <h3 className="pr-3">Done</h3>
         <input type="checkbox" name="done" id="done" />
       </div>
-      <button className="p-3" onClick={taskClick}>
+      <button className="p-3 self-end" onClick={taskClick}>
         <ArrowBack />
       </button>
     </div>
@@ -83,6 +84,7 @@ const TaskWindow = ({taskClick, isOpenTask }: TaskWindowProps) => {
 export default TaskWindow;
 
 interface TaskWindowProps {
-  taskClick: () => void;
+   taskClick: () => void;
   isOpenTask: boolean;
 }
+

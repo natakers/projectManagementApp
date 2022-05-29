@@ -3,12 +3,12 @@ import {
   createAsyncThunk,
   AnyAction,
 } from '@reduxjs/toolkit';
-import { WritableDraft } from 'immer/dist/internal';
 import {
   TaskAddProps,
   TaskDelProps,
   TaskShowProps,
   TaskUpdateProps,
+  UserProps,
 } from '../../components/interfaces';
 import { getCookie } from '../../helpers/cookie';
 import { API_URL } from '../auth/authService';
@@ -23,6 +23,27 @@ export const getAllAboutBoard = createAsyncThunk<
   try {
     const token = getCookie('user') || null;
     const response = await fetch(`${API_URL}/boards/${id}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    const errorMassage = (error as IError).message;
+    return rejectWithValue(errorMassage);
+  }
+});
+
+export const getUsers = createAsyncThunk<
+  UserProps[],
+  undefined,
+  { rejectValue: string }
+>('tasks/getusers', async function (_, { rejectWithValue }) {
+  try {
+    const token = getCookie('user') || null;
+    const response = await fetch(`${API_URL}/users`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -131,6 +152,7 @@ export interface TaskState {
   message: string | undefined;
   colTasks: BoardColTask;
   currentTask: TaskShowProps;
+  users: Array<UserProps>
 }
 
 interface BoardColTask {
@@ -189,6 +211,7 @@ const initialState: TaskState = {
     order: 1,
     tasks: [],
   },
+  users: []
 };
 
 const taskSlice = createSlice({
@@ -285,6 +308,18 @@ const taskSlice = createSlice({
         );
       })
       .addCase(updateTask.rejected, (state, action) => {
+        state.error = true;
+        state.message = action.payload;
+      })
+      .addCase(getUsers.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(getUsers.fulfilled, (state, action) => {
+        state.users = action.payload;
+        state.loading = false;
+      })
+      .addCase(getUsers.rejected, (state, action) => {
         state.error = true;
         state.message = action.payload;
       })
