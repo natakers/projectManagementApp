@@ -276,9 +276,9 @@ const taskSlice = createSlice({
         state.error = true;
         state.message = action.payload;
       })
-      .addCase(deleteColumn.pending, (state) => {
-        state.loading = true;
-      })
+      // .addCase(deleteColumn.pending, (state) => {
+      //   state.loading = true;
+      // })
       .addCase(deleteTask.fulfilled, (state, action) => {
         const { taskId, colId } = action.payload;
         state.colTasks.columns = state.colTasks.columns.filter(
@@ -321,6 +321,15 @@ const taskSlice = createSlice({
         state.error = true;
         state.message = action.payload;
       })
+      .addCase(deleteColumn.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteColumn.fulfilled, (state, action) => {
+        const { id } = action.payload;
+        state.colTasks.columns = state.colTasks.columns.filter(
+          (column) => column.id !== id
+        );
+      });
   },
 });
 

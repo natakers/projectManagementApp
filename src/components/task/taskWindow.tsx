@@ -43,6 +43,7 @@ const TaskWindow = ({taskClick, isOpenTask }: TaskWindowProps) => {
       <div className="flex items-center ">
         <h3 className="pr-3 ">Assignee</h3>
         <select className="selectUser outline-none border-none rounded bg-slate-500 hover:bg-slate-700 " name="user" id="user">
+        <option value=''>Choose user</option>
           { users &&
             users.map((user) => 
               <option key={user.id} value={user.name}>{user.name}</option>
