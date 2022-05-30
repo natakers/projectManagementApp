@@ -9,6 +9,7 @@ import { useCookies } from 'react-cookie';
 import { getCookie } from '../helpers/cookie';
 import { useSelector } from 'react-redux';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { themes } from '../components/main-route/boardButton';
 
 type Props = {};
 
@@ -75,20 +76,26 @@ const SignupPage = (props: Props) => {
   };
 
   const intl = useIntl();
-  const placeholderLog = intl.formatMessage({id: 'placeholderSignInLog'});
-  const placeholderName = intl.formatMessage({id: 'placeholderSignUpName'});
-  const placeholderPas = intl.formatMessage({id: 'placeholderSignInPas'});
+  const placeholderLog = intl.formatMessage({
+    id: 'placeholderSignInLog',
+  });
+  const placeholderName = intl.formatMessage({
+    id: 'placeholderSignUpName',
+  });
+  const placeholderPas = intl.formatMessage({
+    id: 'placeholderSignInPas',
+  });
 
   if (isLoading) {
     return <Spinner />;
   }
 
   return (
-    <section className="signup-page w-full min-h-screen px-6 py-6 flex flex-col justify-center items-center gap-16">
+    <section className="signup-page w-full min-h-[80vh] px-6 py-6 flex flex-col justify-center items-center gap-16">
       <div className="logo__container w-full flex flex-col justify-center items-center gap-3">
         <Logo />
-        <p className="title text-center font-bold text-3xl text-gray-900">
-        <FormattedMessage id='enterSignUp' />
+        <p className="title text-center font-bold text-2xl text-gray-400">
+          <FormattedMessage id="enterSignUp" />
         </p>
       </div>
       <form
@@ -104,7 +111,7 @@ const SignupPage = (props: Props) => {
             placeholder={placeholderName}
             onChange={onChange}
             required
-            className="form__control inline-flex w-full items-center px-4 py-3 border border-solid border-slate-400 rounded-lg"
+            className="form__control bg-gray-600 inline-flex w-full items-center px-4 py-3 border border-solid border-slate-400 rounded-lg"
           />
         </div>
         <div className="form__item w-full">
@@ -116,7 +123,7 @@ const SignupPage = (props: Props) => {
             placeholder={placeholderLog}
             onChange={onChange}
             required
-            className="form__control inline-flex w-full items-center px-4 py-3 border border-solid border-slate-400 rounded-lg"
+            className="form__control inline-flex bg-gray-600 w-full items-center px-4 py-3 border border-solid border-slate-400 rounded-lg"
           />
         </div>
         <div className="form__item w-full">
@@ -128,25 +135,28 @@ const SignupPage = (props: Props) => {
             placeholder={placeholderPas}
             onChange={onChange}
             required
-            className="form__control inline-flex w-full items-center px-4 py-3 border border-solid border-slate-400 rounded-lg"
+            className="form__control inline-flex w-full bg-gray-600 items-center px-4 py-3 border border-solid border-slate-400 rounded-lg"
           />
         </div>
         <div className="form__item w-full flex justify-center">
           <button
             type="submit"
-            className="form__button w-full px-4 py-2 text-lg border-transparent rounded-md shadow-md font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition-all duration-200"
+            className={`${themes.light} border-2 w-full rounded-md flex items-center justify-center border-sky-400`}
           >
-            <FormattedMessage id='signUp' />
+            <FormattedMessage id="signUp" />
           </button>
         </div>
       </form>
-      <div className="have-account w-full flex justify-center items-center">
-        <span><FormattedMessage id='haveAccount' />&nbsp;</span>
+      <div className="have-account w-full text-gray-400 flex justify-center items-center">
+        <span>
+          <FormattedMessage id="haveAccount" />
+          &nbsp;
+        </span>
         <Link
           to="/signin"
-          className="text-indigo-600 hover:text-indigo-700 transition-all duration-200"
+          className="text-sky-400 hover:text-indigo-500 transition-all duration-200"
         >
-          <FormattedMessage id='signIn' />
+          <FormattedMessage id="signIn" />
         </Link>
       </div>
     </section>
