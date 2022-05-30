@@ -12,8 +12,15 @@ import {
   useAppSelector,
 } from '../store/store';
 import { getAllAboutBoard } from '../store/task/taskSlice';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { getColumnById, updateColumn } from '../store/columns/colSlice';
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+} from 'react-beautiful-dnd';
+import {
+  getColumnById,
+  updateColumn,
+} from '../store/columns/colSlice';
 import { AnyObject } from 'immer/dist/internal';
 
 const BoardPage = () => {
@@ -30,10 +37,11 @@ const BoardPage = () => {
   const { colTasks } = useAppSelector(
     (state: AppState) => state.tasks
   );
-  const { columns, columnById, isSuccess:isSuccessUpdate } = useAppSelector(
-    (state: AppState) => state.columns
-  );
-
+  const {
+    columns,
+    columnById,
+    isSuccess: isSuccessUpdate,
+  } = useAppSelector((state: AppState) => state.columns);
 
   const boardId = localStorage.getItem('boardId');
   const board = boards.find((el) => el.id === boardId);
@@ -51,25 +59,41 @@ const BoardPage = () => {
 
   const handleDragStart = (result: any) => {
     const { draggableId, type, source } = result;
-    if (type === "COLUMN") {
-      dispatch(getColumnById({boardId: source.droppableId, id: draggableId}));
+    if (type === 'COLUMN') {
+      dispatch(
+        getColumnById({
+          boardId: source.droppableId,
+          id: draggableId,
+        })
+      );
       console.log(result);
     }
-  }
+  };
 
   const handleDragEnd = async (result: any) => {
     const { source, destination, draggableId, type } = result;
     if (!destination) return;
-    if (destination.droppableId === source.droppableId && destination.index === source.index) return;
-    if (type === "COLUMN" && columnById) {
-      await dispatch(updateColumn({ boardId: source.droppableId, id: draggableId, title: columnById.title, order: destination.index }))
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    )
+      return;
+    if (type === 'COLUMN' && columnById) {
+      await dispatch(
+        updateColumn({
+          boardId: source.droppableId,
+          id: draggableId,
+          title: columnById.title,
+          order: destination.index,
+        })
+      );
     }
     dispatch(getAllAboutBoard(source.droppableId));
     console.log(result);
-  }
+  };
 
   return (
-    <main className=" overflow-hidden bg-slate-800 h-full text-gray-300 items-start px-5 flex flex-col gap-5 relative">
+    <main className=" overflow-hidden bg-slate-800 min-h-[65vh] text-gray-300 items-start px-5 flex flex-col gap-5 relative">
       {!boardId ? (
         <Link
           to="/main"
@@ -84,8 +108,16 @@ const BoardPage = () => {
             <h1 className="text-3xl">{board?.title}</h1>
           </section>
           <section className="flex gap-5 w-full h-full items-start">
-            <DragDropContext onDragStart={result => handleDragStart(result)} onDragEnd={result => handleDragEnd(result)}>
-              <Droppable droppableId={boardId} key={boardId} direction="horizontal" type="COLUMN">
+            <DragDropContext
+              onDragStart={(result) => handleDragStart(result)}
+              onDragEnd={(result) => handleDragEnd(result)}
+            >
+              <Droppable
+                droppableId={boardId}
+                key={boardId}
+                direction="horizontal"
+                type="COLUMN"
+              >
                 {(provided, snapshot) => {
                   return (
                     <div
@@ -95,7 +127,11 @@ const BoardPage = () => {
                     >
                       {colTasks.columns.length > 0 &&
                         colTasks.columns.map((col, index) => (
-                          <Draggable key={col.id} draggableId={col.id} index={col.order}>
+                          <Draggable
+                            key={col.id}
+                            draggableId={col.id}
+                            index={col.order}
+                          >
                             {(provided, snapshot) => {
                               return (
                                 <div
@@ -103,7 +139,7 @@ const BoardPage = () => {
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                   style={{
-                                    ...provided.draggableProps.style
+                                    ...provided.draggableProps.style,
                                   }}
                                 >
                                   <Column
@@ -115,14 +151,13 @@ const BoardPage = () => {
                                     taskClick={handlerClick}
                                   />
                                 </div>
-                              )
+                              );
                             }}
                           </Draggable>
-                        ))
-                      }
+                        ))}
                       {provided.placeholder}
                     </div>
-                  )
+                  );
                 }}
               </Droppable>
             </DragDropContext>
@@ -132,7 +167,7 @@ const BoardPage = () => {
                   onClick={() => setIsPopupDisplay(true)}
                   className="text-gray-400 relative"
                 >
-                  <FormattedMessage id='addColumn' />
+                  <FormattedMessage id="addColumn" />
                 </button>
                 {isPopupDisplay && (
                   <AddColumnForm
@@ -148,7 +183,6 @@ const BoardPage = () => {
           />
         </>
       )}
-
     </main>
   );
 };
