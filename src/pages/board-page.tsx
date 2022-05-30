@@ -10,10 +10,10 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '../store/store';
-import { getAllAboutBoard } from '../store/task/taskSlice';
+import { getAllAboutBoard, getTaskById, updateTask } from '../store/task/taskSlice';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { getColumnById, updateColumn } from '../store/columns/colSlice';
-import { AnyObject } from 'immer/dist/internal';
+import { getBoardById } from '../store/boards/boardsSlice';
 
 const BoardPage = () => {
   const [cookie] = useCookies(['user']);
@@ -23,13 +23,13 @@ const BoardPage = () => {
   const [isPopupDisplay, setIsPopupDisplay] = useState(false);
   const [isOpenTask, setIsOpenTask] = useState(false);
 
-  const { boards } = useAppSelector(
+  const { boards, boardById } = useAppSelector(
     (state: AppState) => state.boards
   );
-  const { colTasks } = useAppSelector(
+  const { colTasks, taskById } = useAppSelector(
     (state: AppState) => state.tasks
   );
-  const { columns, columnById, isSuccess:isSuccessUpdate } = useAppSelector(
+  const { columns, columnById } = useAppSelector(
     (state: AppState) => state.columns
   );
 
@@ -44,14 +44,19 @@ const BoardPage = () => {
     cookie.user === undefined && navigate('/');
     if (cookie.user && boardId) {
       dispatch(getAllAboutBoard(boardId));
+      dispatch(getBoardById(boardId));
     }
-  }, [cookie.user, navigate, dispatch, boardId, isSuccessUpdate]);
+  }, [cookie.user, navigate, dispatch, boardId]);
 
   const handleDragStart = (result: any) => {
     const { draggableId, type, source } = result;
-    if (type === "COLUMN") {
-      dispatch(getColumnById({boardId: source.droppableId, id: draggableId}));
+    if (type === 'COLUMN') {
+      dispatch(getColumnById({ boardId: source.droppableId, id: draggableId }));
       console.log(result);
+    }
+    if (type === 'TASK' && boardById.id) {
+      dispatch(getTaskById({ boardId: boardById.id, colId: source.droppableId, taskId: draggableId }));
+      console.log(result)
     }
   }
 
@@ -59,11 +64,29 @@ const BoardPage = () => {
     const { source, destination, draggableId, type } = result;
     if (!destination) return;
     if (destination.droppableId === source.droppableId && destination.index === source.index) return;
-    if (type === "COLUMN" && columnById) {
-      await dispatch(updateColumn({ boardId: source.droppableId, id: draggableId, title: columnById.title, order: destination.index }))
+    if (type === 'COLUMN' && columnById) {
+      await dispatch(updateColumn({ 
+        boardId: source.droppableId, 
+        id: draggableId, title: 
+        columnById.title, 
+        order: destination.index 
+      }));
+      console.log(result);
+    }
+    if (type === 'TASK' && boardById.id && taskById && taskById.userId) {
+      await dispatch(updateTask({ 
+        boardId: boardById.id, 
+        columnId: destination.droppableId, 
+        taskId: draggableId, 
+        title: taskById.title, 
+        order: destination.index, 
+        description: 
+        taskById.description, 
+        userId: taskById.userId 
+      }));
+      console.log(result);
     }
     dispatch(getAllAboutBoard(source.droppableId));
-    console.log(result);
   }
 
   return (

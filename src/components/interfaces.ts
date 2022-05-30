@@ -100,3 +100,19 @@ export interface TaskDelProps {
   colId: string,
   taskId: string
 }
+
+export interface TaskGetByIdProps {
+  boardId: string,
+  colId: string,
+  taskId: string
+}
+
+export interface TaskUpdateProps {
+  boardId: string,
+  columnId: string,
+  taskId: string,
+  title: string,
+  order: number,
+  description: string,
+  userId: string,
+}

@@ -7,11 +7,14 @@ import {
   TaskAddProps,
   TaskDelProps,
   TaskShowProps,
+  TaskGetByIdProps,
+  TaskUpdateProps,
 } from '../../components/interfaces';
 import { getCookie } from '../../helpers/cookie';
 import { API_URL } from '../auth/authService';
 import { addColumn, deleteColumn, updateColumn } from '../columns/colSlice';
 import { IError } from '../config';
+import taskService from './taskService';
 
 export const getAllAboutBoard = createAsyncThunk<
   BoardColTask,
@@ -33,6 +36,18 @@ export const getAllAboutBoard = createAsyncThunk<
     return rejectWithValue(errorMassage);
   }
 });
+
+export const getTaskById = createAsyncThunk(
+  'tasks/getTaskById',
+  async (task: TaskGetByIdProps, { rejectWithValue }) => {
+    try {
+      return await taskService.getTaskById(task);
+    } catch (error) {
+      const errorMessage = (error as IError).message;
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
 
 export const createTask = createAsyncThunk<
   TaskShowProps,
@@ -88,6 +103,18 @@ export const deleteTask = createAsyncThunk(
   }
 );
 
+export const updateTask = createAsyncThunk(
+  'tasks/updateTask',
+  async (task: TaskUpdateProps, { rejectWithValue }) => {
+    try {
+      return await taskService.updateTask(task);
+    } catch (error) {
+      const errorMessage = (error as IError).message;
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
+
 export interface TaskState {
   tasks: Array<TaskShowProps>;
   loading: boolean;
@@ -99,6 +126,7 @@ export interface TaskState {
   message: string | undefined;
   colTasks: BoardColTask;
   currentTask: TaskShowProps;
+  taskById: TaskShowProps;
 }
 
 interface BoardColTask {
@@ -157,6 +185,17 @@ const initialState: TaskState = {
     order: 1,
     tasks: [],
   },
+  taskById: {
+    id: '',
+    title: '',
+    order: 1,
+    description: '',
+    userId: '',
+    boardId: '',
+    columnId: '',
+    files: [],
+    done: false
+  }
 };
 
 const taskSlice = createSlice({
@@ -243,6 +282,29 @@ const taskSlice = createSlice({
       })
       .addCase(updateColumn.rejected, (state, action: AnyAction) => {
         state.loading = false;
+        state.error = true;
+        state.message = action.payload;
+      })
+      .addCase(getTaskById.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(getTaskById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.taskById = action.payload;
+      })
+      .addCase(getTaskById.rejected, (state, action: AnyAction) => {
+        state.error = true;
+        state.message = action.payload;
+      })
+      .addCase(updateTask.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(updateTask.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(updateTask.rejected, (state, action: AnyAction) => {
         state.error = true;
         state.message = action.payload;
       })

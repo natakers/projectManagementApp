@@ -32,7 +32,7 @@ const BoardContainer: React.FC = () => {
         ))
       ) : (
         <div className="text-red-300">
-          Oops! Something does wrong!
+          Oops! Something went wrong!
         </div>
       )}
       {isOpen && (

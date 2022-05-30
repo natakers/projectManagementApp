@@ -1,8 +1,10 @@
+import { AnyAction } from '@reduxjs/toolkit';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { BoardProps } from '../../components/interfaces';
 import { getCookie } from '../../helpers/cookie';
 import { API_URL } from '../auth/authService';
 import { IError } from '../config';
+import boardsService from './boardsService';
 
 // export const baseURL = 'https://frozen-depths-66382.herokuapp.com';
 
@@ -26,6 +28,18 @@ export const getBoards = createAsyncThunk<
     return rejectWithValue(errorMassage);
   }
 });
+
+export const getBoardById = createAsyncThunk(
+  'boards/getBoardById',
+  async (boardId: string, { rejectWithValue }) => {
+    try {
+      return await boardsService.getBoardById(boardId);
+    } catch (error) {
+      const errorMessage = (error as IError).message;
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
 
 export const createBoard = createAsyncThunk<
   BoardProps,
@@ -86,6 +100,7 @@ export interface BoardState {
   currentId: string,
   newBoard: BoardProps | null,
   message: string | undefined,
+  boardById: BoardProps,
 }
 
 const initialState: BoardState = {
@@ -97,7 +112,12 @@ const initialState: BoardState = {
     title: '',
     description: '',
   },
-  message: undefined,
+  message: '',
+  boardById: {
+    id: '',
+    title: '',
+    description: ''
+  },
 };
 
 const boardSlice = createSlice({
@@ -148,6 +168,18 @@ const boardSlice = createSlice({
         state.boards.push(state.newBoard);
       })
       .addCase(createBoard.rejected, (state, action) => {
+        state.error = true;
+        state.message = action.payload;
+      })
+      .addCase(getBoardById.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(getBoardById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.boardById = action.payload;
+      })
+      .addCase(getBoardById.rejected, (state, action: AnyAction) => {
         state.error = true;
         state.message = action.payload;
       });
