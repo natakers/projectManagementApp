@@ -6,7 +6,8 @@ import BoardButton, {
 } from '../components/main-route/boardButton';
 import { createBoard, resetBoard } from '../store/boards/boardsSlice';
 import { useAppDispatch } from '../store/store';
-import { useIntl } from 'react-intl'
+import { FormattedMessage, useIntl } from 'react-intl'
+
 
 const BoardCreation = ({ toggleWindow }: BoardCreationProps) => {
   const [formData, setFormData] = useState({
@@ -18,8 +19,8 @@ const BoardCreation = ({ toggleWindow }: BoardCreationProps) => {
   const dispatch = useAppDispatch();
 
   const intl = useIntl();
-  const placeholderTitle = intl.formatMessage({id: 'placeholderTitleBoard'});
-  const placeholderDecsription = intl.formatMessage({id: 'placeholderDecsriptionBoard'});
+  // const placeholderTitle = intl.formatMessage({id: 'placeholderTitleBoard'});
+  // const placeholderDecsription = intl.formatMessage({id: 'placeholderDecsriptionBoard'});
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevState) => ({
@@ -59,7 +60,7 @@ const BoardCreation = ({ toggleWindow }: BoardCreationProps) => {
           className="form w-2/4 flex flex-col justify-center items-center gap-6"
         >
           <label className="text-sm" htmlFor="title">
-            Board name
+          <FormattedMessage id='titleNewBoard' />
             <input
               value={title}
               name="title"
@@ -70,7 +71,7 @@ const BoardCreation = ({ toggleWindow }: BoardCreationProps) => {
             />
           </label>
           <label className="text-sm" htmlFor="description">
-            Description
+          <FormattedMessage id='decsriptionNewBoard' />
             <input
               value={description}
               name="description"
@@ -84,7 +85,7 @@ const BoardCreation = ({ toggleWindow }: BoardCreationProps) => {
             <BoardButton
               themes={themes.light}
               type="submit"
-              text="Create"
+              text="create"
             />
           </div>
         </form>

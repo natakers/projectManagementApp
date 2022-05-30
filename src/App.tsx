@@ -36,13 +36,15 @@ const App = () => {
   // };
 
 
-  useEffect(() => {
-    fetchApiData();
-  });
+  // useEffect(() => {
+  //   fetchApiData();
+  // });
   const locale = getCookie('lang') || LOCALES.ENGLISH
   const [cookie, setCookie] = useCookies(['lang']);
   const handleChange = (e: { target: { value: string; }}) => {    
   setCookie('lang', e.target.value)
+  console.log(cookie);
+  
 }
 
   return (
