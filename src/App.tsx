@@ -48,7 +48,7 @@ const App = () => {
 }
 
   return (
-    <IntlProvider messages={messages[cookie.lang]} locale={locale} defaultLocale={LOCALES.ENGLISH}>
+    <IntlProvider messages={messages[locale]} locale={locale} defaultLocale={LOCALES.ENGLISH}>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout handleChange={handleChange}  currentLocale={cookie.lang} />}>
