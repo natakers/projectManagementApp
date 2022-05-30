@@ -101,6 +101,13 @@ const TaskCreation = ({
           />
         </label>
         <input type="submit" className="hidden" />
+        {/* <div className="flex w-full justify-around ">
+            <BoardButton
+              themes={themes.light}
+              type="submit"
+              text="Create"
+            />
+          </div> */}
       </form>
       <button
         onClick={toggleWindow}
