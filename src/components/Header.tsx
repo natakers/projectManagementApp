@@ -81,7 +81,6 @@ const Header = ({currentLocale, handleChange }: HeaderProps) => {
   const openMenu = () => {
     setIsNavOpen(!isNavOpen)
   }
-console.log(burger);
 
   return (
     <header  className={`${sticky ? 'header--sticky' : 'h-24'} relative bg-slate-800 w-full flex justify-between items-center px-6 py-6 border-b border-b-slate-600 text-gray-300`}>
