@@ -7,7 +7,6 @@ import { signin, reset } from '../store/auth/authSlice';
 import Spinner from '../components/Spinner';
 import { useCookies } from 'react-cookie';
 import Logo from '../components/logo';
-import { getCookie } from '../helpers/cookie';
 
 type Props = {};
 

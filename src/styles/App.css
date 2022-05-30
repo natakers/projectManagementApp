@@ -50,3 +50,19 @@
   right: 0;
   transition: all 0.3s;
 }
+
+.selectUser{
+  appearance: none;
+}
+
+.selectUser::-ms-expand {
+	/* IE */
+	display: none;
+}
+
+.date::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
+.date::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}

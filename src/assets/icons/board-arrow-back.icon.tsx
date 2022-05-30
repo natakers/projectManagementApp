@@ -1,4 +1,4 @@
-const ArrowBack = () => {
+const BoardArrowBack = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -11,10 +11,10 @@ const ArrowBack = () => {
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
-        d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
+        d="M10 19l-7-7m0 0l7-7m-7 7h18"
       />
     </svg>
   );
 };
 
-export default ArrowBack;
+export default BoardArrowBack;

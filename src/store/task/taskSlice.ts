@@ -7,6 +7,8 @@ import {
   TaskAddProps,
   TaskDelProps,
   TaskShowProps,
+  TaskUpdateProps,
+  UserProps,
 } from '../../components/interfaces';
 import { getCookie } from '../../helpers/cookie';
 import { API_URL } from '../auth/authService';
@@ -34,6 +36,29 @@ export const getAllAboutBoard = createAsyncThunk<
   }
 });
 
+export const getUsers = createAsyncThunk<
+  UserProps[],
+  undefined,
+  { rejectValue: string }
+>('tasks/getusers', async function (_, { rejectWithValue }) {
+  try {
+    const token = getCookie('user') || null;
+    const response = await fetch(`${API_URL}/users`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    const errorMassage = (error as IError).message;
+    return rejectWithValue(errorMassage);
+  }
+});
+
+
+
 export const createTask = createAsyncThunk<
   TaskShowProps,
   TaskAddProps,
@@ -43,7 +68,6 @@ export const createTask = createAsyncThunk<
   async function (task, { rejectWithValue, dispatch }) {
     try {
       const token = getCookie('user') || null;
-
       const response = await fetch(
         `${API_URL}/boards/${task.boardId}/columns/${task.colId}/tasks`,
         {
@@ -65,14 +89,43 @@ export const createTask = createAsyncThunk<
   }
 );
 
-export const deleteTask = createAsyncThunk(
-  'tasks/deleteTasks',
-  async function (id: TaskDelProps, { rejectWithValue, dispatch }) {
+export const updateTask = createAsyncThunk<
+  TaskShowProps,
+  TaskUpdateProps,
+  { rejectValue: string }
+>(
+  'tasks/updatetask',
+  async function (task, { rejectWithValue, dispatch }) {
     try {
       const token = getCookie('user') || null;
+      const response = await fetch(
+        `${API_URL}/boards/${task.body.boardId}/columns/${task.body.columnId}/tasks/${task.id}`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(task.body),
+        }
+      );
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      const errorMassage = (error as IError).message;
+      return rejectWithValue(errorMassage);
+    }
+  }
+);
 
+export const deleteTask = createAsyncThunk(
+  'tasks/deleteTasks',
+  async function (task: TaskDelProps, { rejectWithValue, dispatch }) {
+    try {
+      const token = getCookie('user') || null;
       await fetch(
-        `${API_URL}/boards/${id.boardId}/columns/${id.colId}/tasks/${id.taskId}`,
+        `${API_URL}/boards/${task.boardId}/columns/${task.colId}/tasks/${task.taskId}`,
         {
           method: 'DELETE',
           headers: {
@@ -80,7 +133,7 @@ export const deleteTask = createAsyncThunk(
           },
         }
       );
-      return id;
+      return task;
     } catch (error) {
       const errorMassage = (error as IError).message;
       return rejectWithValue(errorMassage);
@@ -99,6 +152,7 @@ export interface TaskState {
   message: string | undefined;
   colTasks: BoardColTask;
   currentTask: TaskShowProps;
+  users: Array<UserProps>
 }
 
 interface BoardColTask {
@@ -157,6 +211,7 @@ const initialState: TaskState = {
     order: 1,
     tasks: [],
   },
+  users: []
 };
 
 const taskSlice = createSlice({
@@ -165,7 +220,9 @@ const taskSlice = createSlice({
   reducers: {
     chooseTaskId(state, action) {
       state.currentTask = action.payload;
-      // state.isOpen = true;
+    },
+    chooseColId(state, action) {
+      state.colId = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -182,11 +239,6 @@ const taskSlice = createSlice({
       .addCase(getAllAboutBoard.rejected, (state, action) => {
         state.error = true;
         state.message = action.payload;
-      })
-      .addCase(deleteTask.fulfilled, (state, action) => {
-        // state.tasks = state.tasks.filter(
-        //   (task) => task.id !== action.payload
-        // );
       })
       .addCase(createTask.pending, (state) => {
         state.loading = true;
@@ -217,14 +269,57 @@ const taskSlice = createSlice({
       .addCase(addColumn.fulfilled, (state, action: AnyAction) => {
         state.newColumn = action.payload;
         state.loading = false;
-        // state.isSuccess = true;
         state.colTasks.columns.push(state.newColumn);
       })
       .addCase(addColumn.rejected, (state, action: AnyAction) => {
         state.loading = false;
         state.error = true;
         state.message = action.payload;
-        // state.user = null;
+      })
+      // .addCase(deleteColumn.pending, (state) => {
+      //   state.loading = true;
+      // })
+      .addCase(deleteTask.fulfilled, (state, action) => {
+        const { taskId, colId } = action.payload;
+        state.colTasks.columns = state.colTasks.columns.filter(
+          (column) => {
+            if (column.id === colId) {
+              return column.tasks=column.tasks.filter((task) => task.id !== taskId)
+            } else return column }
+        );
+      })
+      .addCase(updateTask.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(updateTask.fulfilled, (state, action) => {
+        state.currentTask = action.payload;
+        const { columnId, id } = action.payload;
+        state.loading = false;
+        state.colTasks.columns = state.colTasks.columns.filter(
+          (column) => {
+            if (column.id === columnId) {
+              let arr = column.tasks.map((task) => {if (task.id === id) { return task = action.payload} else return task })
+              column.tasks=arr
+              return column.tasks
+            } else return column }
+        );
+      })
+      .addCase(updateTask.rejected, (state, action) => {
+        state.error = true;
+        state.message = action.payload;
+      })
+      .addCase(getUsers.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(getUsers.fulfilled, (state, action) => {
+        state.users = action.payload;
+        state.loading = false;
+      })
+      .addCase(getUsers.rejected, (state, action) => {
+        state.error = true;
+        state.message = action.payload;
       })
       .addCase(deleteColumn.pending, (state) => {
         state.loading = true;
@@ -234,20 +329,9 @@ const taskSlice = createSlice({
         state.colTasks.columns = state.colTasks.columns.filter(
           (column) => column.id !== id
         );
-      })
-      .addCase(updateColumn.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(updateColumn.fulfilled, (state, action: AnyAction) => {
-        state.loading = false;
-      })
-      .addCase(updateColumn.rejected, (state, action: AnyAction) => {
-        state.loading = false;
-        state.error = true;
-        state.message = action.payload;
-      })
+      });
   },
 });
 
-export const { chooseTaskId } = taskSlice.actions;
+export const { chooseTaskId, chooseColId } = taskSlice.actions;
 export default taskSlice.reducer;

@@ -61,7 +61,7 @@ export interface TaskShowProps {
   description: string,
   done: boolean,
   order: number | null,
-  id?: string,
+  id: string,
   boardId?: string;
   columnId?: string,
   files?: Array<FileProps> | [] | undefined,
@@ -75,7 +75,7 @@ export interface TaskShowProps {
   description: string,
   done: boolean,
   order: number | null,
-  id?: string,
+  id: string,
   boardId?: string;
   columnId?: string,
   files?: Array<FileProps> | [] | undefined,
@@ -84,6 +84,7 @@ export interface TaskShowProps {
 }
 export interface TaskProps {
   task: TaskShowProps,
+  columnId: string,
   taskClick?: () => void;
 }
 
@@ -99,4 +100,22 @@ export interface TaskDelProps {
   boardId: string,
   colId: string,
   taskId: string
+}
+
+export interface TaskUpdateProps {
+  body: {
+    title: string,
+    order: number | null,
+    description: string,
+    userId: string | undefined,
+    boardId: string | null,
+    columnId: string | undefined
+  },
+  id: string
+}
+
+export interface UserProps {
+  id: string,
+  login: string,
+  name: string,
 }

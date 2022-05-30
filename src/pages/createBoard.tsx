@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import BoardArrowBack from '../assets/icons/arrowBack';
-import Input from '../components/input';
+import BoardArrowBack from '../assets/icons/board-arrow-back.icon';
 import { BoardCreationProps } from '../components/interfaces';
 import BoardButton, {
   themes,

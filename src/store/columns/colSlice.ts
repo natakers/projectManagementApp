@@ -90,7 +90,6 @@ export const getColumns = createAsyncThunk(
       return data;
     } catch (error) {
       const errorMessage = (error as IError).message;
-      console.log(errorMessage);
       return rejectWithValue(errorMessage);
     }
   }
@@ -111,8 +110,6 @@ export const getColumnById = createAsyncThunk(
 export const deleteColumn = createAsyncThunk(
   'columns/deleteColumnStatus',
   async (column: IColumnToDel, { rejectWithValue }) => {
-    console.log('response data ', column.id);
-    console.log('response data ', column.boardId);
     try {
       const token = getCookie('user') || null;
 
@@ -130,12 +127,9 @@ export const deleteColumn = createAsyncThunk(
         `${API_URL}/boards/${column.boardId}/columns/${column.id}`,
         options
       );
-      // const data = await response.json();
-      // console.log('response data ', data);
       return column;
     } catch (error) {
       const errorMessage = (error as IError).message;
-      console.log(errorMessage);
       return rejectWithValue(errorMessage);
     }
   }
@@ -165,11 +159,9 @@ export const addColumn = createAsyncThunk(
         options
       );
       const data = await response.json();
-      console.log('new column-->', data);
       return data;
     } catch (error) {
       const errorMessage = (error as IError).message;
-      console.log(errorMessage);
       return rejectWithValue(errorMessage);
     }
   }
