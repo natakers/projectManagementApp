@@ -43,7 +43,7 @@ const Task = ({ task, taskClick, columnId }: TaskProps) => {
       className="bg-slate-700 border border-slate-600 rounded-md m-2 p-2 hover:border hover:border-slate-500"
       onClick={openTask}
     >
-      <div className="flex justify-between text-orange-200">
+      <div className="flex justify-between text-orange-300">
         <h2>{task.title}</h2>
         <div
           className=" relative flex items-center cursor-pointer hover:bg-slate-500 "
