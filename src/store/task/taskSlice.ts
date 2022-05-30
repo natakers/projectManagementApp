@@ -299,9 +299,7 @@ const taskSlice = createSlice({
         state.colTasks.columns = state.colTasks.columns.filter(
           (column) => {
             if (column.id === columnId) {
-              // let arr: WritableDraft<ColumnTaskProps>
               let arr = column.tasks.map((task) => {if (task.id === id) { return task = action.payload} else return task })
-              console.log(arr);
               column.tasks=arr
               return column.tasks
             } else return column }

@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ArrowBack from "../../assets/icons/arrowBack";
 import { AppState, useAppDispatch, useAppSelector } from "../../store/store";
 import { getUsers, updateTask } from "../../store/task/taskSlice";
@@ -7,17 +7,7 @@ import Textarea, { textareaThemes } from "./textarea";
 
 const TaskWindow = ({taskClick, isOpenTask }: TaskWindowProps) => {
   const dispatch = useAppDispatch();
-  const { currentTask, colId, colTasks, users }  = useAppSelector((state: AppState) => state.tasks);
-  // const [taskTitleValue, setTaskTitleValue ] = useState(currentTask.title)
-  // const [taskDesValue, setDesValue ] = useState(currentTask.description)
-  // const [visibleEditTask, setVisibleEditTask] = useState(false);
-  // const toggeEditTask = () => {
-  //   setVisibleEditTask(!visibleEditTask)
-  // };
-  // if (isOpenTask) {
-  // setTaskTitleValue(currentTask.title)
-  // }
-  console.log(currentTask);
+  const { currentTask, colId, users }  = useAppSelector((state: AppState) => state.tasks);
   
   const boardId = localStorage.getItem('boardId');
   const taskData = {
@@ -44,8 +34,6 @@ const TaskWindow = ({taskClick, isOpenTask }: TaskWindowProps) => {
   useEffect(() => {
       dispatch(getUsers());
     }, [dispatch]);
-
-  
    
   return (
     <div className={`flex flex-col w-full  p-3 taskWindow absolute top-0 h-full bg-slate-500 z-50 ${isOpenTask? 'activeTaskWidow' : ''} sm:w-2/5`}  >
@@ -53,7 +41,7 @@ const TaskWindow = ({taskClick, isOpenTask }: TaskWindowProps) => {
         <Textarea onChange={h} className={textareaThemes.notFull} name="title" id='title' value={currentTask.title} />
       </div>
       <div className="flex items-center ">
-        <h3 className="pr-3 ">User</h3>
+        <h3 className="pr-3 ">Assignee</h3>
         <select className="selectUser outline-none border-none rounded bg-slate-500 hover:bg-slate-700 " name="user" id="user">
           { users &&
             users.map((user) => 
@@ -70,10 +58,10 @@ const TaskWindow = ({taskClick, isOpenTask }: TaskWindowProps) => {
       <div className="flex grow items-start">
       <Textarea onChange={h} className={textareaThemes.full} name="description" id='description' value={currentTask.description} />
       </div>
-      <div className="flex items-center">
+      {/* <div className="flex items-center">
         <h3 className="pr-3">Done</h3>
         <input type="checkbox" name="done" id="done" />
-      </div>
+      </div> */}
       <button className="p-3 self-end" onClick={taskClick}>
         <ArrowBack />
       </button>

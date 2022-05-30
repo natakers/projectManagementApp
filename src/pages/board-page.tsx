@@ -33,6 +33,7 @@ const BoardPage = () => {
     (state: AppState) => state.columns
   );
 
+
   const boardId = localStorage.getItem('boardId');
   const board = boards.find((el) => el.id === boardId);
 

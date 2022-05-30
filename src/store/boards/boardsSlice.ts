@@ -4,8 +4,6 @@ import { getCookie } from '../../helpers/cookie';
 import { API_URL } from '../auth/authService';
 import { IError } from '../config';
 
-// export const baseURL = 'https://frozen-depths-66382.herokuapp.com';
-
 export const getBoards = createAsyncThunk<
   BoardProps[],
   undefined,
@@ -109,11 +107,6 @@ const boardSlice = createSlice({
     },
     chooseBoardId(state, action) {
       state.currentId = action.payload;
-      // state.isOpen = true;
-    },
-    resetBoardId(state, action) {
-      // state.currentId = ''
-      // state.isOpen = false;
     },
     resetBoard(state, action) {
       state.newBoard = null;
@@ -154,7 +147,7 @@ const boardSlice = createSlice({
   },
 });
 
-export const { openboard, chooseBoardId, resetBoardId, resetBoard } =
+export const { openboard, chooseBoardId, resetBoard } =
   boardSlice.actions;
 
 export default boardSlice.reducer;
