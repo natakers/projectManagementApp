@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { Link, useNavigate } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 import BoardIcon from '../assets/icons/board.icon';
 import AddColumnForm from '../components/board-route/add-column-form';
 import Column from '../components/column';
@@ -131,7 +132,7 @@ const BoardPage = () => {
                   onClick={() => setIsPopupDisplay(true)}
                   className="text-gray-400 relative"
                 >
-                  + Add Column
+                  <FormattedMessage id='addColumn' />
                 </button>
                 {isPopupDisplay && (
                   <AddColumnForm
@@ -147,6 +148,7 @@ const BoardPage = () => {
           />
         </>
       )}
+
     </main>
   );
 };

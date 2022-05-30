@@ -8,6 +8,7 @@ import Logo from '../components/logo';
 import { useCookies } from 'react-cookie';
 import { getCookie } from '../helpers/cookie';
 import { useSelector } from 'react-redux';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 type Props = {};
 
@@ -73,6 +74,11 @@ const SignupPage = (props: Props) => {
     console.log('sign up cookie', getCookie('user'));
   };
 
+  const intl = useIntl();
+  const placeholderLog = intl.formatMessage({id: 'placeholderSignInLog'});
+  const placeholderName = intl.formatMessage({id: 'placeholderSignUpName'});
+  const placeholderPas = intl.formatMessage({id: 'placeholderSignInPas'});
+
   if (isLoading) {
     return <Spinner />;
   }
@@ -82,7 +88,7 @@ const SignupPage = (props: Props) => {
       <div className="logo__container w-full flex flex-col justify-center items-center gap-3">
         <Logo />
         <p className="title text-center font-bold text-3xl text-gray-900">
-          Join our community
+        <FormattedMessage id='enterSignUp' />
         </p>
       </div>
       <form
@@ -95,7 +101,7 @@ const SignupPage = (props: Props) => {
             id="name"
             name="name"
             value={name}
-            placeholder="Enter your name"
+            placeholder={placeholderName}
             onChange={onChange}
             required
             className="form__control inline-flex w-full items-center px-4 py-3 border border-solid border-slate-400 rounded-lg"
@@ -107,7 +113,7 @@ const SignupPage = (props: Props) => {
             id="login"
             name="login"
             value={login}
-            placeholder="Enter your login"
+            placeholder={placeholderLog}
             onChange={onChange}
             required
             className="form__control inline-flex w-full items-center px-4 py-3 border border-solid border-slate-400 rounded-lg"
@@ -119,7 +125,7 @@ const SignupPage = (props: Props) => {
             id="password"
             name="password"
             value={password}
-            placeholder="Enter your password"
+            placeholder={placeholderPas}
             onChange={onChange}
             required
             className="form__control inline-flex w-full items-center px-4 py-3 border border-solid border-slate-400 rounded-lg"
@@ -130,17 +136,17 @@ const SignupPage = (props: Props) => {
             type="submit"
             className="form__button w-full px-4 py-2 text-lg border-transparent rounded-md shadow-md font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition-all duration-200"
           >
-            Sign Up
+            <FormattedMessage id='signUp' />
           </button>
         </div>
       </form>
       <div className="have-account w-full flex justify-center items-center">
-        <span>Already have an account?&nbsp;</span>
+        <span><FormattedMessage id='haveAccount' />&nbsp;</span>
         <Link
           to="/signin"
           className="text-indigo-600 hover:text-indigo-700 transition-all duration-200"
         >
-          Sign In
+          <FormattedMessage id='signIn' />
         </Link>
       </div>
     </section>

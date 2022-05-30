@@ -5,6 +5,7 @@ import {
   useAppDispatch,
 } from '../../store/store';
 import BoardButton, { themes } from '../main-route/boardButton';
+import { FormattedMessage, useIntl } from 'react-intl'
 
 interface IFormValues {
   columnTitle: string;
@@ -34,13 +35,15 @@ const AddColumnForm: React.FC<{ setIsPopupDisplay: Function }> = ({
   }
   };
 
+const intl = useIntl();
+  const newColumn = intl.formatMessage({id: 'newColumn'});
   return (
     <aside className="absolute top-0 left-0 z-10 bg-slate-700 h-28 ">
       <form onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="columnTitle">
           <input
             className="bg-gray-800 border-2 rounded-sm"
-            placeholder="New column"
+            placeholder={newColumn}
             type="text"
             {...register('columnTitle', {
               required: true,
@@ -49,14 +52,14 @@ const AddColumnForm: React.FC<{ setIsPopupDisplay: Function }> = ({
           />
           {errors.columnTitle && (
             <span className="text-red-400">
-              👨🏻‍🏫 * hey, bro, you need to type something{' '}
+              <FormattedMessage id='errorColumn' />
             </span>
           )}
         </label>
       </form>
       <BoardButton
         themes={themes.light}
-        text="Close"
+        text="close"
         onClick={() => setIsPopupDisplay(false)}
       />
     </aside>

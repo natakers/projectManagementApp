@@ -7,6 +7,8 @@ import { signin, reset } from '../store/auth/authSlice';
 import Spinner from '../components/Spinner';
 import { useCookies } from 'react-cookie';
 import Logo from '../components/logo';
+import { getCookie } from '../helpers/cookie';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 type Props = {};
 
@@ -68,17 +70,22 @@ const SigninPage = (props: Props) => {
         sameSite: 'lax',
       });
   };
+  const intl = useIntl();
+  const placeholderLog = intl.formatMessage({id: 'placeholderSignInLog'});
+  const placeholderPas = intl.formatMessage({id: 'placeholderSignInPas'});
 
   if (isLoading) {
     return <Spinner />;
   }
+
+
 
   return (
     <section className="signin-page min-h-screen w-full px-6 py-6 flex flex-col justify-center items-center gap-16 bg-white">
       <div className="logo__container w-full flex flex-col justify-center items-center gap-3">
         <Logo />
         <p className="title text-center font-bold text-3xl text-gray-900">
-          Sign in to your account
+        <FormattedMessage id='enterAccount' />
         </p>
       </div>
       <form
@@ -91,7 +98,7 @@ const SigninPage = (props: Props) => {
             id="login"
             name="login"
             value={login}
-            placeholder="Enter your login"
+            placeholder={placeholderLog}
             onChange={onChange}
             required
             className="form__control inline-flex w-full items-center px-4 py-3 border border-solid border-slate-400 rounded-lg"
@@ -103,7 +110,7 @@ const SigninPage = (props: Props) => {
             id="password"
             name="password"
             value={password}
-            placeholder="Enter your password"
+            placeholder={placeholderPas}
             onChange={onChange}
             required
             className="form__control inline-flex w-full items-center px-4 py-3 border border-solid border-slate-400 rounded-lg"
@@ -114,17 +121,17 @@ const SigninPage = (props: Props) => {
             type="submit"
             className="form__button w-full px-4 py-2 text-lg border-transparent rounded-md shadow-md font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition-all duration-200"
           >
-            Sign in
+            <FormattedMessage id='signIn' />
           </button>
         </div>
       </form>
       <div className="have-account w-full flex justify-center items-center">
-        <span>Don’t have an account?&nbsp;</span>
+        <span><FormattedMessage id='dontHaveAccount' />&nbsp;</span>
         <Link
           to="/signup"
           className="text-indigo-600 hover:text-indigo-700 transition-all duration-200"
         >
-          Sign Up
+          <FormattedMessage id='signUp' />
         </Link>
       </div>
     </section>

@@ -1,4 +1,5 @@
 import { ButtonProps } from "../interfaces";
+import { FormattedMessage } from "react-intl";
 
 export const themes = {
   light:
@@ -13,11 +14,13 @@ export const themes = {
 const BoardButton = (props: ButtonProps) => {
   return (
     <button
+    
       type={props.type}
       className={props.themes}
       onClick={props.onClick}
     >
-      {props.text}
+      <FormattedMessage id={props.text} />
+      {/* {props.text} */}
     </button>
   );
 };

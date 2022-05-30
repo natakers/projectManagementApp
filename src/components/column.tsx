@@ -11,6 +11,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '../store/store';
+import { FormattedMessage } from 'react-intl'
 export interface ColumnProps {
   colId: string;
   boardId: string;
@@ -32,9 +33,6 @@ const Column = ({
   const toggleAddTask = () => {
     setVisibleAddTask(!visibleAddTask);
   };
-  const { colTasks } = useAppSelector(
-    (state: AppState) => state.tasks
-  );
   const boardId = localStorage.getItem('boardId');
   const handleColumnDelete = (id: string) => {
     if (boardId) {
@@ -76,7 +74,7 @@ const Column = ({
             onClick={toggeTaskWindow}
             className="text-gray-400 relative"
           >
-            + Add Task
+            <FormattedMessage id='addTask' />
           </button>
           {isOpenTaskWin && (
             <TaskCreation
