@@ -7,7 +7,7 @@ const WelcomePage = () => {
   const [cookie] = useCookies(['user']);
 
   return (
-    <main className="relative bg-slate-800 h-5/6 items-center text-gray-300 justify-center flex flex-col gap-5 ">
+    <main className="relative bg-slate-800 min-h-[80vh] items-center text-gray-300 justify-center flex flex-col gap-5 ">
       <nav className=" flex gap-5 absolute top-20 right-20 ">
         {cookie.user === undefined && (
           <>
@@ -15,13 +15,13 @@ const WelcomePage = () => {
               to="/signin"
               className="border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-indigo-500 "
             >
-              <FormattedMessage id='signIn' />
+              <FormattedMessage id="signIn" />
             </Link>
             <Link
               to="/signup"
               className="border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-indigo-500 "
             >
-              <FormattedMessage id='signUp' />
+              <FormattedMessage id="signUp" />
             </Link>
           </>
         )}
@@ -35,7 +35,9 @@ const WelcomePage = () => {
         )}
       </nav>
       <Logo />
-      <p className="text-lg"><FormattedMessage id='nameProject' /></p>
+      <p className="text-lg">
+        <FormattedMessage id="nameProject" />
+      </p>
     </main>
   );
 };

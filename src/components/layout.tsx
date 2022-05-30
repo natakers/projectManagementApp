@@ -10,11 +10,14 @@ const Layout = ({ handleChange, currentLocale }: HeaderProps) => {
   const [cookie] = useCookies(['user']);
   // const locale = LOCALES.ENGLIS/H
 
-
-
   return (
-    <div className="h-screen flex flex-col gap-4 bg-slate-800">
-      {cookie.user && <Header handleChange={handleChange}  currentLocale={currentLocale} />}
+    <div className="min-h-screen flex flex-col gap-4 bg-slate-800">
+      {cookie.user && (
+        <Header
+          handleChange={handleChange}
+          currentLocale={currentLocale}
+        />
+      )}
       <Outlet />
       <Footer />
       <ToastContainer />
