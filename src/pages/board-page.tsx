@@ -21,7 +21,6 @@ import {
   getColumnById,
   updateColumn,
 } from '../store/columns/colSlice';
-import { AnyObject } from 'immer/dist/internal';
 
 const BoardPage = () => {
   const [cookie] = useCookies(['user']);
@@ -37,11 +36,9 @@ const BoardPage = () => {
   const { colTasks } = useAppSelector(
     (state: AppState) => state.tasks
   );
-  const {
-    columns,
-    columnById,
-    isSuccess: isSuccessUpdate,
-  } = useAppSelector((state: AppState) => state.columns);
+  const { columnById, isSuccess: isSuccessUpdate } = useAppSelector(
+    (state: AppState) => state.columns
+  );
 
   const boardId = localStorage.getItem('boardId');
   const board = boards.find((el) => el.id === boardId);
