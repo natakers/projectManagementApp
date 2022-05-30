@@ -35,7 +35,10 @@ export const messages = {
     editTitle: 'Edit your profile information',
     cancel: 'Cancel',
     update: 'Update',
-    deleteProfile: 'Delete Profile'
+    deleteProfile: 'Delete Profile',
+    close: 'Close',
+    newColumn: 'New column',
+    errorColumn: '👨🏻‍🏫 * hey, bro, you need to type something'
 
     
   },
@@ -71,8 +74,11 @@ export const messages = {
     password: 'Пароль',
     confirm: 'Подтвердить пароль',
     editTitle: 'Измениние информации вашего профиля',
-    cancel: 'Закрыть',
+    cancel: 'Отмена',
     update: 'Обновить',
-    deleteProfile: 'Удалить профиль'
+    deleteProfile: 'Удалить профиль',
+    close: 'Закрыть',
+    newColumn: 'Новая колонка',
+    errorColumn: '👨🏻‍🏫 * напиши что-нибудь'
   }
 }

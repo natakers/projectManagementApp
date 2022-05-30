@@ -6,8 +6,7 @@ import BoardButton, {
 } from '../components/main-route/boardButton';
 import { createBoard, resetBoard } from '../store/boards/boardsSlice';
 import { useAppDispatch } from '../store/store';
-import { FormattedMessage, useIntl } from 'react-intl'
-
+import { FormattedMessage } from 'react-intl'
 
 const BoardCreation = ({ toggleWindow }: BoardCreationProps) => {
   const [formData, setFormData] = useState({
@@ -18,7 +17,7 @@ const BoardCreation = ({ toggleWindow }: BoardCreationProps) => {
   const { title, description } = formData;
   const dispatch = useAppDispatch();
 
-  const intl = useIntl();
+ 
   // const placeholderTitle = intl.formatMessage({id: 'placeholderTitleBoard'});
   // const placeholderDecsription = intl.formatMessage({id: 'placeholderDecsriptionBoard'});
 
