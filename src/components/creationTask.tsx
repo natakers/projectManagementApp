@@ -5,9 +5,7 @@ import {
 } from '../components/interfaces';
 import { createTask } from '../store/task/taskSlice';
 import {
-  AppState,
   useAppDispatch,
-  useAppSelector,
 } from '../store/store';
 import { useCookies } from 'react-cookie';
 import jwt_decode from 'jwt-decode';
@@ -21,10 +19,7 @@ const TaskCreation = ({
   const [cookie] = useCookies(['user']);
   const decodedUser: TokenProps = jwt_decode(cookie.user);
   const userId = decodedUser.userId;
-  const { currentId: boardId } = useAppSelector(
-    (state: AppState) => state.boards
-  );
-
+  const boardId = localStorage.getItem('boardId')
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -55,22 +50,13 @@ const TaskCreation = ({
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (boardId) {
-      console.log('taskData', taskData);
       dispatch(createTask(taskData));
     }
     toggleWindow();
   };
-
   return (
 
     <section className="flex w-52 flex-col absolute rounded z-20 bg-sky-900 border border-sky-500 h-20 p-2 top-0 items-center">
-
-    {/* <section className={`flex createModal max-w-sm flex-col absolute rounded z-20 bg-slate-50 p-4 inset-x-0 m-auto items-center`}>
-      <div className="logo__container w-full flex flex-col justify-center items-center gap-3">
-        <p className="title text-center font-bold text-3xl text-gray-900 mb-6">
-          Create new task
-        </p>
-      </div> */}
       <form
         onSubmit={onSubmit}
         className="form w-full flex flex-col justify-start items-start gap-1 relative"
@@ -101,13 +87,6 @@ const TaskCreation = ({
           />
         </label>
         <input type="submit" className="hidden" />
-        {/* <div className="flex w-full justify-around ">
-            <BoardButton
-              themes={themes.light}
-              type="submit"
-              text="Create"
-            />
-          </div> */}
       </form>
       <button
         onClick={toggleWindow}

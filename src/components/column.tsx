@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ColumnTaskProps } from '../store/task/taskSlice';
 import Task from './task/task';
-import BoardButton, { themes } from './main-route/boardButton';
+import  { themes } from './main-route/boardButton';
 import DotsIcon from '../assets/icons/dotsIcon';
 import TaskCreation from './creationTask';
 import TrashIcon from '../assets/icons/trash.icon';
@@ -39,11 +39,8 @@ const Column = ({
   const handleColumnDelete = (id: string) => {
     if (boardId) {
       dispatch(deleteColumn({ boardId: boardId, id: id }));
-      console.log(colTasks.columns);
     }
   };
-
-  // const col = colTasks.columns.find((el) => el.id === d);
 
   return (
     <article
@@ -58,11 +55,6 @@ const Column = ({
         >
           {visibleAddTask && (
             <div className="flex flex-col absolute top-full right-0 bg-sky-800">
-              <BoardButton
-                onClick={toggeTaskWindow}
-                text="+ Add task"
-                themes={themes.grey}
-              />
               <button
                 className={themes.grey}
                 onClick={() => handleColumnDelete(id)}
