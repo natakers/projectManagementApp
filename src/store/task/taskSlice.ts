@@ -10,7 +10,7 @@ import {
 } from '../../components/interfaces';
 import { getCookie } from '../../helpers/cookie';
 import { API_URL } from '../auth/authService';
-import { addColumn, deleteColumn } from '../columns/colSlice';
+import { addColumn, deleteColumn, updateColumn } from '../columns/colSlice';
 import { IError } from '../config';
 
 export const getAllAboutBoard = createAsyncThunk<
@@ -176,6 +176,7 @@ const taskSlice = createSlice({
       })
       .addCase(getAllAboutBoard.fulfilled, (state, action) => {
         state.colTasks = action.payload;
+        state.colTasks.columns.sort((a, b) => a.order - b.order)
         state.loading = false;
       })
       .addCase(getAllAboutBoard.rejected, (state, action) => {
@@ -233,7 +234,18 @@ const taskSlice = createSlice({
         state.colTasks.columns = state.colTasks.columns.filter(
           (column) => column.id !== id
         );
-      });
+      })
+      .addCase(updateColumn.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateColumn.fulfilled, (state, action: AnyAction) => {
+        state.loading = false;
+      })
+      .addCase(updateColumn.rejected, (state, action: AnyAction) => {
+        state.loading = false;
+        state.error = true;
+        state.message = action.payload;
+      })
   },
 });
 

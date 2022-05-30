@@ -5,6 +5,7 @@ import {
 } from '@reduxjs/toolkit';
 import { getCookie } from '../../helpers/cookie';
 import { API_URL } from '../auth/authService';
+import colService from './colService';
 
 interface IError {
   message?: string;
@@ -31,22 +32,34 @@ interface IColumnToDel {
   boardId: string;
 }
 
+export interface IColumnToGetById {
+  id: string;
+  boardId: string;
+}
+
+export interface IColumnToUpdate {
+  boardId: string;
+  id: string;
+  title: string;
+  order: number;
+}
+
 export interface IColumnState {
   columns: IColumn[];
+  columnById: IColumn | null;
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
   message: string;
   newColumn: IColumn;
 }
-// Get user from localstorage
-// const user = JSON.parse(localStorage.getItem('user') || "");
 
 const initialState: IColumnState = {
   columns: [],
+  columnById: null,
   isLoading: false,
-  isError: false,
   isSuccess: false,
+  isError: false,
   message: '',
   newColumn: {
     id: '',
@@ -78,6 +91,18 @@ export const getColumns = createAsyncThunk(
     } catch (error) {
       const errorMessage = (error as IError).message;
       console.log(errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
+
+export const getColumnById = createAsyncThunk(
+  'columns/getColumnByIdStatus',
+  async (column: IColumnToGetById, { rejectWithValue }) => {
+    try {
+      return await colService.getColumnById(column);
+    } catch (error) {
+      const errorMessage = (error as IError).message;
       return rejectWithValue(errorMessage);
     }
   }
@@ -150,15 +175,34 @@ export const addColumn = createAsyncThunk(
   }
 );
 
+export const updateColumn = createAsyncThunk(
+  'columns/updateColumnStatus',
+  async (column: IColumnToUpdate, { rejectWithValue }) => {
+    try {
+      return await colService.updateColumn(column);
+    } catch (error) {
+      const errorMessage = (error as IError).message;
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
+
 export const colSlice = createSlice({
   name: 'columns',
   initialState,
   reducers: {
-    reset: (state) => {
-      // state.isLoading = false;
-      // state.isSuccess = false;
-      // state.isError = false;
-      // state.message = '';
+    resetColumn: (state) => {
+      state.columns = [];
+      state.columnById = null;
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.isError = false;
+      state.message = '';
+      state.newColumn = {
+        id: '',
+        title: '',
+        order: 1,
+      }
     },
   },
   extraReducers: (builder) => {
@@ -175,7 +219,19 @@ export const colSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        // state.user = null;
+      })
+      .addCase(getColumnById.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getColumnById.fulfilled, (state, action: AnyAction) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.columnById = action.payload;
+      })
+      .addCase(getColumnById.rejected, (state, action: AnyAction) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       })
       .addCase(addColumn.pending, (state) => {
         state.isLoading = true;
@@ -199,9 +255,23 @@ export const colSlice = createSlice({
         state.columns = state.columns.filter(
           (column) => column.id !== id
         );
-      });
+      })
+      .addCase(updateColumn.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateColumn.fulfilled, (state, action: AnyAction) => {
+        state.newColumn = action.payload;
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.columns.push(state.newColumn);
+      })
+      .addCase(updateColumn.rejected, (state, action: AnyAction) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
   },
 });
 
-export const { reset } = colSlice.actions;
+export const { resetColumn } = colSlice.actions;
 export default colSlice.reducer;
