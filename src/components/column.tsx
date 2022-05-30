@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ColumnTaskProps } from '../store/task/taskSlice';
 import Task from './task/task';
-import  { themes } from './main-route/boardButton';
+import { themes } from './main-route/boardButton';
 import DotsIcon from '../assets/icons/dotsIcon';
 import TaskCreation from './creationTask';
 import TrashIcon from '../assets/icons/trash.icon';
@@ -11,7 +11,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '../store/store';
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl';
 export interface ColumnProps {
   colId: string;
   boardId: string;
@@ -43,9 +43,9 @@ const Column = ({
   return (
     <article
       key={id}
-      className="overflow-y-auto h-full bg-slate-700 relative overflow-visible w-56"
+      className="overflow-y-auto h-full bg-slate-800 border border-slate-800 hover:border hover:border-slate-600 rounded-md relative overflow-visible w-56"
     >
-      <div className="flex justify-center align-baseline">
+      <div className="flex justify-between align-baseline">
         <h4 className="m-3">{title}</h4>
         <div
           className=" relative flex m-3 items-center cursor-pointer hover:bg-slate-500 "
@@ -67,14 +67,19 @@ const Column = ({
       <div className="flex flex-col relative ">
         {tasks &&
           tasks.map((task) => (
-            <Task taskClick={taskClick} key={task.id} task={task} columnId={id} />
+            <Task
+              taskClick={taskClick}
+              key={task.id}
+              task={task}
+              columnId={id}
+            />
           ))}
         <aside className="relative flex flex-col items-center">
           <button
             onClick={toggeTaskWindow}
             className="text-gray-400 relative"
           >
-            <FormattedMessage id='addTask' />
+            <FormattedMessage id="addTask" />
           </button>
           {isOpenTaskWin && (
             <TaskCreation

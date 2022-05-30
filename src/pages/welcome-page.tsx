@@ -13,13 +13,13 @@ const WelcomePage = () => {
           <>
             <Link
               to="/signin"
-              className="border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-indigo-500 "
+              className="border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-sky-700 "
             >
               <FormattedMessage id="signIn" />
             </Link>
             <Link
               to="/signup"
-              className="border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-indigo-500 "
+              className="border-2 border-sky-400 rounded p-1 bg-gradient-to-r from-sky-500 to-sky-700 "
             >
               <FormattedMessage id="signUp" />
             </Link>
