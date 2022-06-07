@@ -34,7 +34,7 @@ const ConfirmationModal = (props: Props) => {
                 type="button"
                 onClick={props.onDeleteUser}
               >
-                Yes, Im sure
+                Yes, I&apos;m sure
               </button>
             </div>
           </div>

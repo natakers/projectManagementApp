@@ -1,5 +1,4 @@
 import React from 'react';
-
 const DEVS = [
   { link: 'https://github.com/natakers', githubName: '@natakers' },
   {
