@@ -8,7 +8,10 @@ import { createBoard, resetBoard } from '../store/boards/boardsSlice';
 import { useAppDispatch } from '../store/store';
 import { FormattedMessage } from 'react-intl';
 
-const BoardCreation = ({ toggleWindow }: BoardCreationProps) => {
+const BoardCreation = ({
+  toggleWindow,
+  isOpen,
+}: BoardCreationProps) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -16,9 +19,6 @@ const BoardCreation = ({ toggleWindow }: BoardCreationProps) => {
 
   const { title, description } = formData;
   const dispatch = useAppDispatch();
-
-  // const placeholderTitle = intl.formatMessage({id: 'placeholderTitleBoard'});
-  // const placeholderDecsription = intl.formatMessage({id: 'placeholderDecsriptionBoard'});
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevState) => ({
@@ -38,7 +38,11 @@ const BoardCreation = ({ toggleWindow }: BoardCreationProps) => {
   };
 
   return (
-    <section className="flex max-w-sm absolute rounded z-20 bg-gray-900 border-r border-b border-slate-600  top-0 left-0 ">
+    <section
+      className={`${
+        isOpen ? 'visible left-0' : 'invisible -left-full'
+      } transition-all duration-500 delay-100 nav__list flex max-w-sm absolute rounded z-50 bg-gray-900 border-r border-b border-slate-600  top-0 left-0 `}
+    >
       <div
         onClick={toggleWindow}
         className=" hover:bg-gray-600 flex items-center justify-center w-20"
@@ -49,7 +53,7 @@ const BoardCreation = ({ toggleWindow }: BoardCreationProps) => {
       </div>
       <div className="flex flex-col p-4 items-center">
         <div className="logo__container w-full flex flex-col justify-center items-center gap-3">
-          <p className="title text-center font-bold text-3xl text-gray-300 mb-6">
+          <p className="title text-center font-bold text-2xl text-gray-300 mb-6">
             <FormattedMessage id="titleBoardCreation" />
           </p>
         </div>

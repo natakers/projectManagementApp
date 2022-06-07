@@ -1,9 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  FormEventHandler,
-  useRef,
-} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { AppState, useAppDispatch } from '../store/store';
@@ -16,7 +11,6 @@ import BoardCreation from '../pages/createBoard';
 import jwt_decode from 'jwt-decode';
 import { TokenProps } from './interfaces';
 import userImg from '../assets/images/sample-avatar.jpg';
-// import { FormattedMessage } from 'react-intl'
 import { LOCALES } from '../i18n/locales';
 import Menu from '../assets/icons/menu';
 
@@ -32,13 +26,11 @@ export type HeaderProps = {
 const Header = ({ currentLocale, handleChange }: HeaderProps) => {
   const [sticky, setSticky] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [burger, setBurger] = useState(false);
   const [width, setWidth] = useState(0);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [cookie, setCookie, removeCookie] = useCookies(['user']);
   const decodedUser: TokenProps = jwt_decode(cookie.user);
-  // const ref = React.useRef();
   const [isNavOpen, setIsNavOpen] = useState(false);
   const { userDetails } = useSelector(
     (state: AppState) => state.user
@@ -53,6 +45,7 @@ const Header = ({ currentLocale, handleChange }: HeaderProps) => {
 
   const toggleWindow = () => {
     setIsOpen(!isOpen);
+    setIsNavOpen(false);
   };
 
   useEffect(() => {
@@ -66,18 +59,9 @@ const Header = ({ currentLocale, handleChange }: HeaderProps) => {
         setSticky(false);
       }
     };
-    const handleWidthHeader = () => {
-      if (window.innerWidth <= 640) {
-        setBurger(true);
-      } else {
-        setBurger(false);
-      }
-    };
     window.addEventListener('scroll', handleStickyHeader);
-    window.addEventListener('resize', handleWidthHeader);
     return () => {
       window.removeEventListener('scroll', handleStickyHeader);
-      window.removeEventListener('resize', handleWidthHeader);
     };
   }, [
     userDetails.name,
@@ -92,7 +76,7 @@ const Header = ({ currentLocale, handleChange }: HeaderProps) => {
     { name: 'RU', code: LOCALES.RUSSIAN },
   ];
 
-  const openMenu = () => {
+  const toggleMenu = () => {
     setIsNavOpen(!isNavOpen);
   };
 
@@ -107,13 +91,20 @@ const Header = ({ currentLocale, handleChange }: HeaderProps) => {
           <Logo />
         </Link>
       </div>
-
+      {/* {burger && ( */}
+      <div
+        className="visible order-3 md:invisible md:order-none z-50"
+        onClick={toggleMenu}
+      >
+        <Menu />
+      </div>
+      {/* )} */}
       <div className="flex justify-between">
         {
           <div
             className={`${
-              burger && isNavOpen ? 'hidden' : 'visible'
-            } nav__list z-20  absolute bg-slate-700 p-2 top-12 right-10 flex flex-col justify-between items-center gap-4 sm:bg-slate-800 sm:flex-row sm:static `}
+              isNavOpen ? 'visible right-0' : 'invisible -right-full'
+            } transition-all duration-500 delay-100 border-2 border-slate-900 nav__list z-20 top-24 absolute bg-slate-800 p-4 right-0 flex flex-col justify-between items-center gap-4 md:bg-slate-800 md:flex-row md:static md:border-none md:visible `}
           >
             <BoardButton
               themes={themes.light}
@@ -130,7 +121,7 @@ const Header = ({ currentLocale, handleChange }: HeaderProps) => {
             />
             <div className="switch">
               <select
-                className="text-white bg-sky-600 mr-4"
+                className="text-white bg-slate-700 mr-4"
                 onChange={handleChange}
                 value={currentLocale}
               >
@@ -156,12 +147,10 @@ const Header = ({ currentLocale, handleChange }: HeaderProps) => {
           <span>{userDetails.login}</span>
         </div>
       </div>
-      {burger && (
-        <div onClick={openMenu}>
-          <Menu />
-        </div>
-      )}
-      {isOpen && <BoardCreation toggleWindow={toggleWindow} />}
+
+      {/* {isOpen && ( */}
+      <BoardCreation toggleWindow={toggleWindow} isOpen={isOpen} />
+      {/* )} */}
     </header>
   );
 };
