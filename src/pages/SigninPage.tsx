@@ -90,7 +90,7 @@ const SigninPage = () => {
       </div>
       <form
         onSubmit={onSubmit}
-        className="form w-1/4 flex flex-col justify-center items-center gap-6"
+        className="form w-3/4 flex flex-col justify-center items-center gap-6 md:w-1/4"
       >
         <div className="form__item w-full">
           <input
