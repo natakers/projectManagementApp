@@ -6,11 +6,7 @@ import DotsIcon from '../assets/icons/dotsIcon';
 import TaskCreation from './creationTask';
 import TrashIcon from '../assets/icons/trash.icon';
 import { deleteColumn } from '../store/columns/colSlice';
-import {
-  AppState,
-  useAppDispatch,
-  useAppSelector,
-} from '../store/store';
+import { useAppDispatch } from '../store/store';
 import { FormattedMessage } from 'react-intl';
 export interface ColumnProps {
   colId: string;

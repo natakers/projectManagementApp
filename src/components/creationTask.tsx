@@ -9,11 +9,7 @@ import { useCookies } from 'react-cookie';
 import jwt_decode from 'jwt-decode';
 import CloseIcon from '../assets/icons/close.icon';
 
-const TaskCreation = ({
-  toggleWindow,
-  colId,
-  order,
-}: TaskCreationProps) => {
+const TaskCreation = ({ toggleWindow, colId }: TaskCreationProps) => {
   const [cookie] = useCookies(['user']);
   const decodedUser: TokenProps = jwt_decode(cookie.user);
   const userId = decodedUser.userId;
