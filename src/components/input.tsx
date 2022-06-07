@@ -1,7 +1,6 @@
-import { InputProps } from "./interfaces";
+import { InputProps } from './interfaces';
 
 const Input = (props: InputProps) => {
-
   return (
     <div className="form__item w-full">
       <input
@@ -15,8 +14,7 @@ const Input = (props: InputProps) => {
         className="form__control text-black inline-flex w-full items-center px-4 py-3 border border-solid border-slate-400 rounded-lg"
       />
     </div>
-  )
-}
+  );
+};
 
 export default Input;
-

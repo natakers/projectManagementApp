@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../store/store';
+import { AppState, useAppDispatch } from '../store/store';
 import { signup, reset } from '../store/auth/authSlice';
 import { toast } from 'react-toastify';
 import Spinner from '../components/Spinner';
@@ -11,9 +11,7 @@ import { useSelector } from 'react-redux';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { themes } from '../components/main-route/boardButton';
 
-type Props = {};
-
-const SignupPage = (props: Props) => {
+const SignupPage = () => {
   const [formData, setFormData] = useState({
     name: '',
     login: '',
@@ -26,7 +24,7 @@ const SignupPage = (props: Props) => {
   const dispatch = useAppDispatch();
 
   const { isLoading, isSuccess, isError, message } = useSelector(
-    (state: any) => state.auth
+    (state: AppState) => state.auth
   );
 
   const [cookie, setCookie] = useCookies(['user']);

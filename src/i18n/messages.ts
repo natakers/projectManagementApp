@@ -1,4 +1,4 @@
-import { LOCALES } from './locales'
+import { LOCALES } from './locales';
 
 export const messages = {
   [LOCALES.ENGLISH]: {
@@ -16,11 +16,11 @@ export const messages = {
     back: 'Back',
     placeholderSignInLog: 'Enter your login',
     placeholderSignInPas: 'Enter your password',
-    placeholderSignUpName:'Enter your name',
-    placeholderConfirm: "Confirm your password",
+    placeholderSignUpName: 'Enter your name',
+    placeholderConfirm: 'Confirm your password',
     nameProject: 'Project Management App',
     dontHaveAccount: 'Don’t have an account?',
-    haveAccount:'Already have an account?',
+    haveAccount: 'Already have an account?',
     enterAccount: 'Sign in to your account',
     enterSignUp: 'Join our community',
     deleteBoard: 'Do you really want to delete this board?',
@@ -38,13 +38,11 @@ export const messages = {
     deleteProfile: 'Delete Profile',
     close: 'Close',
     newColumn: 'New column',
-    errorColumn: '👨🏻‍🏫 * hey, bro, you need to type something'
-
-    
+    errorColumn: '👨🏻‍🏫 * hey, bro, you need to type something',
   },
   [LOCALES.RUSSIAN]: {
     boardCreationBtn: 'Создать доску',
-    edit:'Изменть профиль',
+    edit: 'Изменть профиль',
     signOut: 'Выйти',
     signIn: 'Войти',
     signUp: 'Регистрация',
@@ -57,11 +55,11 @@ export const messages = {
     back: 'Назад',
     placeholderSignInLog: 'Введите логин',
     placeholderSignInPas: 'Введите пароль',
-    placeholderSignUpName:'Введите имя',
-    placeholderConfirm: "Подтвердите пароль",
+    placeholderSignUpName: 'Введите имя',
+    placeholderConfirm: 'Подтвердите пароль',
     nameProject: 'Приложение для управления проектами',
     dontHaveAccount: 'У Вас нет аккаунта?',
-    haveAccount:'Уже есть аккаунт?', 
+    haveAccount: 'Уже есть аккаунт?',
     enterAccount: 'Войдите в свой аккаунт',
     enterSignUp: 'Присоединяйся к нашему сообществу',
     deleteBoard: 'Вы правда хотите удалить доску?',
@@ -79,6 +77,6 @@ export const messages = {
     deleteProfile: 'Удалить профиль',
     close: 'Закрыть',
     newColumn: 'Новая колонка',
-    errorColumn: '👨🏻‍🏫 * напиши что-нибудь'
-  }
-}
+    errorColumn: '👨🏻‍🏫 * напиши что-нибудь',
+  },
+};

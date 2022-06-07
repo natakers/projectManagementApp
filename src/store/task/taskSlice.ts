@@ -12,7 +12,11 @@ import {
 } from '../../components/interfaces';
 import { getCookie } from '../../helpers/cookie';
 import { API_URL } from '../auth/authService';
-import { addColumn, deleteColumn, updateColumn } from '../columns/colSlice';
+import {
+  addColumn,
+  deleteColumn,
+  updateColumn,
+} from '../columns/colSlice';
 import { IError } from '../config';
 
 export const getAllAboutBoard = createAsyncThunk<
@@ -56,8 +60,6 @@ export const getUsers = createAsyncThunk<
     return rejectWithValue(errorMassage);
   }
 });
-
-
 
 export const createTask = createAsyncThunk<
   TaskShowProps,
@@ -152,7 +154,7 @@ export interface TaskState {
   message: string | undefined;
   colTasks: BoardColTask;
   currentTask: TaskShowProps;
-  users: Array<UserProps>
+  users: Array<UserProps>;
 }
 
 interface BoardColTask {
@@ -211,7 +213,7 @@ const initialState: TaskState = {
     order: 1,
     tasks: [],
   },
-  users: []
+  users: [],
 };
 
 const taskSlice = createSlice({
@@ -233,7 +235,7 @@ const taskSlice = createSlice({
       })
       .addCase(getAllAboutBoard.fulfilled, (state, action) => {
         state.colTasks = action.payload;
-        state.colTasks.columns.sort((a, b) => a.order - b.order)
+        state.colTasks.columns.sort((a, b) => a.order - b.order);
         state.loading = false;
       })
       .addCase(getAllAboutBoard.rejected, (state, action) => {
@@ -284,8 +286,11 @@ const taskSlice = createSlice({
         state.colTasks.columns = state.colTasks.columns.filter(
           (column) => {
             if (column.id === colId) {
-              return column.tasks=column.tasks.filter((task) => task.id !== taskId)
-            } else return column }
+              return (column.tasks = column.tasks.filter(
+                (task) => task.id !== taskId
+              ));
+            } else return column;
+          }
         );
       })
       .addCase(updateTask.pending, (state) => {
@@ -299,10 +304,15 @@ const taskSlice = createSlice({
         state.colTasks.columns = state.colTasks.columns.filter(
           (column) => {
             if (column.id === columnId) {
-              let arr = column.tasks.map((task) => {if (task.id === id) { return task = action.payload} else return task })
-              column.tasks=arr
-              return column.tasks
-            } else return column }
+              const arr = column.tasks.map((task) => {
+                if (task.id === id) {
+                  return (task = action.payload);
+                } else return task;
+              });
+              column.tasks = arr;
+              return column.tasks;
+            } else return column;
+          }
         );
       })
       .addCase(updateTask.rejected, (state, action) => {
