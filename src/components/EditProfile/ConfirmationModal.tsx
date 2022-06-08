@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 type Props = {
   showModal: boolean;
@@ -17,7 +18,7 @@ const ConfirmationModal = (props: Props) => {
             {/*body*/}
             <div className="relative p-6 flex-auto">
               <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                Are you sure you want to delete your account?
+                <FormattedMessage id="deAccount" />
               </p>
             </div>
             {/*buttons*/}
@@ -27,14 +28,14 @@ const ConfirmationModal = (props: Props) => {
                 type="button"
                 onClick={() => props.setShowModal(false)}
               >
-                Close
+                <FormattedMessage id="close" />
               </button>
               <button
                 className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
                 onClick={props.onDeleteUser}
               >
-                Yes, I&apos;m sure
+                <FormattedMessage id="sure" />
               </button>
             </div>
           </div>
