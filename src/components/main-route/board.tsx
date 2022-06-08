@@ -30,7 +30,7 @@ const Board: React.FC<BoardProps> = ({
   return (
     <div className="flex flex-row m-2 items-center border-slate-600 border rounded p-2 cursor-pointer hover:bg-sky-900">
       <NavLink
-        to="/board"
+        to={`/board/${id}`}
         onClick={openAndSave}
         className="flex flex-col m-2  "
       >
