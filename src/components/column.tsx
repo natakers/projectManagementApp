@@ -64,7 +64,7 @@ const Column = ({
                 onClick={toggleAddTask}
               >
                 {visibleAddTask && (
-                  <div className="flex flex-col absolute top-full right-0 bg-sky-800">
+                  <div className="flex flex-col absolute z-10 top-full right-0 bg-sky-800">
                     <button
                       className={themes.grey}
                       onClick={() => handleColumnDelete(id)}
