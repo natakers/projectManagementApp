@@ -119,7 +119,7 @@ const BoardPage = () => {
             <div className="flex justify-center items-center">
               <Link className="flex" to="/main">
                 {/* <button > */}
-                <BoardArrowBack /> Back
+                <BoardArrowBack /> <FormattedMessage id="back" />
                 {/* </button> */}
               </Link>
             </div>

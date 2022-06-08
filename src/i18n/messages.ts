@@ -39,6 +39,8 @@ export const messages = {
     close: 'Close',
     newColumn: 'New column',
     errorColumn: '👨🏻‍🏫 * hey, bro, you need to type something',
+    sure: 'Yes, I&apos;m sure',
+    delAccount: 'Are you sure you want to delete your account?',
   },
   [LOCALES.RUSSIAN]: {
     boardCreationBtn: 'Создать доску',
@@ -78,5 +80,7 @@ export const messages = {
     close: 'Закрыть',
     newColumn: 'Новая колонка',
     errorColumn: '👨🏻‍🏫 * напиши что-нибудь',
+    sure: 'Я уверен(а)',
+    delAccount: 'Вы уверены, что хотите удалить свой аккаунт?',
   },
 };
