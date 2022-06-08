@@ -44,12 +44,17 @@ const BoardPage = () => {
 
   const boardId = localStorage.getItem('boardId');
   const board = boards.find((el) => el.id === boardId);
+  if (board) {
+    console.log(board);
+  }
+  console.log(boardId);
 
   const handlerClick = () => {
     setIsOpenTask(!isOpenTask);
   };
 
   useEffect(() => {
+    const board = boards.find((el) => el.id === boardId);
     cookie.user === undefined && navigate('/');
     if (cookie.user && boardId) {
       dispatch(getAllAboutBoard(boardId));
@@ -92,7 +97,7 @@ const BoardPage = () => {
   };
 
   return (
-    <main className=" overflow-hidden bg-slate-800 min-h-[65vh] text-gray-300 items-start px-5 flex flex-col gap-5 relative">
+    <main className=" overflow-hidden bg-slate-800 h-[65vh] text-gray-300 items-start px-5 flex flex-col gap-5 relative  overflow-y-hidden">
       {!boardId ? (
         <Link
           to="/main"
@@ -122,37 +127,18 @@ const BoardPage = () => {
                     <div
                       {...provided.droppableProps}
                       ref={provided.innerRef}
-                      className="flex gap-5 h-full flex-wrap"
+                      className="flex gap-5 h-full flex-wrap "
                     >
                       {colTasks.columns.length > 0 &&
                         colTasks.columns.map((col, index) => (
-                          <Draggable
+                          <Column
                             key={col.id}
-                            draggableId={col.id}
-                            index={col.order}
-                          >
-                            {(provided, snapshot) => {
-                              return (
-                                <div
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                  style={{
-                                    ...provided.draggableProps.style,
-                                  }}
-                                >
-                                  <Column
-                                    key={col.id}
-                                    id={col.id}
-                                    order={col.order}
-                                    title={col.title}
-                                    tasks={col.tasks}
-                                    taskClick={handlerClick}
-                                  />
-                                </div>
-                              );
-                            }}
-                          </Draggable>
+                            id={col.id}
+                            order={col.order}
+                            title={col.title}
+                            tasks={col.tasks}
+                            taskClick={handlerClick}
+                          />
                         ))}
                       {provided.placeholder}
                     </div>
