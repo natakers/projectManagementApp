@@ -4,22 +4,16 @@ import {
   TokenProps,
 } from '../components/interfaces';
 import { createTask } from '../store/task/taskSlice';
-import {
-  useAppDispatch,
-} from '../store/store';
+import { useAppDispatch } from '../store/store';
 import { useCookies } from 'react-cookie';
 import jwt_decode from 'jwt-decode';
 import CloseIcon from '../assets/icons/close.icon';
 
-const TaskCreation = ({
-  toggleWindow,
-  colId,
-  order,
-}: TaskCreationProps) => {
+const TaskCreation = ({ toggleWindow, colId }: TaskCreationProps) => {
   const [cookie] = useCookies(['user']);
   const decodedUser: TokenProps = jwt_decode(cookie.user);
   const userId = decodedUser.userId;
-  const boardId = localStorage.getItem('boardId')
+  const boardId = localStorage.getItem('boardId');
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -55,7 +49,6 @@ const TaskCreation = ({
     toggleWindow();
   };
   return (
-
     <section className="flex w-52 flex-col absolute rounded z-20 bg-sky-900 border border-sky-500 h-20 p-2 top-0 items-center">
       <form
         onSubmit={onSubmit}

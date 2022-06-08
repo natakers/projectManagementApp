@@ -1,7 +1,3 @@
-import React from 'react';
-
-type Props = {};
-
 const DEVS = [
   { link: 'https://github.com/natakers', githubName: '@natakers' },
   {
@@ -11,11 +7,11 @@ const DEVS = [
   { link: 'https://github.com/gonzjv', githubName: '@gonzjv' },
 ];
 
-const Footer = (props: Props) => {
+const Footer = () => {
   return (
     <footer className="bg-slate-800 w-full min-h-[15vh] flex justify-center items-center flex-col gap-5 px-6 py-6 text-lg text-gray-300">
       <p>React2022Q1 | Team75</p>
-      <ul className="flex gap-5">
+      <ul className="flex gap-5 flex-col sm:flex-row">
         {DEVS.map((dev) => (
           <li key={dev.link}>
             <a

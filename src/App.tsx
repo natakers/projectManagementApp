@@ -7,12 +7,13 @@ import './styles/App.css';
 import MainPage from './pages/main-page';
 import BoardPage from './pages/board-page';
 import EditProfile from './pages/editProfile';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
 import { LOCALES } from './i18n/locales';
 import { messages } from './i18n/messages';
 import { getCookie } from './helpers/cookie';
 import { useCookies } from 'react-cookie';
+import { Routes } from 'react-router-dom';
 
 const App = () => {
   const locale = getCookie('lang') || LOCALES.ENGLISH;

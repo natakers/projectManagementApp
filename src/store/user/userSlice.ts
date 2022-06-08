@@ -1,4 +1,8 @@
-import { createSlice, createAsyncThunk, AnyAction } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  AnyAction,
+} from '@reduxjs/toolkit';
 import userService from './userService';
 
 interface IError {
@@ -14,7 +18,7 @@ const initialState = {
   userDetails: {
     name: '',
     login: '',
-    password: ''
+    password: '',
   },
   isLoading: false,
   isSuccess: false,
@@ -45,7 +49,15 @@ export const getUserById = createAsyncThunk(
 // Update user profile by id
 export const updateUserProfile = createAsyncThunk(
   'user/updateUserProfile',
-  async (updateUserData: { id: string, name: string, login: string, password: string }, thunkAPI) => {
+  async (
+    updateUserData: {
+      id: string;
+      name: string;
+      login: string;
+      password: string;
+    },
+    thunkAPI
+  ) => {
     try {
       return await userService.updateUserProfile(updateUserData);
     } catch (error) {
@@ -88,7 +100,7 @@ export const userSlice = createSlice({
       state.userDetails = {
         name: '',
         login: '',
-        password: ''
+        password: '',
       };
       state.isLoading = false;
       state.isSuccess = false;
@@ -115,16 +127,22 @@ export const userSlice = createSlice({
       .addCase(updateUserProfile.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(updateUserProfile.fulfilled, (state, action: AnyAction) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.userDetails = action.payload;
-      })
-      .addCase(updateUserProfile.rejected, (state, action: AnyAction) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
-      })
+      .addCase(
+        updateUserProfile.fulfilled,
+        (state, action: AnyAction) => {
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.userDetails = action.payload;
+        }
+      )
+      .addCase(
+        updateUserProfile.rejected,
+        (state, action: AnyAction) => {
+          state.isLoading = false;
+          state.isError = true;
+          state.message = action.payload;
+        }
+      )
       .addCase(deleteUser.pending, (state) => {
         state.isLoading = true;
       })
@@ -137,7 +155,7 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-      })
+      });
   },
 });
 

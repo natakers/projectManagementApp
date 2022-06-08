@@ -8,7 +8,8 @@ const API_URL = 'https://frozen-depths-66382.herokuapp.com';
 const getColumnById = async (column: IColumnToGetById) => {
   const token = getCookie('user') || null;
   const response = await axios.get(
-    `${API_URL}/boards/${column.boardId}/columns/${column.id}`, {
+    `${API_URL}/boards/${column.boardId}/columns/${column.id}`,
+    {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -24,7 +25,7 @@ const updateColumn = async (column: IColumnToUpdate) => {
     `${API_URL}/boards/${column.boardId}/columns/${column.id}`,
     {
       title: column.title,
-      order: column.order
+      order: column.order,
     },
     {
       headers: {

@@ -16,6 +16,8 @@ import {
   DragDropContext,
   Droppable,
   Draggable,
+  DragStart,
+  DropResult,
 } from 'react-beautiful-dnd';
 import {
   getColumnById,
@@ -54,7 +56,7 @@ const BoardPage = () => {
     }
   }, [cookie.user, navigate, dispatch, boardId, isSuccessUpdate]);
 
-  const handleDragStart = (result: any) => {
+  const handleDragStart = (result: DragStart) => {
     const { draggableId, type, source } = result;
     if (type === 'COLUMN') {
       dispatch(
@@ -67,7 +69,7 @@ const BoardPage = () => {
     }
   };
 
-  const handleDragEnd = async (result: any) => {
+  const handleDragEnd = async (result: DropResult) => {
     const { source, destination, draggableId, type } = result;
     if (!destination) return;
     if (
