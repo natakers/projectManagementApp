@@ -194,7 +194,7 @@ export const colSlice = createSlice({
         id: '',
         title: '',
         order: 1,
-      }
+      };
     },
   },
   extraReducers: (builder) => {
@@ -215,11 +215,14 @@ export const colSlice = createSlice({
       .addCase(getColumnById.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getColumnById.fulfilled, (state, action: AnyAction) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.columnById = action.payload;
-      })
+      .addCase(
+        getColumnById.fulfilled,
+        (state, action: AnyAction) => {
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.columnById = action.payload;
+        }
+      )
       .addCase(getColumnById.rejected, (state, action: AnyAction) => {
         state.isLoading = false;
         state.isError = true;
@@ -261,7 +264,7 @@ export const colSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-      })
+      });
   },
 });
 

@@ -1,3 +1,4 @@
+import React from 'react';
 import Layout from './components/layout';
 import WelcomePage from './pages/welcome-page';
 import 'react-toastify/dist/ReactToastify.css';

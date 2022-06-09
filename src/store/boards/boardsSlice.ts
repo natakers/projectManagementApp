@@ -78,12 +78,12 @@ export const deleteBoard = createAsyncThunk<
 );
 
 export interface BoardState {
-  boards: Array<BoardProps>,
-  loading: boolean,
-  error: boolean,
-  currentId: string,
-  newBoard: BoardProps | null,
-  message: string | undefined,
+  boards: Array<BoardProps>;
+  loading: boolean;
+  error: boolean;
+  currentId: string;
+  newBoard: BoardProps | null;
+  message: string | undefined;
 }
 
 const initialState: BoardState = {
