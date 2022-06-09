@@ -23,6 +23,11 @@ import {
   getColumnById,
   updateColumn,
 } from '../store/columns/colSlice';
+import BoardButton, {
+  themes,
+} from '../components/main-route/boardButton';
+import ArrowBack from '../assets/icons/arrowBack';
+import BoardArrowBack from '../assets/icons/board-arrow-back.icon';
 
 const BoardPage = () => {
   const [cookie] = useCookies(['user']);
@@ -44,6 +49,10 @@ const BoardPage = () => {
 
   const boardId = localStorage.getItem('boardId');
   const board = boards.find((el) => el.id === boardId);
+  if (board) {
+    console.log(board);
+  }
+  console.log(boardId);
 
   const handlerClick = () => {
     setIsOpenTask(!isOpenTask);
@@ -92,7 +101,7 @@ const BoardPage = () => {
   };
 
   return (
-    <main className=" overflow-hidden bg-slate-800 min-h-[65vh] text-gray-300 items-start px-5 flex flex-col gap-5 relative">
+    <main className=" overflow-hidden bg-slate-800 h-[68vh] text-gray-300 items-start px-5 flex flex-col gap-5 relative  overflow-y-hidden">
       {!boardId ? (
         <Link
           to="/main"
@@ -102,9 +111,18 @@ const BoardPage = () => {
         </Link>
       ) : (
         <>
-          <section className="flex gap-3 justify-center items-center">
-            <BoardIcon />
-            <h1 className="text-3xl">{board?.title}</h1>
+          <section className="flex gap-3 justify-between items-center w-full ">
+            <div className="flex items-center">
+              <BoardIcon />
+              <h1 className="text-3xl">{board?.title}</h1>
+            </div>
+            <div className="flex justify-center items-center">
+              <Link className="flex" to="/main">
+                {/* <button > */}
+                <BoardArrowBack /> <FormattedMessage id="back" />
+                {/* </button> */}
+              </Link>
+            </div>
           </section>
           <section className="flex gap-5 w-full h-full items-start">
             <DragDropContext
@@ -122,37 +140,18 @@ const BoardPage = () => {
                     <div
                       {...provided.droppableProps}
                       ref={provided.innerRef}
-                      className="flex gap-5 h-full flex-wrap"
+                      className="flex gap-5 h-full flex-wrap "
                     >
                       {colTasks.columns.length > 0 &&
                         colTasks.columns.map((col, index) => (
-                          <Draggable
+                          <Column
                             key={col.id}
-                            draggableId={col.id}
-                            index={col.order}
-                          >
-                            {(provided, snapshot) => {
-                              return (
-                                <div
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                  style={{
-                                    ...provided.draggableProps.style,
-                                  }}
-                                >
-                                  <Column
-                                    key={col.id}
-                                    id={col.id}
-                                    order={col.order}
-                                    title={col.title}
-                                    tasks={col.tasks}
-                                    taskClick={handlerClick}
-                                  />
-                                </div>
-                              );
-                            }}
-                          </Draggable>
+                            id={col.id}
+                            order={col.order}
+                            title={col.title}
+                            tasks={col.tasks}
+                            taskClick={handlerClick}
+                          />
                         ))}
                       {provided.placeholder}
                     </div>

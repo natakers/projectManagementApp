@@ -8,6 +8,13 @@ import TrashIcon from '../assets/icons/trash.icon';
 import { deleteColumn } from '../store/columns/colSlice';
 import { useAppDispatch } from '../store/store';
 import { FormattedMessage } from 'react-intl';
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DragStart,
+  DropResult,
+} from 'react-beautiful-dnd';
 export interface ColumnProps {
   colId: string;
   boardId: string;
@@ -37,56 +44,68 @@ const Column = ({
   };
 
   return (
-    <article
-      key={id}
-      className="overflow-y-auto h-full bg-slate-800 border border-slate-800 hover:border hover:border-slate-600 rounded-md relative overflow-visible w-56"
-    >
-      <div className="flex justify-between align-baseline">
-        <h4 className="m-3">{title}</h4>
-        <div
-          className=" relative flex m-3 items-center cursor-pointer hover:bg-slate-500 "
-          onClick={toggleAddTask}
-        >
-          {visibleAddTask && (
-            <div className="flex flex-col absolute top-full right-0 bg-sky-800">
-              <button
-                className={themes.grey}
-                onClick={() => handleColumnDelete(id)}
-              >
-                <TrashIcon />
-              </button>
-            </div>
-          )}
-          <DotsIcon />
-        </div>
-      </div>
-      <div className="flex flex-col relative ">
-        {tasks &&
-          tasks.map((task) => (
-            <Task
-              taskClick={taskClick}
-              key={task.id}
-              task={task}
-              columnId={id}
-            />
-          ))}
-        <aside className="relative flex flex-col items-center">
-          <button
-            onClick={toggeTaskWindow}
-            className="text-gray-400 relative"
+    <Draggable key={id} draggableId={id} index={order}>
+      {(provided, snapshot) => {
+        return (
+          <article
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            style={{
+              ...provided.draggableProps.style,
+            }}
+            key={id}
+            className=" h-[90%] bg-slate-800 border border-slate-800 hover:border hover:border-slate-600 rounded-md relative w-56 overflow-x-hidden overflow-y-auto"
           >
-            <FormattedMessage id="addTask" />
-          </button>
-          {isOpenTaskWin && (
-            <TaskCreation
-              order={order}
-              colId={id}
-              toggleWindow={toggeTaskWindow}
-            />
-          )}
-        </aside>
-      </div>
-    </article>
+            <div className="flex justify-between align-baseline">
+              <h4 className="m-3">{title}</h4>
+              <div
+                className=" relative flex m-3 items-center cursor-pointer hover:bg-slate-500 "
+                onClick={toggleAddTask}
+              >
+                {visibleAddTask && (
+                  <div className="flex flex-col absolute z-10 top-full right-0 bg-sky-800">
+                    <button
+                      className={themes.grey}
+                      onClick={() => handleColumnDelete(id)}
+                    >
+                      <TrashIcon />
+                    </button>
+                  </div>
+                )}
+                <DotsIcon />
+              </div>
+            </div>
+            <div className="flex flex-col relative overflow-x-hidden overflow-y-auto ">
+              {tasks &&
+                tasks.map((task) => (
+                  <Task
+                    taskClick={taskClick}
+                    key={task.id}
+                    task={task}
+                    columnId={id}
+                  />
+                ))}
+              <aside className="relative flex flex-col items-center">
+                <button
+                  onClick={toggeTaskWindow}
+                  className="text-gray-400 relative"
+                >
+                  <FormattedMessage id="addTask" />
+                </button>
+                {isOpenTaskWin && (
+                  <TaskCreation
+                    order={order}
+                    colId={id}
+                    toggleWindow={toggeTaskWindow}
+                  />
+                )}
+              </aside>
+            </div>
+          </article>
+        );
+      }}
+    </Draggable>
   );
 };
 

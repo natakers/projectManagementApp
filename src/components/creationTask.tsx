@@ -49,7 +49,7 @@ const TaskCreation = ({ toggleWindow, colId }: TaskCreationProps) => {
     toggleWindow();
   };
   return (
-    <section className="flex w-52 flex-col absolute rounded z-20 bg-sky-900 border border-sky-500 h-20 p-2 top-0 items-center">
+    <section className="flex w-52 flex-col rounded z-20 bg-sky-900 border border-sky-500 h-20 p-2 mb-2 items-center">
       <form
         onSubmit={onSubmit}
         className="form w-full flex flex-col justify-start items-start gap-1 relative"
