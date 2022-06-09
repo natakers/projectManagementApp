@@ -31,6 +31,7 @@ export interface InputProps {
 
 export interface BoardCreationProps {
   toggleWindow: () => void;
+  isOpen: boolean;
 }
 
 export interface TaskCreationProps {

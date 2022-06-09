@@ -10,12 +10,12 @@ import {
 } from '../store/user/userSlice';
 import { reset } from '../store/auth/authSlice';
 import Spinner from '../components/Spinner';
-import { toast } from 'react-toastify';
-import { useCookies } from 'react-cookie';
 import jwt_decode from 'jwt-decode';
 import { TokenProps } from '../components/interfaces';
 import ConfirmationModal from '../components/EditProfile/ConfirmationModal';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useCookies } from 'react-cookie';
+import { toast } from 'react-toastify';
 
 const EditProfile = () => {
   const [name, setName] = useState('');
@@ -102,15 +102,15 @@ const EditProfile = () => {
   }
 
   return (
-    <section className="edit-profile-page w-full h-screen px-6 py-6 flex flex-col justify-center items-center gap-16 bg-slate-800 text-white">
+    <section className="edit-profile-page w-full grow px-6 py-6 flex flex-col justify-center items-center gap-16 bg-slate-800 text-white">
       <p className="title text-center font-bold text-3xl text-white">
         <FormattedMessage id="editTitle" />
       </p>
       <form
         onSubmit={onSubmit}
-        className="w-1/2 form flex flex-col justify-center items-center gap-4 text-black"
+        className="w-3/4 form flex flex-col justify-center items-center gap-4 text-black md:1/2"
       >
-        <div className="w-full form__first-group flex flex-row gap-6">
+        <div className="w-full form__first-group flex flex-col gap-6 sm:flex-row">
           <div className="form__item w-full flex flex-col gap-2">
             <label htmlFor="name" className="text-white">
               <FormattedMessage id="name" />
@@ -142,7 +142,7 @@ const EditProfile = () => {
             />
           </div>
         </div>
-        <div className="w-full form__second-group flex flex-row gap-6">
+        <div className="w-full form__second-group flex flex-col gap-6 sm:flex-row">
           <div className="form__item w-full flex flex-col gap-2">
             <label htmlFor="password" className="text-white">
               <FormattedMessage id="password" />
@@ -177,7 +177,7 @@ const EditProfile = () => {
           </div>
         </div>
 
-        <div className="form__buttons w-full flex justify-center gap-4 mt-4">
+        <div className="form__buttons w-full flex flex-wrap justify-center gap-4 mt-4 sm:flex-nowrap">
           <button
             onClick={() => setShowModal(true)}
             className="form__button w-full px-4 py-2 text-lg border-transparent rounded-md shadow-md font-medium text-white bg-red-600 hover:bg-red-800 transition-all duration-200"
